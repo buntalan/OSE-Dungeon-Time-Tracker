@@ -1,0 +1,20 @@
+<!-- OSE Extension -->
+
+<root>
+   <properties>
+		<name>OSE - Dungeon Time Tracker</name>
+		<version>0.01</version>
+		<author>Bryan</author>
+		<description>Dungeon time tracker from OSE.</description>
+		<loadorder>100</loadorder>
+		<ruleset>
+			<name>CoreRPG</name>
+		</ruleset>
+		<ruleset>
+			<name>OSE2</name>
+		</ruleset>
+   </properties>
+   <base>
+        <includefile source="desktop/dtt_window.xml" />
+   </base>
+</root>

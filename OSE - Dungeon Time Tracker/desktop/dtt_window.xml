@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="dtt_window">
+		<frame>utilitybox</frame>
+		<placement>
+			<size height="400" width="500" />
+		</placement>
+		<softclose />
+		<sizelimits resize="both">
+			<maximum width="500" />
+			<minimum width="250" height="200" />
+			<dynamic />
+			<hostcontrol />
+		</sizelimits>
+		<margins control="10,10,10,10" />
+		<minimize>button_details</minimize>
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>Window_dtt_window_Title</resource>
+			</windowtitlebar>
+			<stringcontrol name="dtt_title">
+				<!---->
+				<frame name="windowtitle" />
+				<anchored>
+					<left anchor="center" offset="-142" />
+					<right anchor="center" offset="101" />
+					<top anchor="top" offset="0" />
+					<bottom anchor="center" offset="-180" />
+				</anchored>
+				<center />
+				<color>#FFF5F5F5</color>
+				<static textres="dtt_window_dtt_title_LabelCaption" />
+				<font>windowtitle</font>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

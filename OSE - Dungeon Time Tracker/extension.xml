@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root version="3.0">
+	<announcement>
+		<text>Dungeon time tracker from OSE.</text>
+	</announcement>
+	<properties>
+		<name>OSE - Dungeon Time Tracker</name>
+		<version>0.01</version>
+		<author>Bryan</author>
+		<description>Dungeon time tracker from OSE.</description>
+		<loadorder>100</loadorder>
+		<ruleset>
+			<name>CoreRPG</name>
+		</ruleset>
+		<ruleset>
+			<name>OSE2</name>
+		</ruleset>
+	</properties>
+	<base>
+		<includefile source="desktop/dtt_window.xml" />
+		<includefile source="strings_OSE - Dungeon Time Tracker.xml" />
+		<script name="RulesetWizardDiceRoller_OSEDungeonTimeTracker_init" file="rulesetwizard/RulesetWizardDiceRoller_OSEDungeonTimeTracker_init.lua" />
+		<script name="RulesetWizardDiceRoller" file="rulesetwizard/RulesetWizardDiceRoller.lua" />
+		<script name="RulesetWizard" file="rulesetwizard/RulesetWizard.lua" />
+		<includefile source="rulesetwizard/rswcombobox.xml" />
+		<includefile source="rulesetwizard/rswoptionlist.xml" />
+		<includefile source="rulesetwizard/rswdiefieldmodifier.xml" />
+	</base>
+</root>

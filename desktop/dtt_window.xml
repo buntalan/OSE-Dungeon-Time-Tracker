@@ -1,9 +1,16 @@
-<!--widget window-->
-<!--this window will store everything necessary. this should
-be a simple extension to create
-https://fantasygroundsunity.atlassian.net/wiki/spaces/FGCP/pages/996644483/Ruleset+-+Interfaces+Windows+Panels+Widgets
--->
+<!--actual contents of dtt window. to be emebedded within dtt_panel-->
 
 <root>
-
+    <windowclass name="dtt_window">
+        <frame>utlitybox</frame>
+        <sizelimits>
+            <minimum>
+                <width>300</width>
+                <height>200</height>
+            </minimum>
+        </sizelimits>
+        <sheetdata>
+            
+        </sheetdata>
+    </windowclass>
 </root>

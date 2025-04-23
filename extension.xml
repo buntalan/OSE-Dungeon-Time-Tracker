@@ -15,6 +15,7 @@
 		</ruleset>
    </properties>
    <base>
+		<includefile source="desktop/dtt_panel.xml" />
         <includefile source="desktop/dtt_window.xml" />
 		<includefile source="strings/strings.xml" />
    </base>

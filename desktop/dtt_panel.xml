@@ -11,9 +11,11 @@ https://fantasygroundsunity.atlassian.net/wiki/spaces/FGCP/pages/996644483/Rules
             <top>15</top>
             <right>100</right>
         </anchored>
-        <size>
+        <!-- <size>
             <width>300</width>
             <height>200</height>
-        </size>
+        </size> -->
+        <static />
+        <locked /> 
     </panel>
 </root>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="location" copy="record_window_tabbed">
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>location_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>pictures</name>
+			<resource>tab_pictures</resource>
+			<class>record_content_pictures</class>
+			<embed />
+		</tab>
+	</windowclass>
+
+	<windowclass name="location_main">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				local tFields = { "type", "sub_type", "text", "sub_gmnotes", };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+			function onDrop(x, y, draginfo)
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				if bReadOnly then
+					return;
+				end
+				
+				if draginfo.isType("shortcut") then
+					local sClass, sRecord = draginfo.getShortcutData();
+					return LocationManager.addLinkToLocation(getDatabaseNode(), sClass, sRecord);
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="type_label">
+				<static textres="location_label_type" />
+			</label_content_column>
+			<string_content_columnh name="type">
+				<delaykeyupdate />
+				<script>
+					function onValueChanged()
+						window.update();
+					end
+				</script>
+			</string_content_columnh>
+
+			<sub_location_type name="sub_type" />
+
+			<header_content_framed_headersimple name="text_header">
+				<static textres="header_description" />
+			</header_content_framed_headersimple>
+			<ft_content_columnh_full name="text" />
+
+			<sub_content_column_gmnotes name="sub_gmnotes" />
+		</sheetdata>
+	</windowclass>
+
+	<template name="sub_location_type">
+		<sub_content_column name="sub_type">
+			<script>
+				function update(bReadOnly)
+					local nodeRecord = window.getDatabaseNode();
+					local sTypeKey = StringManager.simplify(DB.getValue(nodeRecord, "type", ""));
+					local sTypeSub = LocationManager.getLocationTypeSub(sTypeKey);
+
+					if (sTypeSub or "") == "" then
+						setValue("", "");
+					else
+						setValue(sTypeSub, nodeRecord);
+						subwindow.update(bReadOnly);
+					end
+				end
+			</script>
+		</sub_content_column>
+	</template>
+
+	<windowclass name="location_main_default">
+		<margins control="0,0,0,2" />
+		<script>
+			function update(bReadOnly)
+				local tFields = { "sublocations", };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="sublocations_header">
+				<static textres="location_header_sublocations" />
+			</header_content_framed_headersimple>
+			<button_iedit name="sublocations_iedit">
+				<anchored to="sublocations_header" position="insidetopright" offset="2,0" />
+				<edittarget>sublocations</edittarget>
+			</button_iedit>
+			<button_iadd name="sublocations_iadd">
+				<anchored to="sublocations_header" position="insidetopright" offset="22,0" />
+				<target>sublocations</target>
+			</button_iadd>
+			<list_content_column name="sublocations">
+				<datasource>.sublocations</datasource>
+				<class>location_sublocation_entry</class>
+				<sortby><control>name</control></sortby>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="location_sublocation_entry">
+		<margins control="0,0,0,2" />
+		<script>
+			function update(bReadOnly)
+				local tFields = { "name", };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<linkc_listitem_right name="shortcut">
+				<class>location</class>
+			</linkc_listitem_right>
+			<button_listitem_idelete name="idelete">
+				<editmode>sublocations_iedit</editmode>
+			</button_listitem_idelete>
+
+			<string_listitem_center name="name" />
+		</sheetdata>
+	</windowclass>
+</root>

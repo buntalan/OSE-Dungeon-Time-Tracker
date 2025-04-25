@@ -8,14 +8,16 @@ https://fantasygroundsunity.atlassian.net/wiki/spaces/FGCP/pages/996644483/Rules
     <panel name="dtt_panel" modes="host">
         <class>dtt_window</class>
         <anchored>
-            <top>15</top>
-            <right>100</right>
+            <top>30</top>
+            <botton />
+            <left />
+			<right parent="dicetower" anchor="left" offset="-45" />
         </anchored>
-        <!-- <size>
-            <width>300</width>
+        <size>
+            <width>1000</width>
             <height>200</height>
-        </size> -->
-        <static />
-        <locked /> 
+        </size>
+        <dynamic />
+        <locked />
     </panel>
 </root>

@@ -3,14 +3,14 @@
 <root>
     <windowclass name="dtt_window">
         <frame>utlitybox</frame>
-        <!-- <sizelimits>
+        <sizelimits>
             <minimum>
-                <width>300</width>
+                <width>1000</width>
                 <height>200</height>
             </minimum>
-        </sizelimits> -->
+        </sizelimits>
         <sheetdata>
-            <!-- <windowtitlebar_utilitybox name="title" /> -->
+            <windowtitlebar_utilitybox name="title" />
         </sheetdata>
     </windowclass>
 </root>

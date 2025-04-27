@@ -8,7 +8,7 @@ https://fantasygroundsunity.atlassian.net/wiki/spaces/FGCP/pages/996644483/Rules
     <panel name="dtt_panel" modes="host">
         <anchored>
             <top>20</top>
-            <right parent="shortcutsanchor" anchor="left"/>
+			<right parent="shortcutsanchor" anchor="left" offset="-45" />
             <size>
                 <width>200</width>
                 <height>100</height>
@@ -16,5 +16,6 @@ https://fantasygroundsunity.atlassian.net/wiki/spaces/FGCP/pages/996644483/Rules
         </anchored>
         <class>dtt_window</class>
         <dynamic />
+        <locked />
     </panel>
 </root>

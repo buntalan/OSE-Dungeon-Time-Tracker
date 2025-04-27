@@ -9,20 +9,31 @@
             <bottom>0</bottom>
             <right>0</right>
         </margin>
-        <minimum>
-            <width>200</width>
-            <height>100</height>
-        </minimum>
+        <sizelimits>
+            <maximum>
+                <width>200</width>
+                <height>100</height>
+            </maximum>
+            <minimum>
+                <width>200</width>
+                <height>100</height>
+            </minimum>
+        </sizelimits>
         <sheetdata>
             <windowtitlebar_utilitybox name="dttwindowtitle"/>
 			<stringcontrol name="dtt_title">
+                <default>
+                    <text>Dungeon Time Tracker</text>
+                </default>
                 <anchored>
                     <top anchor="top" offset="0" />
-                    <left anchor="center" offset="0" />
+                    <left anchor="center" offset="-40" />
                 </anchored>
-                <center />
-                <label>Hello World</label>
-                <default>Hello</default>
+                <font>windowtitle</font>
+                <nodrag/>
+                <nodrop/>
+                <center/>
+                <readonly />
             </stringcontrol>
         </sheetdata>
 	</windowclass>

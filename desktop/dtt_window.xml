@@ -2,19 +2,20 @@
 
 <root>
     <windowclass name="dtt_window">
-        <frame>utlitybox</frame>
-		<anchored>
-			<top offset="20" />
-			<left offset="29" />
-		</anchored>
-        <size>
-            <width>500</width>
-            <height>250</height>
-        </size>
+        <frame>utilitybox</frame>
+        <margin>
+            <top>0</top>
+            <left>0</left>
+            <bottom>0</bottom>
+            <right>0</right>
+        </margin>
+        <minimum>
+            <width>200</width>
+            <height>100</height>
+        </minimum>
         <sheetdata>
-            <windowtitlebar_utilitybox name="title" />
+            <windowtitlebar_utilitybox name="dttwindowtitle"/>
 			<stringcontrol name="dtt_title">
-                <frame name="windowtitle" />
                 <anchored>
                     <top anchor="top" offset="0" />
                     <left anchor="center" offset="0" />

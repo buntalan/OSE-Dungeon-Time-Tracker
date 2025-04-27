@@ -6,20 +6,15 @@ https://fantasygroundsunity.atlassian.net/wiki/spaces/FGCP/pages/996644483/Rules
 
 <root>
     <panel name="dtt_panel" modes="host">
-        <class>dtt_window</class>
         <anchored>
-            <top>30</top>
-            <right>40</right>
+            <top>20</top>
+            <right parent="shortcutsanchor" anchor="left"/>
             <size>
-                <width>500</width>
-                <height>250</height>
+                <width>200</width>
+                <height>100</height>
             </size>
         </anchored>
-        <size>
-            <width>500</width>
-            <height>250</height>
-        </size>
+        <class>dtt_window</class>
         <dynamic />
-        <locked />
     </panel>
 </root>

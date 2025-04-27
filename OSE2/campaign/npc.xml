@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="npc" copy="record_window_tabbed">
+		<sizelimits>
+			<minimum width="500" height="500" />
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<gmexport>npc</gmexport>
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>npc_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>spells</name>
+			<resource>powers</resource>
+			<class>npc_spells</class>
+			<embed />
+		</tab>
+		
+		<tab merge="add">
+			<name>text</name>
+			<resource>tab_notes</resource>
+			<class>record_content_notes</class>
+			<embed />
+		</tab>
+
+
+	</windowclass>
+	
+
+</root>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<template name="string_record_nameold">
+		<stringfield>
+			<anchored mergerule="replace">
+				<top offset="10" />
+				<left offset="40" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+			</anchored>
+			<frame name="groupbox" offset="15,10,15,10" />
+			<font>recordsheet_header</font>
+			<multilinespacing>20</multilinespacing>
+			<nodrag />
+			<delaykeyupdate />
+		</stringfield>
+	</template>
+	
+  <template name="label_fieldbottom">
+    <stringcontrol>
+      <anchored position="below" offset="3,-8" />
+      <font>sheetlabelmini</font>
+      <center />
+    </stringcontrol>
+  </template>
+
+	<template name="icon_record_locked">
+		<genericcontrol name="hardlocked">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="0" />
+			</anchored>
+			<icon>record_readonly</icon>
+			<tooltip textres="tooltip_readonly" />
+			<script>
+				function onInit()
+					local node = window.getDatabaseNode();
+					local bShow = (not node or DB.isReadOnly(node));
+					setVisible(bShow);
+				end
+			</script>
+		</genericcontrol>
+	</template>
+	
+	<template name="anchor_record_header_right">
+		<genericcontrol name="rightanchor">
+			<anchored height="0" width="0">
+				<top offset="10" />
+				<right />
+			</anchored>
+		</genericcontrol>
+	</template>
+	
+		<template name="sub_record_header">
+		<subwindow>
+			<anchored>
+				<top offset="23" />
+				<left offset="15" />
+				<right offset="-15" />
+			</anchored>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+
+		<template name="link_record_header">
+		<linkcontrol_record>
+			<bounds>5,10,20,20</bounds>
+		</linkcontrol_record>
+	</template>
+	
+	<template name="frame_record_content">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="15" />
+				<left offset="35" />
+				<right offset="-35" />
+				<bottom offset="-32" />
+			</anchored>
+			<frame name="groupbox" offset="20,17,20,17" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	
+	<template name="frame_record_content_npc">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="25" />
+				<left offset="19" />
+				<right offset="-15" />
+				<bottom offset="-22" />
+			</anchored>
+			<!--<frame name="charsheet" offset="10,10,10,10" />-->
+			<disabled />
+		</genericcontrol>
+	</template>	
+	
+	<template name="button_enc_refreshcr">
+    <buttoncontrol>
+      <anchored width="23" height="23">
+        <bottom parent="cr" offset="2" />
+        <left parent="cr" anchor="right" offset="5"/>
+      </anchored>
+      <icon normal="button_enc_refreshcr" pressed="button_enc_refreshcr_down" />
+      <tooltip textres="enc_tooltip_refreshcr" />
+      <script>
+        function onButtonPress()
+          CombatManagerOSE.calcBattleCR(window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  <template name="button_enc_refreshxp">
+    <buttoncontrol>
+      <anchored width="23" height="23">
+        <bottom parent="exp" offset="2" />
+        <left parent="exp" anchor="right" offset="5" />
+      </anchored>
+      <icon normal="button_enc_refreshxp" pressed="button_enc_refreshxp_down" />
+      <tooltip textres="enc_tooltip_refreshxp" />
+      <script>
+        function onButtonPress()
+          CombatManagerOSE.calcBattleXP(window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  
+
+ <template name="button_generatenpc">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="button_details" pressed="button_details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("npc_generate", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+	</template>		
+	
+ <template name="button_specialeffects">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="button_details" pressed="button_details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("special_effects", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+	</template>		
+	
+    <template name="label_encounter_hitpoints">
+    <label>
+      <anchored>
+        <top parent="name" anchor="bottom" offset="5" />
+                <left offset="5" />
+      </anchored>
+      <static textres="label_encounter_hp" />
+      <tooltip textres="label_encounter_hp_tooltip" />
+    </label>
+  </template>
+
+  <template name="number_encounter_hp">
+    <basicnumber>
+      <anchored width="20">
+        <top parent="label_hp" anchor="top" offset="3" />
+        <left parent="label_hp" offset="5" anchor="right" relation="relative"/>
+      </anchored>
+      <default>0</default>
+      <hideonvalue>0</hideonvalue>
+      <min>0</min>
+    </basicnumber>
+  </template>
+  
+  	<template name="button_item_shield">
+		<button_masterindex_option_view>
+			<recordtype>item</recordtype>
+			<recordview>shield</recordview>
+			<recordpath>reference.shield</recordpath>
+		</button_masterindex_option_view>
+	</template>
+	
+  	<template name="button_item_weapon">
+		<button_masterindex_option_view>
+			<recordtype>item</recordtype>
+			<recordview>weapon</recordview>
+			<recordpath>reference.weapon</recordpath>
+		</button_masterindex_option_view>
+	</template>
+	
+	<template name="metalplate">
+		<stringcontrol>
+			<frame name="metalplate" offset="10,2,10,2"/>
+			<font>subwindowtitle</font>
+			<center />
+			<nodrag />
+			<readonly />
+		</stringcontrol>
+	</template>
+	
+			<template name="close_recordsheet">
+		<close>
+			<anchored>
+				<top offset="0" />
+				<right offset="0" />
+			</anchored>
+		</close>
+	</template>
+</root>

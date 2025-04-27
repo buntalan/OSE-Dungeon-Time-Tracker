@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="classability_detail">
+		<placement>
+			<size height="30" width="287" />
+		</placement>
+		<sheetdata>
+			<stringfield name="skillname">
+				<bounds>33,8,-43,18</bounds>
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>Ose_referencesmall</font>
+			</stringfield>
+			<linkfield name="skills_link">
+				<bounds>7,5,20,20</bounds>
+				<description>
+					<field>skillname</field>
+				</description>
+				<class>skills</class>
+				<selfonempty />
+				<allowdrop />
+			</linkfield>
+			<number name="ability_level">
+				<frame name="attboxose_icon" />
+				<bounds>-37,0,30,30</bounds>
+				<font>OSE_Reference_medium</font>
+			</number>
+			<formattedtextfield name="description_text">
+				<frame offset="8,8,8,8" />
+				<bounds>298,8,197,2</bounds>
+				<invisible />
+			</formattedtextfield>
+		</sheetdata>
+	</windowclass>
+</root>

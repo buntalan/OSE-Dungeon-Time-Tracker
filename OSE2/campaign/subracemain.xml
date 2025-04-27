@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="subracemain">
+		<placement>
+			<size height="702" width="325" />
+		</placement>
+		<script>function onInit()
+				self.update();
+			end
+			
+			function update()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+			
+			racetext.setReadOnly(bReadOnly);
+			classdata_ability.setReadOnly(bReadOnly);
+			classlanguages_string.setReadOnly(bReadOnly);
+			classprime_string.setReadOnly(bReadOnly);
+			classresq_string.setReadOnly(bReadOnly);
+			
+			end
+		</script>
+		<sheetdata>
+			<scrollbarcontrol name="text_scroll">
+				<frame name="scrollbar_base" offset="0,12,0,12" />
+				<bounds>315,152,19,235</bounds>
+				<target>racetext</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol>
+			<stringfield name="classresq_string">
+				<frame name="ct_subgroupbox" offset="9,7,4,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-27" />
+					<top offset="7" />
+				</anchored>
+				<multilinespacing>12</multilinespacing>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classprime_string">
+				<frame name="ct_subgroupbox" offset="9,7,4,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-27" />
+					<top offset="24" anchor="bottom" parent="classresq_string" relation="current" />
+				</anchored>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classlanguages_string">
+				<frame name="ct_subgroupbox" offset="9,7,4,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-27" />
+					<top offset="18" anchor="bottom" parent="classprime_string" relation="current" />
+				</anchored>
+				<multilinespacing>12</multilinespacing>
+				<font>reference-i</font>
+			</stringfield>
+			<stringcontrol name="classreq_label">
+				<bounds>8,0,100,20</bounds>
+				<static textres="subracemain_classreq_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classprime_label">
+				<anchored>
+					<left offset="8" />
+					<top offset="17" anchor="bottom" parent="classresq_string" relation="current" />
+					<size>
+						<width>100</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="subracemain_classprime_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classlanguages_label">
+				<anchored>
+					<left offset="8" />
+					<top offset="11" anchor="bottom" parent="classprime_string" relation="current" />
+					<size>
+						<width>100</width>
+						<height>28</height>
+					</size>
+				</anchored>
+				<static textres="subracemain_classlanguages_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<formattedtextfield name="racetext">
+				<frame offset="8,8,8,8" />
+				<anchored>
+					<left offset="13" />
+					<right offset="-15" />
+					<top offset="49" anchor="bottom" parent="classlanguages_string" relation="current" />
+				</anchored>
+			</formattedtextfield>
+			<stringcontrol name="desc_label">
+				<anchored>
+					<left offset="8" />
+					<top offset="21" anchor="bottom" parent="classlanguages_string" relation="current" />
+					<size>
+						<width>86</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="subracemain_desc_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classabilites_label">
+				<anchored>
+					<left offset="8" />
+					<top offset="15" anchor="bottom" parent="racetext" relation="current" />
+					<size>
+						<width>106</width>
+						<height>18</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="subracemain_classabilites_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<minHeightList name="classdata_ability">
+				<frame name="charsheetframe" offset="0,5,0,1" />
+				<anchored>
+					<left offset="20" />
+					<right offset="-18" />
+					<top offset="3" anchor="bottom" parent="classabilites_label" relation="current" />
+				</anchored>
+				<class>classability_detail</class>
+				<datasource>.mracial_abilitylist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>skills</class>
+					<field>*</field>
+				</acceptdrop>
+				<sortby>
+					<control>ability_level</control>
+				</sortby>
+			</minHeightList>
+			<scrollbarcontrol name="abilityscroll_bar">
+				<frame name="scrollbar_base" offset="0,12,0,12" />
+				<bounds>318,548,20,100</bounds>
+				<target>classdata_ability</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

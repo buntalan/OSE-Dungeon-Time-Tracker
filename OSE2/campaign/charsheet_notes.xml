@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="charsheet_notes" merge="join">
+		<script file="campaign/scripts/makepc.lua" />
+		<sheetdata>
+			<buttoncontrol name="npcconvert">
+				<anchored>
+					<left offset="10" />
+					<top offset="10" anchor="bottom" parent="notes" relation="current" />
+					<size>
+						<width>25</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<gmvisibleonly />
+				<icon normal="button_add" pressed="portrait_gm_token" />
+				<font>button-white</font>
+				<script>function onButtonPress()
+					
+					return window.getpcdata(window.getDatabaseNode());
+					
+					end
+				</script>
+			</buttoncontrol>
+			<stringcontrol name="npc_convert_label">
+				<anchored>
+					<left offset="39" />
+					<top offset="10" anchor="bottom" parent="notes" relation="current" />
+					<size>
+						<width>102</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="charsheet_notes_npc_convert_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

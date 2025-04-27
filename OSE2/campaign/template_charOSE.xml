@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="anchor_title_charsheet">
+		<genericcontrol>
+			<anchored height="0">
+				<top offset="35" />
+				<left parent="" anchor="left" offset="15" />
+				<right parent="" anchor="right" offset="-30" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+	
+ <template name="button_charclasslevel">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="button_details" pressed="button_details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("charsheet_classes", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+	</template>	
+	
+	 <template name="button_movement">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="button_details" pressed="button_details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("charsheet_movement", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+	</template>		
+	
+  <template name="label_reftype">
+    <stringcontrol>
+      <anchored to="name" position="belowleft" offset="0,7">
+        <right parent="" offset="-20" />
+      </anchored>
+      <font>reference-b</font>
+      <readonly />
+      <script>
+        function onInit()
+          if getValue() == "" then
+            setVisible(false);
+          end
+        end
+      </script>
+    </stringcontrol>
+  </template>	
+	
+  <template name="number_adjustment">
+    <basicnumber>
+          <anchored width="20" height="20"/>
+              <default>0</default>
+              <displaysign />
+      <hideonvalue>0</hideonvalue>
+    </basicnumber>
+  </template>	
+	
+	 <template name="list_proficiencies">
+    <list_text>
+            <anchored>
+            <sizelimits >
+                <minimum >
+                    <height>50</height>
+                </minimum>
+            </sizelimits>          
+        </anchored>
+      <child></child>
+      <!--<child><backcolor>4040301E</backcolor></child>-->
+      <allowcreate />
+      <allowdelete />
+      <sortby> <control>name</control></sortby>
+      <noscroll />      
+      <script>
+        function onListChanged()
+          update();
+          if listheader and listheader[1] and not isVisible() then
+            window[listheader[1]].expand();
+          end
+        end
+
+        function update()
+          local bEdit = (window.proficiencylist_iedit.getValue() == 1);
+          for _,w in ipairs(getWindows()) do
+            w.proficiencylist_idelete.setVisible(bEdit);
+          end
+        end
+
+        function addEntry(bFocus)
+          local w = createWindow();
+          if bFocus and w then
+            w.name.setFocus();
+          end
+          return w;
+        end
+        
+        function onDrop(x, y, draginfo)
+				if draginfo.isType("shortcut") then
+					local sClass, sRecord = draginfo.getShortcutData();
+					local nodeSource = DB.findNode(sRecord);
+					
+					if sClass =="item" then
+					
+					w = addEntry(true)
+					DB.setValue(w.getDatabaseNode(),"name","string",DB.getValue(nodeSource, "name", ""))
+					
+					end
+				end
+        end
+      
+         </script>
+    </list_text>
+  </template>
+	
+	 <template name="button_charskillshow">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="button_details" pressed="button_details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("charsheet_skillshow", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+	</template>	
+	<template name="button_char_inv_carried">
+		<buttonfield>
+			<state icon="button_char_inv_none" tooltipres="char_tooltip_inv_none" />
+			<state icon="button_char_inv_carried" tooltipres="char_tooltip_inv_carried" />
+			<state icon="button_char_inv_equipped" tooltipres="char_tooltip_inv_equipped" />
+			<default>1</default>
+		</buttonfield>
+	</template>
+	<template name="number_charinv">
+		<basicnumber>
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+		</basicnumber>
+	</template>
+	<template name="string_charinvname">
+		<string_textlistitem>
+			<nodrop />
+			<script file="campaign/scripts/char_invname.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="string_charinvloc">
+		<string_textlistitem>
+			<nodrop />
+			<delaykeyupdate merge="delete" />
+			<script file="campaign/scripts/char_invloc.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="list_charinv">
+		<windowlist>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<datasource>.inventorylist</datasource>
+			<class>char_invitem</class>
+			<allowdelete />
+			<script file="campaign/scripts/char_invlist.lua" />
+		</windowlist>
+	</template>
+	
+<template name="minHeightList">
+    <windowlist>
+        <anchored>
+            <sizelimits >
+                <minimum >
+                    <height>50</height>
+                </minimum>
+            </sizelimits>          
+        </anchored>
+ 			<frame name="fieldlight" offset="10,10,10,10" />     
+    </windowlist>
+</template>
+	
+	<template name="powerstring">
+		<simplestring>
+			<stateframe>
+				<keyedit name="fielddark" offset="7,5,7,5" />
+				<hover name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<drophilight name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+			</stateframe>
+		</simplestring>
+	</template>	
+	
+	<template name="basicOSEnumber">
+		<simplenumber>
+			<stateframe>
+				<keyedit name="fieldfocus" offset="7,5,7,5" />
+				<hover name="fieldfocus" offset="7,5,7,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="7,5,7,5" hidereadonly="true" />
+			</stateframe>
+		</simplenumber>
+	</template>	
+	
+	<template name="basicOSEstring">
+		<simplestring>
+			<frame mergerule="replace" name="fieldlight" offset="7,7,7,7" hidereadonly="true" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="7,5,7,5" />
+				<hover name="fieldfocus" offset="7,5,7,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="7,5,7,5" hidereadonly="true" />
+			</stateframe>
+		</simplestring>
+	</template>	
+	
+	<template name="frame_char_overlay">
+		<genericcontrol>
+    <bounds> 15,35,-15,-20</bounds>
+			<frame name="chatframe_story" />
+		</genericcontrol>
+	</template>
+
+</root>

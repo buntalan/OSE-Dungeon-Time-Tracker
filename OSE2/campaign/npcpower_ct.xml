@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npcpower_ct">
+		<script file="campaign/scripts/power_window.lua" />
+		<placement>
+			<size height="108" width="365" />
+		</placement>
+		<sheetdata>
+			<windowlist name="spellslist">
+				<frame offset="5,5,5,8" />
+				<anchored>
+					<left offset="19" />
+					<right offset="-17" />
+					<top offset="28" />
+					<sizelimits>
+						<minimum height="60" />
+					</sizelimits>
+				</anchored>
+				<class>npc_spells_detail_ct</class>
+				<datasource>.spellslist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>spells</class>
+					<field>*</field>
+				</acceptdrop>
+				<sortby>
+					<control>name</control>
+				</sortby>
+				<script file="common/scripts/list_text.lua"></script>
+			</windowlist>
+			<genericcontrol name="spelllabelframe">
+				<frame name="metalplate" />
+				<bounds>0,3,363,18</bounds>
+			</genericcontrol>
+			<powerstring name="spelllabelstring">
+				<bounds>128,2,120,20</bounds>
+				<tooltip textres="npcpower_ct_spelllabelstring_Tooltip" />
+				<center />
+				<default textres="npcpower_ct_spelllabelstring_DefaultText" />
+				<font>subwindowsmalltitle</font>
+				<script>function onInit()
+					
+						if not bWindow then
+						window.spelllabelstring.setReadOnly(true)
+						else
+						window.spelllabelstring.setReadOnly(false)
+						end
+					end
+					function onClickDown()
+					
+						if not bWindow then
+						window.spelllabelstring.setReadOnly(true)
+						return window.actionDrag(draginfo);
+						else
+						window.spelllabelstring.setReadOnly(false)
+						end
+					
+					end
+				</script>
+			</powerstring>
+		</sheetdata>
+	</windowclass>
+</root>

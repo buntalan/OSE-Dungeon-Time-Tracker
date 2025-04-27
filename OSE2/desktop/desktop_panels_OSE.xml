@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+	<panel name="modifierstack" modes="host,client" merge="join">
+    <bounds>15,-100,200,57</bounds>
+	</panel>  
+	
+
+ 
+ 
+   <panel name="shortcuts" merge="join">
+    <sheetdata>
+      <invisible />
+    </sheetdata>
+  </panel>
+  
+	<panel name="dicepanel" merge="join">
+		<class>dicepanel</class>
+		<anchored width="50" height="50">
+			<top anchor="bottom" offset="-105" />
+			<left offset="230" />
+		</anchored>
+		<dynamic />
+
+	</panel>
+  
+  
+   
+</root>      
+    

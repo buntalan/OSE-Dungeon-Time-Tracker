@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="charsheet_skillshow">
+		<frame>ctbox</frame>
+		<placement>
+			<size height="278" width="310" />
+		</placement>
+		<sheetdata>
+		<frame_char_overlay/>
+			<windowtitlebar name="title">
+				<resource>Window_charsheet_skillshow_Title</resource>
+			</windowtitlebar>
+			<buttonfield name="huntbox">
+				<bounds>39,53,20,20</bounds>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+					function onValueChanged()
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+				</script>
+			</buttonfield>
+			<buttonfield name="ctbox">
+				<bounds>39,88,20,20</bounds>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+					function onValueChanged()
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+				</script>
+			</buttonfield>
+			<buttonfield name="hidebox">
+				<bounds>39,120,20,20</bounds>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+					function onValueChanged()
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+				</script>
+			</buttonfield>
+			<buttonfield name="foragebox">
+				<bounds>39,152,20,20</bounds>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+					function onValueChanged()
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+				</script>
+			</buttonfield>
+			<buttonfield name="turnbox">
+				<bounds>39,184,20,20</bounds>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+					function onValueChanged()
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+				</script>
+			</buttonfield>
+			<stringcontrol name="huttoggle_label">
+				<bounds>79,54,96,20</bounds>
+				<static textres="charsheet_skillshow_huttoggle_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="undeadtoggle_label">
+				<bounds>79,185,96,20</bounds>
+				<static textres="charsheet_skillshow_undeadtoggle_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="cttoggle_label">
+				<bounds>79,90,138,20</bounds>
+				<static textres="charsheet_skillshow_cttoggle_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="hidetoggle_label">
+				<bounds>79,122,96,20</bounds>
+				<static textres="charsheet_skillshow_hidetoggle_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="foragetoggle_label">
+				<bounds>79,153,96,20</bounds>
+				<static textres="charsheet_skillshow_foragetoggle_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<close_recordsheet name="close_button">
+				<bounds>276,8,24,20</bounds>
+				<icon normal="button_close" pressed="button_close_down" />
+				<font>button-white</font>
+			</close_recordsheet>
+			<buttonfield name="stealthbox">
+				<bounds>39,216,20,20</bounds>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+					function onValueChanged()
+					manager_vis.setvis(window.getDatabaseNode())
+					end
+					
+				</script>
+			</buttonfield>
+			<stringcontrol name="stlth_label">
+				<bounds>77,215,96,20</bounds>
+				<static textres="charsheet_skillshow_stlth_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

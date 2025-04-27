@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="charsheet_inventory" merge="join">
+		<placement>
+			<size height="825" width="562" />
+		</placement>
+		<sheetdata>
+			<number name="enc_allowed">
+				<frame name="fieldlight" offset="7,5,7,5" />
+				<bounds>254,730,19,20</bounds>
+				<invisible />
+				<readonly />
+				<script file="campaign/scripts/encum_options.lua" />
+				<script>function onInit()
+					updateMove()
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "encumbrance.load"), "onUpdate", updateMove);
+					DB.addHandler(DB.getPath(nodeChar, "generalwt"), "onUpdate", updateMove);
+					OptionsManager.registerCallback("BEMP_ENCTYPE", updateMove);
+					end 
+					
+					function onClose()
+					local nodeChar = window.getDatabaseNode();
+					DB.removeHandler(DB.getPath(nodeChar, "encumbrance.load*"), "onUpdate", updateMove);
+					DB.removeHandler(DB.getPath(nodeChar, "generalwt*"), "onUpdate", updateMove);
+					OptionsManager.unregisterCallback("BEMP_ENCTYPE", updateMove);
+					end
+					
+					
+					
+				</script>
+			</number>
+			<stringfield name="encumbstatus">
+				<frame name="groupbox" offset="0,0,0,0" />
+				<bounds>71,-82,165,27</bounds>
+				<center />
+				<readonly />
+			</stringfield>
+			<number name="totalwt">
+				<frame name="fieldlight" />
+				<bounds>152,-117,70,30</bounds>
+				<readonly />
+				<font>reference-b</font>
+			</number>
+			<number name="generalwt">
+				<frame name="fieldlight" />
+				<bounds>152,-148,70,30</bounds>
+				<default>80</default>
+				<font>reference-b</font>
+			</number>
+			<stringcontrol name="genwtlabel">
+				<bounds>15,-142,136,20</bounds>
+				<static textres="charsheet_inventory_genwtlabel_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="totalcoinlabel">
+				<bounds>15,-113,109,20</bounds>
+				<static textres="charsheet_inventory_totalcoinlabel_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<number name="nCarryenc">
+				<frame name="fieldlight" />
+				<bounds>96,-119,70,30</bounds>
+				<font>reference-b</font>
+				<script file="campaign/scripts/encum_options.lua" />
+				<script>function onValueChanged()
+					updateflavortext()
+					end
+				</script>
+			</number>
+			<number name="nEquipenc">
+				<frame name="fieldlight" />
+				<bounds>169,-119,70,30</bounds>
+				<font>reference-b</font>
+				<script file="campaign/scripts/encum_options.lua" />
+				<script>function onValueChanged()
+					updateflavortext()
+					end
+				</script>
+			</number>
+			<stringcontrol name="carriedgear">
+				<bounds>102,-141,57,20</bounds>
+				<center />
+				<static textres="charsheet_inventory_carriedgear_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="equipedgear">
+				<bounds>175,-141,57,20</bounds>
+				<center />
+				<static textres="charsheet_inventory_equipedgear_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

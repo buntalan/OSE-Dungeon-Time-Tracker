@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="race" copy="record_window_tabbed">
+
+		<tab>
+			<name>SubWindowRaceMain</name>
+			<resource>main</resource>
+			<class>subracemain</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>SubWindowRaceData</name>
+			<resource>data</resource>
+			<class>subracedata</class>
+			<embed />
+		</tab>
+		
+	</windowclass>
+</root>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<!--Sidebar dock item -->
+	<string name= "library_recordtype_label_weapons">Weapons</string>
+	<string name= "library_recordtype_label_magic">Spells</string>
+	<string name= "library_recordtype_label_class">Class</string>
+	<string name= "library_recordtype_label_skills">Abilities</string>
+	<string name= "library_recordtype_label_race">Race</string>
+	<string name="library_recordtype_label_effects">Effects</string>
+	<string name="library_recordview_label_item_shield">Shields</string>
+	    <string name= "option_label_DW_RND">Random HP</string>
+	<string name="char_message_atkwithnoammo">Out of Ammo!</string>
+	<string name="xp">XP</string>
+	<string name="ps_menu_awardxp">Award XP</string>
+	<string name="ps_label_party">Party</string>
+	<string name="ps_label_partyentryxp">XP</string>
+	<string name="ps_label_encounters">Encounters</string>
+	<string name="ps_label_quests">Quests</string>
+	<string name="ps_label_xpawarded">Aw?</string>
+	<string name="ps_tooltip_xpawarded">Awarded?</string>
+	<string name="ps_label_xp">XP</string>
+	<string name="ps_label_xpname">Name</string>
+	<string name="ps_label_award">Award</string>
+	<string name="ps_message_xpaward">Awarded XP to the Party.</string>
+	<string name="class_expneeded_label">XP Needed</string>
+	<string name="label_encounter_hp">HP</string>
+	<string name="label_encounter_hp_tooltip">Set hitpoint value for the NPC on the CT.</string>
+	
+	<string name="language_value_common">Common</string>
+	<string name="language_value_dwarvish">Dwarvish</string>
+	<string name="language_value_elvish">Elvish</string>
+	<string name="language_value_giant">Giant</string>
+	<string name="language_value_gnomish">Gnomish</string>
+	<string name="language_value_goblin">Goblin</string>
+	<string name="language_value_halfling">Halfling</string>
+	<string name="language_value_orc">Orc</string>
+	<string name="language_value_dragon">Dragon</string>
+	<string name="language_value_bugbear">Bugbear</string>
+	<string name="language_value_doppleganger">Doppleganger</string>
+	<string name="language_value_gargoyle">Gargoyle</string>
+	<string name="language_value_gnoll">Gnoll</string>
+	<string name="language_value_harpy">Harpy</string>
+	<string name="language_value_hobgoblin">Hobgoblin</string>
+	<string name="language_value_kobold">Kobold</string>
+	<string name="language_value_lizardman">Lizard Man</string>
+	<string name="language_value_medusa">Medusa</string>
+	<string name="language_value_minotaur">Minotaur</string>
+	<string name="language_value_ogre">Ogre</string>
+	<string name="language_value_pixie">Pixie</string>
+	<string name="language_value_Neutrality">Neutrality</string>
+	<string name="language_value_Law">Law</string>
+	<string name="language_value_chaos">Chaos</string>
+	
+	<string name="vision_darkvision">Darkvision</string>
+	<string name="vision_infravision">Infravision</string>
+	<string name="item_button_weapon">Weapons</string>
+	<string name="item_button_shield">Shield</string>
+	<string name="item_button_armor">Armor</string>
+	<string name="vision_normal">Normal</string>	
+	<string name="item_grouped_label_name">Name</string>
+	<string name="item_grouped_label_cost">Cost</string>
+	<string name="item_grouped_label_weight">Coin Weight</string>
+	<string name="item_label_properties">Properties</string>
+		
+	<string name="quest_label_xp">XP</string>
+		
+		
+    <string name= "option_header_OSE_INIT">OSE Optional Rules</string>
+	<string name= "option_label_OSE_type">Choose Initiative Method</string>	
+	<string name= "option_label_OSE_RACE">Adv. Fantasy Tome Race Option</string>	
+	<string name= "option_label_OSE_ENC">Detailed Encumbrance</string>	
+	<string name= "option_label_OSE_Weapon">Weapon Proficiency</string>	
+	<string name= "option_header_OSE_INITAUTO">Auto Roll Individual Init</string>	
+	<string name= "option_label_OSE_Auto">Auto Roll Initiatives?</string>	
+	<string name= "option_label_OSE_BECMI">BECMI Enable?</string>	
+	<string name= "option_val_no">No</string>	
+	<string name= "option_label_OSE_D6">Carcass Crawler D6 skills</string>
+	
+	<string name="char_abilities_label_proficiencies">Favoured Weapons and Mastery</string>
+	<string name="weapon_label_hitadj">HitAdj</string>
+	<string name="weapon_label_dmgadj">DmgAdj</string>
+	<string name="wpnprof_detail_speclabel_Label">Spc.</string>
+	<string name="wpnprof_detail_proflabel_Label">Prof</string>
+	<string name="ref_type_proficiency">Proficiency</string>
+	
+	<string name="skill_label_ability_level">Level granted</string>	
+	<string name="skill_label_die">Die</string>	
+	<string name="skill_label_chance_success">Base Success</string>
+	
+	
+
+
+	<string name="power_spelleffects_header">Spell Effects</string>
+	
+	<string name="menu_rest">I hope they set a watch! (rest)</string>
+	<string name="ct_message_rest">Party is taking a rest.</string>
+		
+	<string name="ct_tooltip_attribute">Attributes</string>
+	<string name="ct_tooltip_offense">Offense</string>
+	<string name="ct_tooltip_defense">Defense</string>
+	<string name="ct_tooltip_damagevulnerabilities">Damage Vulnerabilities</string>
+	<string name="ct_tooltip_damageresistances">Damage Resistances</string>
+	<string name="ct_tooltip_damageimmunities">Damage Immunities</string>
+	<string name="ct_tooltip_conditionimmunities">Condition Immunities</string>
+	<string name="ct_label_damagevulnerabilities">Dmg Vuln</string>
+	<string name="ct_label_damageresistances">Dmg Res</string>
+	<string name="ct_label_damageimmunities">Dmg Imm</string>
+	<string name="ct_label_conditionimmunities">Cnd Imm</string>	
+	<string name="ct_label_speed">Mv</string>
+	
+	<string name="weapons_detail_dwlabel_Label">DW</string>
+	<string name="weapons_detail_seclabel_Label">Sec</string>
+	<string name="weapons_detail_prilabel_Label">Pri</string>
+	<string name="weapons_detail_ammo_label_Label">#</string>
+	
+</root>

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="sub_weapon">
+		<placement>
+			<size height="205" width="282" />
+		</placement>
+		<sheetdata>
+			<linkfield name="weapons_link">
+				<bounds>287,9,20,20</bounds>
+				<invisible />
+				<description>
+					<field>weapons_name</field>
+				</description>
+				<class>weapons</class>
+				<selfonempty />
+			</linkfield>
+			<simpledice name="Damagedie">
+				<frame name="border" />
+				<bounds>288,39,60,32</bounds>
+				<invisible />
+				<backcolor>#FFFFFFFF</backcolor>
+			</simpledice>
+			<stringcontrol name="Label3">
+				<bounds>4,138,78,30</bounds>
+				<center />
+				<static textres="sub_weapon_Label3_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringfield name="qualities">
+				<frame offset="5,0,0,0" />
+				<bounds>91,139,-5,58</bounds>
+				<tooltip textres="sub_weapon_qualities_Tooltip" />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<multilinespacing>16</multilinespacing>
+			</stringfield>
+			<stringcontrol name="DMG_label">
+				<bounds>109,58,73,30</bounds>
+				<center />
+				<static textres="sub_weapon_DMG_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="type_lable">
+				<bounds>197,58,60,30</bounds>
+				<center />
+				<static textres="sub_weapon_type_lable_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label1">
+				<bounds>4,58,97,30</bounds>
+				<center />
+				<static textres="sub_weapon_Label1_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="atk_roll">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>43,25,30,27</bounds>
+				<displaysign />
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose-Reference</font>
+			</number>
+			<button_stringcycler name="type_select">
+				<frame name="fielddark" offset="0,0,0,0" />
+				<bounds>181,25,91,30</bounds>
+				<parameters>
+					<defaultlabelres>sub_weapon_type_select_DefaultLabel</defaultlabelres>
+					<labelsres>sub_weapon_type_select_Label_Ranged|sub_weapon_type_select_Label_Melee</labelsres>
+					<values>Ranged|Melee</values>
+				</parameters>
+				<font>Ose_referencesmall</font>
+			</button_stringcycler>
+			<stringfield name="Damagedies">
+				<frame name="groupboxextra" />
+				<bounds>102,25,76,27</bounds>
+				<font>Ose_referencesmall</font>
+				<center></center>
+				<script>function onInit ()
+					
+					local nodeItem = window.getDatabaseNode()
+					
+					local sDie= DB.getValue(nodeItem,"Damagedie","")
+					if sDie ~= "" then
+					DB.setValue(nodeItem,"Damagedies","string",sDie[1])
+					local aDice = {}
+					DB.setValue(nodeItem,"Damagedie","dice",aDice)
+					end
+					end
+				</script>
+			</stringfield>
+			<stringcontrol name="versatile_label">
+				<bounds>4,98,73,25</bounds>
+				<static textres="sub_weapon_versatile_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<buttonfield name="versatile">
+				<bounds>82,101,20,20</bounds>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					if self.getValue()==1 then
+					window.versatile_damage.setVisible(true)
+					else
+					window.versatile_damage.setVisible(false)
+					end
+					end
+					
+					function onValueChanged()
+					if self.getValue()==1 then
+					window.versatile_damage.setVisible(true)
+					else
+					window.versatile_damage.setVisible(false)
+					end
+					end
+				</script>
+			</buttonfield>
+			<stringfield name="versatile_damage">
+				<frame name="groupboxextra" />
+				<bounds>102,96,76,27</bounds>
+				<font>Ose_referencesmall</font>
+				<center></center>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+</root>

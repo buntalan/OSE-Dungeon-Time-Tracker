@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="weapons_detail">
+		<margins control="1,5,1,5" />
+		<script file="campaign/scripts/char_weapon.lua" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			
+			<linkfield name="shortcut">
+				<anchored to="rightanchor"  width="20" height="20">
+					<top offset="8" />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+			</linkfield>
+			<number name="ammo_box">
+				<frame>
+					<name>attboxose_icon</name>
+				</frame>
+				<anchored to="rightanchor"  width="25" height="25">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<invisible />
+				<font>Ose_referencesmall</font>
+			</number>
+			<label_fieldbottom name="ammo_label">
+				<anchored to="ammo_box" offset ="0,2" />
+				<invisible />
+				<center />
+				<static textres="weapons_detail_ammo_label_Label" />
+				<readonly />
+			</label_fieldbottom>
+
+			<buttonfield name="dual">
+				<anchored to="rightanchor"  width="20" height="20">
+					<top offset="15" />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<invisible />
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					onValueChanged()
+					end
+					function onValueChanged()
+					local nodeWin = window.getDatabaseNode()
+					local nBox = window.dual.getValue()
+					
+					if nBox == 1 then
+									window.primary.setVisible(true)
+									window.prilabel.setVisible(true)
+									window.seclabel.setVisible(true)
+									window.secondary.setVisible(true)
+					
+					else
+									window.primary.setVisible(false)
+									window.prilabel.setVisible(false)
+									window.seclabel.setVisible(false)
+									window.secondary.setVisible(false)
+					DB.setValue(nodeWin, "primary","number",0)
+					DB.setValue(nodeWin, "secondary","number",0)
+									
+					end
+					end
+				</script>
+			</buttonfield>
+			
+			<label_fieldbottom name="dwlabel">
+				<anchored to="dual" />
+				<static textres="weapons_detail_dwlabel_Label" />
+			</label_fieldbottom>
+
+			<buttonfield name="primary">
+		      <anchored to="dual" position="above" offset="-5,0"  height="20" />
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+			</buttonfield>
+			<buttonfield name="secondary">
+				<anchored to="primary"  width="20" height="20">
+					<top offset="0" />
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+			</buttonfield>
+			<label_fieldbottom name="prilabel">
+				<anchored to="primary" />			
+				<static textres="weapons_detail_prilabel_Label" />
+			</label_fieldbottom>
+			<label_fieldbottom name="seclabel">
+				<anchored to="secondary" />
+				<static textres="weapons_detail_seclabel_Label" />
+			</label_fieldbottom>
+			
+
+
+			
+			<powerstring name="versatile_damage">
+				<frame>
+					<name>fieldlight</name>
+				</frame>
+				<anchored to="rightanchor"  width="90" height="25">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-20" />
+				</anchored>
+				<readonly />
+				
+				<font>Ose_referencesmall</font>
+				<center></center>
+				<script>function onDoubleClick(x, y, draginfo)
+					    updateBonus();
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					function updateBonus()
+					
+					local nodeWeapon = window.getDatabaseNode();
+					
+					local nodeChar = DB.getChild(nodeWeapon,"...")
+					
+					local nMeleeBonus = DB.getValue(nodeChar,"attmod_score" , 0);
+					
+					DB.setValue(nodeWeapon, "dmg_bonus", "number", nMeleeBonus);
+					
+					end
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+									local nodeChar = DB.getChild(nodeWeapon,"...");
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local sProperties = DB.getValue(nodeWeapon,"properties","")
+					                local sLabel = window.name.getValue().." ["..sProperties.."]";
+					                local sDamageDie= self.getValue();
+									local nAtk_roll = window.atk_roll.getValue();
+									local sDamageAdd = string.match(sDamageDie, "%+(%d+)") or "0";
+									local nDamageAdd = tonumber(sDamageAdd)
+									local nBonus = window.dmg_bonus.getValue()
+									local sTypeatk = window.type_select.getValue();
+									local sSub = DB.getValue(nodeWeapon,"subtype","")
+					
+										if sSub == "Magic" then
+										 sSub = "[Magic]"
+										else
+										sSub = " "
+										end
+										
+										if Input.isShiftPressed() then
+										nDouble = 2
+										sLabel = sLabel.." [Double Damage]"
+										else
+										nDouble =1
+										end
+										
+										
+						local bIsAdvance = OptionsManager.isOption("BEMP_WEAPON", "Yes");
+						
+						if bIsAdvance then
+						local nBonusdam = 0
+						nBonusdam = manager_weapon.CheckSpecial(nodeChar,sLabel)
+						nAtk_roll = nAtk_roll + nBonusdam
+						end
+												
+					manager_action_damage.performRoll(dragInfo,rActor, sLabel, sDamageDie, nAtk_roll, nBonus, sTypeatk,sSub,nDamageAdd,nDouble); 
+					return true;
+					end
+				</script>
+			</powerstring>		
+			
+			
+			
+			<powerstring name="Damagedies">
+				<frame>
+					<name>fieldlight</name>
+				</frame>
+				<anchored to="rightanchor"  width="90" height="25">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-20" />
+				</anchored>
+				<readonly />
+				<font>Ose_referencesmall</font>
+				<center></center>
+				<script>function onDoubleClick(x, y, draginfo)
+					    updateBonus();
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					function updateBonus()
+					
+					local nodeWeapon = window.getDatabaseNode();
+					local nodeChar = DB.getChild(nodeWeapon,"...")
+					
+					local nMeleeBonus = DB.getValue(nodeChar,"attmod_score" , 0);
+					
+					DB.setValue(nodeWeapon, "dmg_bonus", "number", nMeleeBonus);
+					
+					end
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+									local nodeChar = DB.getChild(nodeWeapon,"...");
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local sProperties = DB.getValue(nodeWeapon,"properties","")
+					                local sLabel = window.name.getValue().." ["..sProperties.."]";
+					                local sDamageDie= window.Damagedies.getValue();
+									local nAtk_roll = window.atk_roll.getValue();
+									local sDamageAdd = string.match(sDamageDie, "%+(%d+)") or "0";
+									local nDamageAdd = tonumber(sDamageAdd)
+									local nBonus = window.dmg_bonus.getValue()
+									local sTypeatk = window.type_select.getValue();
+									local sSub = DB.getValue(nodeWeapon,"subtype","")
+					
+										if sSub == "Magic" then
+										 sSub = "[Magic]"
+										else
+										sSub = " "
+										end
+										
+										if Input.isShiftPressed() then
+										nDouble = 2
+										sLabel = sLabel.." [Double Damage]"
+										else
+										nDouble =1
+										end
+										
+										
+						local bIsAdvance = OptionsManager.isOption("BEMP_WEAPON", "Yes");	
+						
+						if bIsAdvance then
+						local nBonusdam = 0
+						nBonusdam = manager_weapon.CheckSpecial(nodeChar,sLabel)
+						nAtk_roll = nAtk_roll + nBonusdam
+						end
+													
+					manager_action_damage.performRoll(dragInfo,rActor, sLabel, sDamageDie, nAtk_roll, nBonus, sTypeatk,sSub,nDamageAdd,nDouble); 
+					return true;
+					end
+				</script>
+			</powerstring>
+			
+			<button_iconcycler name="Attk_cycler">
+				<frame>
+					<name>border</name>
+				</frame>
+				<anchored to="rightanchor"  width="25" height="25">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<parameters>
+					<defaulticon>meleeindicator</defaulticon>
+					<icons>meleeindicator|rangedindicator|versatile</icons>
+					<values>1|2|3</values>
+					<tooltipsres>weapons_detail_Attk_cycler_Tooltip_1|weapons_detail_Attk_cycler_Tooltip_2|weapons_detail_Attk_cycler_Tooltip_3</tooltipsres>
+					<nodefault />
+				</parameters>
+				<script>function onFirstLayout()
+					
+					onValueChanged()
+					
+					end
+					function onValueChanged()
+					local nodeChar = window.getDatabaseNode();
+					local sType = DB.getValue(nodeChar, "Attk_cycler", "");
+					DB.setValue(nodeChar, "type_select", "string", sType);
+					
+					if sType =="2" then
+									window.ammo_box.setVisible(true)
+									window.ammo_label.setVisible(true)
+									window.dual.setVisible(false)
+									window.dwlabel.setVisible(false)
+									window.primary.setVisible(false)
+									window.prilabel.setVisible(false)
+									window.seclabel.setVisible(false)
+									window.secondary.setVisible(false)
+									window.versatile_damage.setVisible(false)
+									window.Damagedies.setVisible(true)
+					DB.setValue(nodeChar, "dual","number",0)			
+					DB.setValue(nodeChar, "primary","number",0)
+					DB.setValue(nodeChar, "secondary","number",0)
+					elseif sType =="3" then
+									window.versatile_damage.setVisible(true)
+									window.Damagedies.setVisible(false)
+									window.ammo_box.setVisible(false)
+									window.ammo_label.setVisible(false)
+									window.dual.setVisible(false)
+									window.dwlabel.setVisible(false)
+									window.primary.setVisible(false)
+									window.prilabel.setVisible(false)
+									window.seclabel.setVisible(false)
+									window.secondary.setVisible(false)
+					DB.setValue(nodeChar, "dual","number",0)			
+					DB.setValue(nodeChar, "primary","number",0)
+					DB.setValue(nodeChar, "secondary","number",0)
+					
+					else
+									window.dual.setVisible(true)
+									window.dwlabel.setVisible(true)
+									window.ammo_box.setVisible(false)
+									window.ammo_label.setVisible(false)
+									window.versatile_damage.setVisible(false)
+									window.Damagedies.setVisible(true)
+					end
+					
+					
+					end
+				</script>
+			</button_iconcycler>
+		
+			<basicOSEnumber name="atk_roll">
+				<frame>
+					<name>attboxose_icon</name>
+					<offset>0,0,0,3</offset>
+				</frame>
+				<anchored to="rightanchor"  width="25" height="25">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<readonly />
+				<nodrag />
+				<nodrop />
+				<displaysign />
+				<font>Ose-Reference</font>
+				<script>
+				function onDoubleClick(x, y, draginfo)
+					    ammo(draginfo);
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					    ammo(draginfo);
+					
+					return action(draginfo);
+					end
+					
+					function ammo(draginfo)
+					
+					local nodeChar = window.getDatabaseNode();
+					local sType = window.type_select.getValue();
+					
+					    if sType == "2" then
+					                local nAmmocur = window.ammo_box.getValue();
+					            if nAmmocur &lt;= 0 then
+					            local rActor = ActorManager.resolveActor(nodeChar);
+								ChatManager.Message(Interface.getString("char_message_atkwithnoammo"), true, rActor); 
+					            else 
+					            local nAmmocur = window.ammo_box.getValue();
+					            local nAmmonew = nAmmocur - 1;
+					            DB.setValue(nodeChar, "ammo_box", "number", nAmmonew);
+					            end
+					     end
+					end
+					function action(dragInfo)
+					        local nodeWeapon = window.getDatabaseNode();
+							local nodeChar = DB.getChild(nodeWeapon,"...");
+					        local rActor = ActorManager.resolveActor(nodeChar);
+					        local sLabel = window.name.getValue();
+							local nAtk_roll = window.atk_roll.getValue();
+							local sType = window.type_select.getValue();
+
+							if sType =="2" then sType = "Ranged" else sType="Melee" end
+							
+							local nAtk_bonus = window.atk_bonus.getValue();
+							local Thaco = DB.getValue(nodeChar, "thaco");
+							local nPri = window.primary.getValue()
+							local nSec = window.secondary.getValue()
+							local bIsBECMI = OptionsManager.isOption("OPT_BECMI", "on");
+
+							if bIsBECMI then
+									if nPri == 1 then
+									nAtk_bonus = nAtk_bonus
+									elseif nSec ==1 then 
+									nAtk_bonus = nAtk_bonus -4
+									end
+							else
+									if nPri == 1 then
+									nAtk_bonus = nAtk_bonus -2
+									elseif nSec ==1 then 
+									nAtk_bonus = nAtk_bonus  -4
+									end
+							end		
+						local bIsAdvance = OptionsManager.isOption("BEMP_WEAPON", "Yes");
+						local bIsBasic = OptionsManager.isOption("BEMP_WEAPON", "No");
+						local bIsDefault = (bIsBasic);	
+
+						if bIsAdvance then
+						local nBonuswep = 0
+						local nBonuswep = manager_weapon.CheckProficiency(nodeChar,sLabel)
+						nAtk_bonus = nAtk_bonus + nBonuswep
+						end
+									
+		
+											
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+					
+				</script>
+			</basicOSEnumber>
+		
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="0">
+					<top />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+
+			<button_char_inv_carried name="carried">
+				<anchored to="leftanchor" width="15" height="15">
+					<top offset="5" />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<script file="common/scripts/button_crosslink.lua" />
+			</button_char_inv_carried>
+		
+			<string_textlistitem name="name">
+				<anchored >
+					<top offset="8" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<readonly />
+				<script>function onInit()
+					
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomright", -2, -6);
+					          setHoverCursor("hand"); 
+					
+					end
+					
+					
+					function onDoubleClick(x, y, draginfo)
+					    ammo(draginfo);
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					    ammo(draginfo);
+					
+					return action(draginfo);
+					end
+					
+					function ammo(draginfo)
+					
+					local nodeChar = window.getDatabaseNode();
+					local sType = window.type_select.getValue();
+					if sType =="2" then sType = "Ranged" else sType="Melee" end
+					
+					    if sType == "Ranged" then
+					                local nAmmocur = window.ammo_box.getValue();
+					            if nAmmocur &lt;= 0 then
+					            local rActor = ActorManager.resolveActor(nodeChar);
+								ChatManager.Message(Interface.getString("char_message_atkwithnoammo"), true, rActor); 
+					            else 
+					            local nAmmocur = window.ammo_box.getValue();
+					            local nAmmonew = nAmmocur - 1;
+					            DB.setValue(nodeChar, "ammo_box", "number", nAmmonew);
+					            end
+					     end
+					end
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+									local nodeChar = DB.getChild(window.getDatabaseNode(),"...");
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local sType = window.type_select.getValue();
+					                local sLabel = window.name.getValue()
+									local nAtk_roll = window.atk_roll.getValue();
+									local nAtk_bonus = window.atk_bonus.getValue();
+									local Thaco = DB.getValue(nodeChar, "thaco");
+									local nPri = window.primary.getValue()
+									local nSec = window.secondary.getValue()
+
+									if sType =="2" then sType = "Ranged" else sType="Melee" end
+
+									if nPri == 1 then
+									nAtk_bonus = nAtk_bonus -2
+									elseif nSec ==1 then 
+									nAtk_bonus = nAtk_bonus -4
+									end
+						local bIsAdvance = OptionsManager.isOption("BEMP_WEAPON", "Yes");
+						local bIsBasic = OptionsManager.isOption("BEMP_WEAPON", "No");
+						local bIsDefault = (bIsBasic);	
+						
+						if bIsAdvance then
+						local nBonuswep = 0
+						local nBonuswep = manager_weapon.CheckProficiency(nodeChar,sLabel)
+						nAtk_bonus = nAtk_bonus + nBonuswep
+						end
+									
+									
+											
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+					
+				</script>
+			</string_textlistitem>
+
+			<hs name="type_select">
+				<bounds>430,12,102,20</bounds>
+				<invisible />
+				<script>function onInit()
+					
+					        updateBonus();
+					        
+							local nodePC = window.getDatabaseNode();
+					        local nodeChar = nodePC.getParent().getParent();
+					        			
+					        DB.addHandler(DB.getPath(nodeChar, "attmod_score"), "onUpdate", updateBonus);
+					        DB.addHandler(DB.getPath(nodeChar, "miss_bonus"), "onUpdate", updateBonus);
+					
+					
+					end 
+					
+					function onClose()
+							local nodePC = window.getDatabaseNode();
+					        local nodeChar = nodePC.getParent().getParent();	
+							DB.removeHandler(DB.getPath(nodeChar, "attmod_score*"), "onAdd", updateBonus);
+							DB.removeHandler(DB.getPath(nodeChar, "miss_bonus*"), "onAdd", updateBonus);
+					end
+					
+					
+					
+					function onValueChanged()
+					
+					return updateBonus();
+					
+					
+					end
+					
+					function updateBonus()
+					
+					
+					local nodeBonus = window.getDatabaseNode();
+					local nodeChar = nodeBonus.getParent().getParent();
+					local nMiBon = DB.getValue(nodeChar, "miss_bonus");
+					local nMebon = DB.getValue(nodeChar, "attmod_score");
+					local sType = window.type_select.getValue();
+					
+					if sType == "1" or sType == "3" then 
+					DB.setValue(nodeBonus, "atk_bonus", "number", nMebon);
+					DB.setValue(nodeBonus, "dmg_bonus", "number", nMebon);
+					
+					elseif sType =="2" then 
+					DB.setValue(nodeBonus, "dmg_bonus", "number", 0);
+					DB.setValue(nodeBonus, "atk_bonus", "number", nMiBon);
+					
+					
+					end
+					end
+				</script>
+			</hs>
+
+
+			<hs name="properties">
+				<invisible />
+			</hs>
+			<hn name="atk_bonus" />
+			<hn name="dmg_bonus" />
+		</sheetdata>
+	</windowclass>
+</root>

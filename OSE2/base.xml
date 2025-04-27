@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root version="3.0" release="0" logo="oselogo.png">
+	<announcement>
+		<text>Graphics based upon OSE box set by TheSimpleDM. Ruleset Adapted by Bayne and the JollyGM with permission from Necrotic Gnome.  Wound Overlays courtesy of DaddyOgreMan. Automatic Range modifiers adapted from Seaps</text>
+		<font>defaultstringcontrol</font>
+		<icon>OSE</icon>
+	</announcement>
+	<announcement>
+		<text>Necrotic Gnome  https://necroticgnome.com/</text>
+		<font>reference-i</font>
+	</announcement>
+	<announcement>
+		<text>If you would like to support ruleset development please think about buying one of my paid OSE extensions or the Official Products from Necrotic Gnome (link Provided).\rhttps://forge.fantasygrounds.com/crafter/168/view-profile</text>
+	</announcement>
+	<description>
+		<text>Ruleset Adapted by Bayne and the JollyGM with permission from Necrotic Gnome.</text>
+		<author>Jolly and Bayne</author>
+	</description>
+	<importruleset source="CoreRPG" />
+	<importinfo>
+		<acceptfrom ruleset="CoreRPG" />
+		<acceptfrom ruleset="2E" />
+	</importinfo>
+	<icon name="logo_OSE2" file="oselogo.png" />
+	<includefile source="gameelements.xml" />
+	<includefile source="campaign/ability_detail.xml" />
+	<includefile source="campaign/charsheet_abilities.xml" />
+	<includefile source="campaign/charsheet_classes.xml" />
+	<includefile source="campaign/charsheet_inventory.xml" />
+	<includefile source="campaign/charsheet_main.xml" />
+	<includefile source="campaign/charsheet_movement.xml" />
+	<includefile source="campaign/charsheet_notes.xml" />
+	<includefile source="campaign/charsheet_skillshow.xml" />
+	<includefile source="campaign/charsheet_spells.xml" />
+	<includefile source="campaign/charsheet_spellshow.xml" />
+	<includefile source="campaign/class_detail.xml" />
+	<includefile source="campaign/class_skill.xml" />
+	<includefile source="campaign/classability_detail.xml" />
+	<includefile source="campaign/ClassData_detail.xml" />
+	<includefile source="campaign/classskill_detail.xml" />
+	<includefile source="campaign/npc_generate.xml" />
+	<includefile source="campaign/npc_main.xml" />
+	<includefile source="campaign/npc_spells.xml" />
+	<includefile source="campaign/npc_spells_detail.xml" />
+	<includefile source="campaign/npc_spells_detail_ct.xml" />
+	<includefile source="campaign/NPC_weapons_detail.xml" />
+	<includefile source="campaign/npcpower.xml" />
+	<includefile source="campaign/npcpower_ct.xml" />
+	<includefile source="campaign/npcsheet_spellshow.xml" />
+	<includefile source="campaign/power.xml" />
+	<includefile source="campaign/race_detail.xml" />
+	<includefile source="campaign/skills_detail.xml" />
+	<includefile source="campaign/spelleffects_detail.xml" />
+	<includefile source="campaign/spells_detail.xml" />
+	<includefile source="campaign/spells_main.xml" />
+	<includefile source="campaign/sub_classdata.xml" />
+	<includefile source="campaign/sub_classmain.xml" />
+	<includefile source="campaign/sub_main.xml" />
+	<includefile source="campaign/sub_weapon.xml" />
+	<includefile source="campaign/subracedata.xml" />
+	<includefile source="campaign/subracemain.xml" />
+	<includefile source="campaign/char_weapon.xml" />
+	<includefile source="campaign/npc.xml" />
+	<includefile source="campaign/proficiency_item.xml" />
+	<includefile source="campaign/record_char.xml" />
+	<includefile source="campaign/record_class.xml" />
+	<includefile source="campaign/record_encounter.xml" />
+	<includefile source="campaign/record_item.xml" />
+	<includefile source="campaign/record_quest_OSE.xml" />
+	<includefile source="campaign/record_race.xml" />
+	<includefile source="campaign/record_skill.xml" />
+	<includefile source="campaign/record_spells.xml" />
+	<includefile source="campaign/template_campaign.xml" />
+	<includefile source="campaign/template_charOSE.xml" />
+	<includefile source="campaign/template_class.xml" />
+	<script name="char_effect_spell" file="campaign/scripts/char_effect_spell.lua" />
+	<script name="droprace" file="campaign/scripts/droprace.lua" />
+	<script name="manager_action_buildAdvPC" file="campaign/scripts/manager_action_buildAdvPC.lua" />
+	<script name="manager_action_spellsave" file="campaign/scripts/manager_action_spellsave.lua" />
+	<script name="manager_AdvRules" file="campaign/scripts/manager_AdvRules.lua" />
+	<script name="manager_char" file="campaign/scripts/manager_char.lua" />
+	<script name="manager_npcgenerate" file="campaign/scripts/manager_npcgenerate.lua" />
+	<script name="manager_resilience" file="campaign/scripts/manager_resilience.lua" />
+	<script name="managerOnresults" file="campaign/scripts/managerOnresults.lua" />
+	<script name="pcsavingthrow" file="campaign/scripts/pcsavingthrow.lua" />
+	<script name="power_window" file="campaign/scripts/power_window.lua" />
+	<includefile source="ct/ct_turn.xml" />
+	<includefile source="ct/ct_client.xml" />
+	<includefile source="ct/ct_client_entry.xml" />
+	<includefile source="ct/ct_host.xml" />
+	<includefile source="ct/ct_host_entry.xml" />
+	<includefile source="ct/ct_host_entry_section.xml" />
+	<includefile source="ct/ct_template.xml" />
+	<includefile source="ct/template_turn.xml" />
+	<includefile source="desktop/desktop_classes.xml" />
+	<includefile source="desktop/desktop_panels_OSE.xml" />
+
+	<includefile source="overlays/imagewindow.toolbar.xml" />
+	<includefile source="ps/template_ps.xml" />
+	<script name="PartyManager2" file="ps/scripts/PartyManager2.lua" />
+	<script name="ActorCommonManager2" file="scripts/ActorCommonManager2.lua" />
+	<script name="CharWeaponManager" file="scripts/CharWeaponManager.lua" />
+	<script name="CombatManager2" file="scripts/CombatManager2.lua" />
+	<script name="CombatManagerOSE" file="scripts/CombatManagerOSE.lua" />
+	<script name="data_desktopOSE" file="scripts/data_desktopOSE.lua" />
+	<script name="data_optionsOSE" file="scripts/data_optionsOSE.lua" />
+	<script name="DataCommon" file="scripts/DataCommon.lua" />
+	<script name="dataLibraryOSE" file="scripts/dataLibraryOSE.lua" />
+	<script name="GameSystem" file="scripts/GameSystem.lua" />
+	<script name="manager_ability" file="scripts/manager_ability.lua" />
+	<script name="Manager_AbilityScoreOSE" file="scripts/Manager_AbilityScoreOSE.lua" />
+	<script name="manager_action_attack" file="scripts/manager_action_attack.lua" />
+	<script name="manager_action_CTsaveroll" file="scripts/manager_action_CTsaveroll.lua" />
+	<script name="manager_action_damage" file="scripts/manager_action_damage.lua" />
+	<script name="manager_action_heal" file="scripts/manager_action_heal.lua" />
+	<script name="manager_action_spelldamage" file="scripts/manager_action_spelldamage.lua" />
+	<script name="manager_action_turn" file="scripts/manager_action_turn.lua" />
+	<script name="manager_actions2" file="scripts/manager_actions2.lua" />
+	<script name="manager_actor_OSE" file="scripts/manager_actor_OSE.lua" />
+	<script name="manager_duration" file="scripts/manager_duration.lua" />
+	<script name="manager_effect5E" file="scripts/manager_effect5E.lua" />
+	<script name="manager_effectOSE" file="scripts/manager_effectOSE.lua" />
+	<script name="manager_initiative" file="scripts/manager_initiative.lua" />
+	<script name="manager_reaction" file="scripts/manager_reaction.lua" />
+	<script name="manager_skill" file="scripts/manager_skill.lua" />
+	<script name="manager_vis" file="scripts/manager_vis.lua" />
+	<script name="manager_vision_OSE" file="scripts/manager_vision_OSE.lua" />
+	<script name="manager_weapon" file="scripts/manager_weapon.lua" />
+	<script name="OSE_Tables" file="scripts/OSE_Tables.lua" />
+	<script name="PowerManager" file="scripts/PowerManager.lua" />
+	<script name="token_overlay_manager" file="scripts/token_overlay_manager.lua" />
+	<includefile source="strings/strings.xml" />
+
+	<includefile source="vehicle/record_vehicle.xml" />
+	<includefile source="vehicle/vehicle_weapons_detail.xml" />
+
+	<includefile source="strings_OSE2.xml" />
+	<script name="RulesetWizardDiceRoller_OSE2_init" file="rulesetwizard/RulesetWizardDiceRoller_OSE2_init.lua" />
+	<script name="RulesetWizardDiceRoller" file="rulesetwizard/RulesetWizardDiceRoller.lua" />
+	<script name="RulesetWizard" file="rulesetwizard/RulesetWizard.lua" />
+	<includefile source="rulesetwizard/rswcombobox.xml" />
+	<includefile source="rulesetwizard/rswoptionlist.xml" />
+	<includefile source="rulesetwizard/rswdiefieldmodifier.xml" />
+	
+			<script name="DesktopThemeOSE24">
+			function onInit()
+
+				ColorManager.resetUIColors();
+				ColorManager.setSidebarCategoryIconColor("f03e00");
+				ColorManager.setSidebarCategoryTextColor("fefdfb");
+				ColorManager.setSidebarRecordIconColor("afd5a1");
+				ColorManager.setSidebarRecordTextColor("e1d5b5");
+				ColorManager.setButtonContentColor("002D4E");
+				ColorManager.setWindowMenuIconColor("002d4e");
+
+			end
+		</script>
+
+
+	<!-- Graphics -->
+	<includefile source="graphics/graphics_buttons.xml" />
+	<includefile source="graphics/graphics_fonts.xml" />
+	<includefile source="graphics/graphics_frames.xml" />
+	<includefile source="graphics/graphics_icons.xml" />
+	<includefile source="graphics/graphics_portraits.xml" />
+	<includefile source="graphics/graphics_radial.xml" />
+	<includefile source="graphics/graphics_sidebar.xml" />
+	<includefile source="graphics/graphics_tabs.xml" />
+
+</root>

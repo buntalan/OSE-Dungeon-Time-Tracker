@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+ 	<windowclass name="spells" copy="record_window_tabbed">
+
+		<tab>
+			<name>content</name>
+			<resource>tab_main</resource>
+			<class>spells_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>spelldata</name>
+			<resource>tab_other</resource>
+			<class>spells_data</class>
+			<embed />
+		</tab>
+		
+
+	</windowclass>
+	
+		<windowclass name="spells_data">
+		<margins control="0,0,0,7" />
+				<script file="campaign/scripts/spells_data.lua" />
+			
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<header_column name="spell_header">
+				<static textres="power_spelleffects_header"/>
+				<center />
+			</header_column>
+			<button_iedit name="spelleffects_iedit">
+				<anchored to="spell_header" position="righthigh" offset="-20,0" />
+				<target>spelleffects</target>
+			</button_iedit>
+
+			<button_iadd name="spelleffects_iadd">
+				<anchored to="spell_header" position="righthigh" offset="-42,0" />
+				<target>spelleffects</target>
+			</button_iadd>
+			
+			<list_column name="spelleffects">
+					<anchored>
+						<sizelimits >
+							<minimum >
+								<height>150</height>
+							</minimum>
+						</sizelimits>          
+					</anchored>
+				<class>spelleffects_detail</class>
+				<datasource>.spelleffects</datasource>
+				<allowdelete />
+			</list_column>
+
+
+			
+		</sheetdata>
+	</windowclass>    
+	            
+</root>      
+    

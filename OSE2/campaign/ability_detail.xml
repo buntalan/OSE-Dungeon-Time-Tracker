@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="ability_detail">
+		<placement>
+			<size height="30" width="425" />
+		</placement>
+		<sheetdata>
+			<stringfield name="skillname">
+				<bounds>58,7,246,21</bounds>
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>Ose_referencesmall</font>
+				<script>function onInit()
+					
+					onValueChanged()
+					
+					end
+					
+					function onValueChanged()
+					
+					if self.getValue() == window.name.getValue() then
+					
+					else
+					DB.setValue(window.getDatabaseNode(),"name", "string",self.getValue())
+					end
+					
+					
+					end
+				</script>
+			</stringfield>
+			<linkfield name="skills_link">
+				<bounds>-32,6,20,20</bounds>
+				<description>
+					<field>skillname</field>
+				</description>
+				<class>skills</class>
+				<selfonempty />
+				<allowdrop />
+			</linkfield>
+			<number name="ability_level">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>14,1,30,27</bounds>
+				<font>Ose-Reference</font>
+			</number>
+			<formattedtextfield name="description_text">
+				<frame offset="8,8,8,8" />
+				<bounds>436,8,156,7</bounds>
+				<invisible />
+			</formattedtextfield>
+			<button_idelete name="idelete">
+				<bounds>-31,6,20,20</bounds>
+				<icon normal="button_close" />
+				<font>button-white</font>
+			</button_idelete>
+			<hs name="name">
+				<script>function onValueChanged()
+					
+					if self.getValue() == window.skillname.getValue() then
+					
+					else
+					DB.setValue(window.getDatabaseNode(),"skillname","string", self.getValue())
+					end
+					
+					
+					end
+				</script>
+			</hs>
+		</sheetdata>
+	</windowclass>
+</root>

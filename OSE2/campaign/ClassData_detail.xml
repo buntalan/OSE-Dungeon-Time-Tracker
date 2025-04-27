@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="ClassData_detail">
+		<placement>
+			<size height="30" width="478" />
+		</placement>
+		<sizelimits resize="both">
+			<dynamic />
+		</sizelimits>
+		<sheetdata>
+			<basicnumber name="Level_class">
+				<bounds>3,0,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<stringfield name="HD_class">
+				<frame name="charsheetframe" offset="0,5,0,0" />
+				<bounds>92,5,30,25</bounds>
+				<tooltip textres="ClassData_detail_HD_class_Tooltip" />
+				<font>Ose_referencesmall</font>
+				<center></center>
+			</stringfield>
+			<number name="XP_class">
+				<frame name="ct_subgroupbox" />
+				<bounds>28,0,67,27</bounds>
+				<tooltip textres="ClassData_detail_XP_class_Tooltip" />
+				<font>Ose_referencesmall</font>
+			</number>
+			<basicnumber name="thaco_class">
+				<bounds>155,3,20,20</bounds>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<basicnumber name="SVD_num">
+				<bounds>187,3,20,20</bounds>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<basicnumber name="SVW_num">
+				<bounds>217,3,20,20</bounds>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<basicnumber name="SVP_num">
+				<bounds>247,3,20,20</bounds>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<basicnumber name="SVB_num">
+				<bounds>279,3,20,20</bounds>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<basicnumber name="SVS_num">
+				<bounds>309,3,20,20</bounds>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<stringfield name="HDbonus">
+				<frame name="charsheetframe" offset="0,5,0,0" />
+				<bounds>119,5,30,25</bounds>
+				<tooltip textres="ClassData_detail_HDbonus_Tooltip" />
+				<font>Ose_referencesmall</font>
+				<center></center>
+			</stringfield>
+			<basicnumber name="natural_ac">
+				<bounds>340,3,20,20</bounds>
+				<default>9</default>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</basicnumber>
+			<stringfield name="spells">
+				<frame name="fielddark" />
+				<bounds>-116,0,109,30</bounds>
+				<center />
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+</root>

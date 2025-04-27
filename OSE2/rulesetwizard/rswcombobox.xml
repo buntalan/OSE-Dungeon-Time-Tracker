@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<template name="rsw_combobox">
+		<simplestring>
+			<readonly />
+			<listdirection mergerule="replace">down</listdirection>
+			<script file="rulesetwizard/rswcombobox.lua"/>
+		</simplestring>
+	</template>
+</root>

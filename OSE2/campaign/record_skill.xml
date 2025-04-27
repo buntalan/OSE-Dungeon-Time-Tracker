@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="skills"  copy="record_window_tabbed">
+		<sizelimits>
+			<minimum width="225" height="225" />
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<gmexport>npc</gmexport>
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>skill_main</class>
+			<embed />
+		</tab>
+
+
+	</windowclass>		
+	
+	<windowclass name="skills_header" copy="record_header" />
+	<windowclass name="skill_main">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				die.setReadOnly(bReadOnly);
+				chance_success.setReadOnly(bReadOnly);
+				ability_level.setReadOnly(bReadOnly);
+				description_text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<label_column name="chance_success_label">
+				<static textres="skill_label_chance_success" />
+			</label_column>
+			<number_columnh name="chance_success" />
+			
+			<label_column name="die_label">
+				<static textres="skill_label_die" />
+			</label_column>
+			<string_columnh name="die" />
+			
+			<label_column name="ability_level_label">
+				<static textres="skill_label_ability_level" />
+			</label_column>
+			<number_columnh name="ability_level" />
+			
+			<ft_columnh name="description_text" />
+		</sheetdata>
+	</windowclass>
+</root>      
+	

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npc_spells">
+		<placement>
+			<size height="360" width="390" />
+		</placement>
+		<sizelimits resize="both">
+			<dynamic />
+		</sizelimits>
+		<sheetdata>
+			<button_stringcycler name="spellmode">
+				<frame name="groupbox" offset="7,5,7,5" />
+				<bounds>426,151,73,20</bounds>
+				<invisible />
+				<parameters>
+					<defaultlabelres>npc_spells_spellmode_DefaultLabel</defaultlabelres>
+					<labelsres>npc_spells_spellmode_Label_Prepare|npc_spells_spellmode_Label_Combat</labelsres>
+					<values>prep|combat</values>
+				</parameters>
+			</button_stringcycler>
+			<minHeightList name="powerlist">
+				<frame offset="5,15,5,15" />
+				<anchored>
+					<left offset="17" />
+					<right offset="-19" />
+					<top offset="55" />
+					<bottom offset="-64" />
+				</anchored>
+				<class>npcpower</class>
+				<datasource>.spellwindows</datasource>
+				<allowcreate />
+				<allowdelete />
+				<sortby>
+					<control>spelllabelstring</control>
+				</sortby>
+				<script file="common/scripts/list_text.lua"></script>
+				<newfocus>spelllabelframe</newfocus>
+			</minHeightList>
+			<button_iadd name="powerlist_iadd">
+				<anchored>
+					<right offset="-46" />
+					<top offset="25" anchor="bottom" parent="powerlist" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>powerlist</target>
+			</button_iadd>
+			<button_iedit name="powerlist_iedit">
+				<anchored>
+					<right offset="-23" />
+					<top offset="25" anchor="bottom" parent="powerlist" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="visibilityon" />
+				<font>button-white</font>
+				<target>powerlist</target>
+			</button_iedit>
+			<genericcontrol name="spelllabelframe">
+				<frame name="metalplate" />
+				<bounds>22,0,349,30</bounds>
+			</genericcontrol>
+			<stringcontrol name="spellpowerlabel">
+				<bounds>133,5,120,20</bounds>
+				<center />
+				<static textres="npc_spells_spellpowerlabel_LabelCaption" />
+				<font>subwindowsmalltitle</font>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

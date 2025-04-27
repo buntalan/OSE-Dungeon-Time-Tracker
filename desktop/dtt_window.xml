@@ -7,16 +7,22 @@
 			<top offset="20" />
 			<left offset="29" />
 		</anchored>
+        <size>
+            <width>500</width>
+            <height>250</height>
+        </size>
         <sheetdata>
             <windowtitlebar_utilitybox name="title" />
-			<!-- <stringcontrol name="testtext">
+			<stringcontrol name="dtt_title">
+                <frame name="windowtitle" />
                 <anchored>
-                    <top offset="20" />
-                    <left offset="20" />
+                    <top anchor="top" offset="0" />
+                    <left anchor="center" offset="0" />
                 </anchored>
+                <center />
                 <label>Hello World</label>
                 <default>Hello</default>
-            </stringcontrol> -->
+            </stringcontrol>
         </sheetdata>
 	</windowclass>
 </root>

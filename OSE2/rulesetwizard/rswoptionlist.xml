@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<template name="rsw_optionlist">
+		<genericcontrol>
+			<stateicons>
+				<on>button_checkon</on>
+				<off>button_checkoff</off>
+			</stateicons>
+			<script file="rulesetwizard/rswoptionlist.lua"/>
+		</genericcontrol>
+	</template>       
+</root>

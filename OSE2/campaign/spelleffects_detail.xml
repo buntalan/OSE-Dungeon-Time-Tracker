@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="spelleffects_detail">
+		<placement>
+			<size height="30" width="235" />
+		</placement>
+		<sheetdata>
+			<button_idelete name="idelete">
+				<bounds>-24,4,20,20</bounds>
+				<icon normal="button_close" />
+				<font>button-white</font>
+			</button_idelete>
+			<stringfield name="effects_name">
+				<frame name="ct_subgroupbox" offset="9,0,0,0" />
+				<bounds>37,0,-22,29</bounds>
+				<font>mini_name</font>
+			</stringfield>
+			<buttoncontrol name="effect_button">
+				<bounds>4,2,23,23</bounds>
+				<icon normal="effect_icon" />
+				<font>button-white</font>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+</root>

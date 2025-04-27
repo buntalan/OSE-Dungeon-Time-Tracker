@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ct_entry" merge="join">
+		<margins control="0,0,0,5" />
+		<sizelimits>
+			<minimum height="50" />
+		</sizelimits>
+		<script file="ct/scripts/ct_entry.lua" />
+		<sheetdata>
+			<hs name="status" />
+			<hnx name="numturned"/>
+			<hsx name="type" />
+			<hsx name="size" />
+			<hsx name="alignment" />
+			<hnx name="thaco" />
+			<hnx name="wis_bonus"/>
+
+			<hnx name="init_score" />
+			<hnx name="armor_class" />
+			<hsx name="speed" />
+
+			<hnx name="dsave_score"  />
+			<hnx name="wsave_score" />
+			<hnx name="bsave_score"  />
+			<hnx name="ssave_score"/>
+			<hnx name="psave_score"  />
+			<hnx name="poison"  />
+			<hnx name="maxhp_combat"  />
+			<hnx name="Level_current" />
+			<hn name="SvDamage_reduction"  />
+			<hnx name="level_field"/>
+			<hn name="hptotal"  />
+			<hn name="hd_current"/>
+			<hs name = "tags"/>
+
+			<button_ct_section_defense name="button_section_defense" insertbefore="button_section_space" />
+			<button_ct_section_active name="button_section_active" insertbefore="button_section_space" />
+
+			<number_ct_crosslink name="wounds" insertbefore="initresult">
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<min value="0" />
+				<hideonvalue value="0" />
+				<tabtarget prev="hptemp" next="strength" />
+				<script>
+					function handleDrop(draginfo)
+						if draginfo.getType() == "number" then
+						local node = window.getDatabaseNode();
+						local rActor = ActorManager.resolveActor(node);
+						local rRoll = { sDesc = draginfo.getDescription(), nTotal = draginfo.getNumberData() };
+						rRoll.bSecret = CombatManager.isCTHidden(node);
+											
+								if draginfo.getNumberData() &lt; 0 then
+									manager_action_heal.applyHeal(nil, rActor,false,"","",math.abs(draginfo.getNumberData()) );
+								else
+									manager_action_damage.applyDamage(nil, rActor,false,"","", draginfo.getNumberData() );
+								end
+						end
+					end
+
+					function update()
+						window.onHealthChanged();
+					end
+				</script>
+			</number_ct_crosslink>
+			<number_ct_crosslink name="temp_hp" insertbefore="initresult">
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<color>0000AA</color>
+				<hideonvalue value="0" />
+				<tabtarget prev="hp_current" next="wounds" />
+				<script>
+					function handleDrop(draginfo)
+						if draginfo.getNumberData() &gt; 0 then
+							setValue(draginfo.getNumberData());
+						else
+							setValue(getValue() + draginfo.getNumberData());
+						end
+					end
+
+					function update()
+						window.onHealthChanged();
+					end
+				</script>
+			</number_ct_crosslink>
+			<number_ct_crosslink name="hp_current" insertbefore="initresult">
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget prev="initresult" next="hptemp" />
+				<script>
+					function update()
+						window.onHealthChanged();
+					end
+				</script>
+			</number_ct_crosslink>
+
+			<sub_ct_section name="sub_active" insertbefore="sub_effects" />
+			<sub_ct_section name="sub_defense" insertbefore="sub_effects" />
+			<string_ct_entry_effects name="summary_effects" />
+		</sheetdata>
+	</windowclass>
+</root>

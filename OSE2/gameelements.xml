@@ -1,0 +1,48 @@
+<root>
+
+<distance>
+		<base>5</base>
+		<diagmult>1</diagmult>
+		<suffix>'</suffix>
+	</distance>
+	
+	
+<visionsettings>
+
+		<preset key="infravision" nameres="vision_infravision" gradcolor="FFF5B375" distance="12" intensity="70" />
+		<preset key="darkvision" nameres="vision_darkvision" gradcolor="FFFFFFFF" distance="12" />
+		<preset key="normal" nameres="vision_normal" gradcolor="FF001C48" distance="2" intensity="70"/>
+</visionsettings>	
+	
+	<!-- Dice -->
+	<die name="d4">
+		<icon>d4icon</icon>
+		<position>510,-70</position>
+	</die>
+	<die name="d6">
+		<icon>d6icon</icon>
+		<position>460,-70</position>
+	</die>
+	<die name="d8">
+		<icon>d8icon</icon>
+		<position>410,-70</position>
+	</die>
+	<die name="d10">
+		<icon>d10icon</icon>
+		<position>360,-70</position>
+	</die>
+	<die name="d12">
+		<icon>d12icon</icon>
+		<position>310,-70</position>
+	</die>
+	<die name="d20">
+		<icon>d20icon</icon>
+		<position>260,-70</position>
+	</die>
+
+	<die name="dF" merge="delete" />
+	<die name="rF" merge="delete" />
+	<die name="gF" merge="delete" />
+	<die name="bF" merge="delete" />
+	<die name="pF" merge="delete" />		
+</root>

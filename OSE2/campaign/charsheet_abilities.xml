@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="charsheet_abilities">
+		<script file="campaign/scripts/encum_options.lua" />
+		<placement>
+			<size height="750" width="474" />
+		</placement>
+		<script>
+			
+		</script>
+		<sheetdata>
+			<stringcontrol name="skillssheet_lable">
+				<bounds>9,8,70,30</bounds>
+				<center />
+				<static textres="charsheet_abilities_skillssheet_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<minHeightList name="skills_list">
+				<frame name="charsheetframe" offset="0,5,0,5" />
+				<anchored>
+					<left offset="27" />
+					<right offset="-22" />
+					<top offset="45" />
+				</anchored>
+				<class>skills_detail</class>
+				<datasource>.skillslist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>skills</class>
+					<field>*</field>
+				</acceptdrop>
+				<script file="common/scripts/list_text.lua"></script>
+			</minHeightList>
+			<stringcontrol name="skill_label">
+				<bounds>111,25,115,20</bounds>
+				<static textres="charsheet_abilities_skill_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<minHeightList name="ability_list">
+				<frame name="charsheetframe" offset="0,5,0,5" />
+				<anchored>
+					<left offset="27" />
+					<right offset="-22" />
+					<top offset="47" anchor="bottom" parent="skills_list" relation="current" />
+				</anchored>
+				<class>ability_detail</class>
+				<datasource>.abilitylist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>skills</class>
+					<field>*</field>
+				</acceptdrop>
+				<sortby>
+					<control>ability_level</control>
+				</sortby>
+				<script file="common/scripts/list_text.lua"></script>
+			</minHeightList>
+			<stringcontrol name="chaclassabilities_label">
+				<anchored>
+					<left offset="9" />
+					<top offset="7" anchor="bottom" parent="skills_list" relation="current" />
+					<size>
+						<width>116</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_abilities_chaclassabilities_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="abillevel_label">
+				<anchored>
+					<left offset="31" />
+					<top offset="26" anchor="bottom" parent="skills_list" relation="current" />
+					<size>
+						<width>51</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_abilities_abillevel_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="charability_label">
+				<anchored>
+					<left offset="111" />
+					<top offset="26" anchor="bottom" parent="skills_list" relation="current" />
+					<size>
+						<width>115</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="charsheet_abilities_charability_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<scrollbarcontrol name="charsheetabilityscroll_bar">
+				<frame name="scrollbar_base" offset="0,12,0,12" />
+				<anchored>
+					<left offset="446" />
+					<top offset="56" anchor="bottom" parent="skills_list" relation="current" />
+					<size>
+						<width>20</width>
+						<height>140</height>
+					</size>
+				</anchored>
+				<target>ability_list</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol>
+			<button_iadd name="ability_list_iadd">
+				<anchored>
+					<right offset="-43" />
+					<top offset="-25" anchor="top" parent="ability_list" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>ability_list</target>
+			</button_iadd>
+			<button_iedit name="ability_list_iedit">
+				<anchored>
+					<right offset="-19" />
+					<top offset="-25" anchor="top" parent="ability_list" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="visibilityon" />
+				<font>button-white</font>
+				<target>ability_list</target>
+			</button_iedit>
+			<list_proficiencies name="proficiencylist">
+				<frame name="charsheetframe" offset="0,5,0,5" />
+				<anchored>
+					<left offset="27" />
+					<right offset="-22" />
+					<top offset="50" anchor="bottom" parent="ability_list" relation="current" />
+				</anchored>
+				<class>proficiency_item</class>
+				<datasource>.proficiencylist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>skills</class>
+					<field>*</field>
+				</acceptdrop>
+				<sortby>
+					<control>ability_level</control>
+				</sortby>
+			</list_proficiencies>
+			<stringcontrol name="wpnproflabel">
+				<anchored>
+					<left offset="9" />
+					<top offset="10" anchor="bottom" parent="ability_list" relation="current" />
+					<size>
+						<width>160</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_abilities_wpnproflabel_LabelCaption" />
+				<font>reference-b-large</font>
+				<script>function onInit()
+					window.updateWeaponProf()
+					
+					OptionsManager.registerCallback("BEMP_WEAPON", window.updateWeaponProf);
+					end 
+					
+					function onClose()
+					
+					OptionsManager.unregisterCallback("BEMP_WEAPON", window.updateWeaponProf);
+					end
+				</script>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="namelabelwpnprof">
+				<anchored>
+					<left offset="31" />
+					<top offset="29" anchor="bottom" parent="ability_list" relation="current" />
+					<size>
+						<width>51</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_abilities_namelabelwpnprof_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<scrollbarcontrol name="wpnprofbar">
+				<frame name="scrollbar_base" offset="0,12,0,12" />
+				<anchored>
+					<left offset="446" />
+					<top offset="9" anchor="top" parent="proficiencylist" relation="current" />
+					<size>
+						<width>20</width>
+						<height>140</height>
+					</size>
+				</anchored>
+				<target>proficiencylist</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol>
+			<button_iadd name="proficiencylist_iadd">
+				<anchored>
+					<right offset="-43" />
+					<top offset="-25" anchor="top" parent="proficiencylist" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>proficiencylist</target>
+			</button_iadd>
+			<button_iedit name="proficiencylist_iedit">
+				<anchored>
+					<right offset="-19" />
+					<top offset="-25" anchor="top" parent="proficiencylist" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="visibilityon" />
+				<font>button-white</font>
+				<target>proficiencylist</target>
+			</button_iedit>
+			<button_iadd name="skills_list_iadd">
+				<bounds>-65,19,20,20</bounds>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>skills_list</target>
+			</button_iadd>
+			<button_iedit name="skills_list_iedit">
+				<bounds>-41,19,20,20</bounds>
+				<icon normal="visibilityon" />
+				<font>button-white</font>
+				<target>skills_list</target>
+			</button_iedit>
+			<stringcontrol name="Label1">
+				<bounds>283,25,113,20</bounds>
+				<static textres="charsheet_abilities_Label1_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="class" copy="record_window_tabbed">
+
+		<tab>
+			<name>SubWindowClassDesc</name>
+			<resource>class</resource>
+			<class>sub_classmain</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>SubWindowClassdata</name>
+			<resource>data</resource>
+			<class>sub_classdata</class>
+			<embed />
+		</tab>
+		
+	</windowclass>
+</root>

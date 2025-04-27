@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npc_spells_detail">
+		<placement>
+			<size height="35" width="350" />
+		</placement>
+		<sheetdata>
+			<stringfield name="name">
+				<frame name="fieldlight" offset="9,0,0,0" />
+				<bounds>35,4,-140,30</bounds>
+				<readonly />
+				<font>reference-b</font>
+				<script>function onInit()
+					
+					updateVisibility();
+					
+					local nodeChar = window.windowlist.window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "spellmode"), "onUpdate", updateVisibility);
+					DB.addHandler(DB.getPath(nodeChar, "Spelluse_type"), "onUpdate", updateVisibility);
+					end 
+					
+					function onClose()
+					
+					local nodeChar = window.windowlist.window.getDatabaseNode();
+					DB.removeHandler(DB.getPath(nodeChar, "spellmode*"), "onAdd", updateVisibility);
+					DB.addHandler(DB.getPath(nodeChar, "Spelluse_type"), "onUpdate", updateVisibility);
+					end
+					
+					
+					function updateVisibility()
+					
+					local nodeChar = window.windowlist.window.getDatabaseNode();
+					local nOnsave_cycler = window.onsave_cycler.getValue();
+					local sSpelltype = window.Spelluse_type.getValue();
+					                
+					 
+					    window.name.setVisible(true);
+					    window.spells_link.setVisible(true);
+					        if nOnsave_cycler == "3" then
+					        window.Tarsv_button.setVisible(false);
+					
+					        else
+					        window.Tarsv_button.setVisible(true);
+					
+					        end
+					     if sSpelltype == "Healing" then         
+					                window.Castnosv_button.setVisible(false);
+					
+					                window.spellheal_button.setVisible(true);  
+					                
+					     elseif  sSpelltype == "Damage" then           
+					                window.Castnosv_button.setVisible(true);
+					
+					                window.spellheal_button.setVisible(false);
+					                
+					     elseif sSpelltype == "Both" then   
+					                window.Castnosv_button.setVisible(true);
+					
+					                window.spellheal_button.setVisible(true);
+					    elseif sSpelltype == "None" then   
+					                window.Castnosv_button.setVisible(false);
+					
+					                window.spellheal_button.setVisible(false);
+					      end 
+					
+					    
+					
+					end
+				</script>
+			</stringfield>
+			<linkfield name="spells_link">
+				<bounds>-30,7,20,20</bounds>
+				<description>
+					<field>name</field>
+				</description>
+				<class>spells</class>
+				<selfonempty />
+				<allowdrop />
+			</linkfield>
+			<number name="modifier">
+				<bounds>349,12,24,17</bounds>
+				<invisible />
+				<default>0</default>
+			</number>
+			<buttoncontrol name="Tarsv_button">
+				<bounds>-132,9,15,15</bounds>
+				<tooltip textres="npc_spells_detail_Tarsv_button_Tooltip" />
+				<cursor>
+					<hover>hand</hover>
+				</cursor>
+				<icon normal="action_cast" pressed="button_sword_down" />
+				<script>function onClickDown()
+					
+					                local nodeLevel = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeLevel, ".....")
+					                local nLevel = DB.getValue(nodeChar, "hd_current");
+					                local nMult = window.level_field.getValue();
+					                local nNumdie = window.numbertoroll.getValue();
+					
+					                if nMult == "level" then
+					
+					
+					                    DB.setValue(nodeLevel, "level_cur", "number", nLevel);
+					                    local nlevelmod = window.level_cur.getValue();
+					                    local nTotaltoroll = nlevelmod* nNumdie; 
+					                    DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);                  
+					                else 
+					
+					                    local nTotaltoroll = 1; 
+					                    DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);  
+					                end
+					                
+					end
+					function onButtonPress()
+						return action();
+					end
+					
+					function action(dragInfo)
+						DiceRollString = "d20";
+						DiceRollDescription = "{name} Save";
+						GameSystem.actions["save"] = { bUseModStack = "true", sTargeting = "each" }
+						ActionsManager.registerResultHandler("save", manager_action_CTsaveroll.SpellDamageSaveHandler);
+						DiceRollAdditionalInfo = {};
+						DiceRollAdditionalInfo["onsave_cycler"] = "{onsave_cycler}";
+						DiceRollAdditionalInfo["save_type"] = "{save_type}";
+						if onBeforeDiceRoll then if onBeforeDiceRoll(dragInfo) == false then return; end; end;
+						local windataref = window.getDatabaseNode();
+						if windataref == nil then windataref = window; end;
+						RulesetWizardDiceRoller.Roll(dragInfo, windataref,"save", DiceRollDescription, DiceRollString, getValue(), DiceRollAdditionalInfo);
+						ModifierStack.reset();
+						if onAfterDiceRoll then onAfterDiceRoll(); end;
+						return true;
+					end
+					
+				</script>
+			</buttoncontrol>
+			<number name="level_cur">
+				<bounds>349,5,39,24</bounds>
+				<invisible />
+				<script>function onInit()
+					
+					updateSpell();
+					
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "level_field"), "onUpdate", updateSpell);
+					
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "level_field*"), "onAdd", updateSpell);
+					
+					end
+					
+					
+					
+					function updateSpell()
+					
+					                local nodeLevel = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeLevel, "...")
+					                local nLevel = DB.getValue(nodeChar, "Level_current");
+					                local nMult = window.level_field.getValue();
+					                local nNumdie = window.numbertoroll.getValue();
+					
+					                if nMult == "level" then
+					
+					
+					                DB.setValue(nodeLevel, "level_cur", "number", nLevel);
+					                local nlevelmod = window.level_cur.getValue();
+					                local nTotaltoroll = nlevelmod* nNumdie; 
+					                DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);  
+					                else 
+					
+					                DB.setValue(nodeLevel, "level_cur", "number", 1);
+					                local nlevelmod = window.level_cur.getValue();                
+					                local nTotaltoroll = nlevelmod* nNumdie; 
+					                DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);  
+					                end 
+					
+					                
+					                        
+					                                        
+					end               
+				</script>
+			</number>
+			<stringfield name="level_field">
+				<bounds>353,1,38,22</bounds>
+				<invisible />
+			</stringfield>
+			<number name="numbertoroll">
+				<bounds>366,6,35,25</bounds>
+				<invisible />
+			</number>
+			<number name="sumdie">
+				<bounds>357,2,39,24</bounds>
+				<invisible />
+			</number>
+			<stringfield name="onsave_cycler">
+				<bounds>349,8,33,14</bounds>
+				<invisible />
+			</stringfield>
+			<stringfield name="save_type">
+				<bounds>349,6,30,14</bounds>
+				<invisible />
+			</stringfield>
+			<buttoncontrol name="Castnosv_button">
+				<bounds>-97,9,15,15</bounds>
+				<tooltip textres="npc_spells_detail_Castnosv_button_Tooltip" />
+				<cursor>
+					<hover>hand</hover>
+				</cursor>
+				<icon normal="Spell_Damage" pressed="button_sword_down" />
+				<script>function onClickDown()
+					
+					                local nodeLevel = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeLevel, ".....")
+					                local nLevel = DB.getValue(nodeChar, "hd_current");
+					                local nMult = window.level_field.getValue();
+					                local nNumdie = window.numbertoroll.getValue();
+					
+					                if nMult == "level" then
+					
+					
+					                    DB.setValue(nodeLevel, "level_cur", "number", nLevel);
+					                    local nlevelmod = window.level_cur.getValue();
+					                    local nTotaltoroll = nlevelmod* nNumdie; 
+					                    DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);                  
+					                else 
+					              
+					                    local nTotaltoroll = 1; 
+					                    DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);  
+					                end
+					                              
+					end
+					
+					function onClickRelease()
+					actiondrag()
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return actiondrag(draginfo);
+					end
+					
+					
+					function actiondrag(draginfo)
+					
+					local sUse = window.Spelluse_type.getValue();
+					 
+					 if sUse == "None" or sUse =="Healing" or sUse =="" then
+					 
+					 else
+					                local nodeSpell = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeSpell,"...")
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local sLabel = window.name.getValue();
+									local sDie = window.spells_die.getValue();
+									local nSumdie = window.sumdie.getValue();
+									local nBonuses = window.modifier.getValue();
+									local sProperties = DB.getValue(nodeSpell,"properties","")
+									if sProperties:lower() =="" then sProperties= "mundane" end
+									local rString =StringManager.split(sDie, "d", true);
+									
+									if 	sDie ~= "" and rString[2] then	
+									local sNumberDie = tonumber(rString[1])*nSumdie;
+									sDie = sNumberDie.."d"..rString[2]	
+									else
+									sDie = "1d0";
+									end			
+					manager_action_spelldamage.performRoll(dragInfo,rActor, sLabel, sDie, nBonuses, sProperties); 
+					return true;				
+					end
+					end
+					                                  
+					                                           
+					                                                    
+					                                                             
+					              
+					
+					
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="spellheal_button">
+				<bounds>-61,9,15,15</bounds>
+				<tooltip textres="npc_spells_detail_spellheal_button_Tooltip" />
+				<cursor>
+					<hover>arrow</hover>
+				</cursor>
+				<icon normal="Action_Heal" pressed="button_sword_down" />
+				<script>function onClickDown()
+					
+					                local nodeLevel = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeLevel, ".....")
+					                local nLevel = DB.getValue(nodeChar, "hd_current");
+					                local nMult = window.level_field.getValue();
+					                local nNumdie = window.numbertoroll.getValue();
+					
+					
+					                if nMult == "level" then
+					
+					
+					                    DB.setValue(nodeLevel, "level_cur", "number", nLevel);
+					                    local nlevelmod = window.level_cur.getValue();
+					                    local nTotaltoroll = nlevelmod* nNumdie; 
+					                    DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);                  
+					                else 
+					
+					                   local nTotaltoroll = 1; 
+					                    DB.setValue(nodeLevel, "sumdie", "number", nTotaltoroll);  
+					                end
+					                
+					                
+					                   
+					end
+					function onClickRelease()
+					actiondrag()
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return actiondrag(draginfo);
+					end
+					
+					 function actiondrag(draginfo)
+					
+					local sUse = window.Spelluse_type.getValue();
+					if sUse == "None" or sUse =="Damage" or sUse =="" then
+					 
+					 else
+					
+					                local nodeSpell = window.getDatabaseNode();
+					                local nodeChar =  DB.getChild(nodeSpell, ".....")
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local sLabel = window.name.getValue();
+									local sDie = window.spells_die.getValue();
+									local nSumdie = window.sumdie.getValue();
+									local nBonuses = window.modifier.getValue();
+									
+									local rString =StringManager.split(sDie, "d", true);
+									if 	sDie ~= "" then	
+									local sNumberDie = tonumber(rString[1])*nSumdie;
+									local sDie = sNumberDie.."d"..rString[2]
+					manager_action_heal.performRoll(draginfo,rActor, sLabel, sDie, nBonuses); 
+					return true;	
+									else
+									local sDie = "1d0";
+										
+							
+					manager_action_heal.performRoll(draginfo,rActor, sLabel, sDie, nBonuses); 
+					return true;
+					end
+					end
+					end
+					                                  
+					                                           
+					                                                    
+					                                                             
+					              
+					
+					
+				</script>
+			</buttoncontrol>
+			<number name="spelllevel">
+				<bounds>349,11,22,16</bounds>
+				<invisible />
+				<backcolor>#FFFFFFFF</backcolor>
+				<script>function onValueChanged()
+					    window.windowlist.applySort();
+					end
+				</script>
+			</number>
+			<stringfield name="Spelluse_type">
+				<bounds>349,12,20,14</bounds>
+				<invisible />
+				<controlline />
+				<lineoffset>-2</lineoffset>
+				<script>function onInit()
+					
+					if self.getValue():lower() =="none" then
+					window.spellheal_button.setVisible(false)
+					window.Castnosv_button.setVisible(false)
+					elseif self.getValue():lower() =="both" then
+					window.spellheal_button.setVisible(true)
+					window.Castnosv_button.setVisible(true)
+					elseif self.getValue():lower() =="healing" then
+					window.spellheal_button.setVisible(true)
+					window.Castnosv_button.setVisible(false)
+					elseif self.getValue():lower() =="damage" then
+					window.spellheal_button.setVisible(false)
+					window.Castnosv_button.setVisible(true)
+					else
+					window.spellheal_button.setVisible(true)
+					window.Castnosv_button.setVisible(true)
+					end
+					
+					end
+				</script>
+			</stringfield>
+			<stringfield name="spells_die">
+				<bounds>384,4,83,19</bounds>
+				<invisible />
+				<readonly />
+			</stringfield>
+			<number name="activatedetail">
+				<bounds>362,4,28,24</bounds>
+				<invisible />
+				<default>0</default>
+			</number>
+			<buttoncontrol name="button_spellshow">
+				<bounds>3,8,25,25</bounds>
+				<icon normal="button_details" pressed="button_details_down" />
+				<font>button-white</font>
+				<script>function onInit()
+					toggleDetail();
+					end
+					
+					function onClickRelease()
+					local nStatus = window.activatedetail.getValue();
+					local nodeSpell = window.getDatabaseNode();
+					
+					if nStatus == 1 then
+					
+					DB.setValue(nodeSpell, "activatedetail","number", 0);
+					
+					else
+					DB.setValue(nodeSpell, "activatedetail", "number", 1);
+					end
+					
+					toggleDetail();
+					end
+					
+					
+					function toggleDetail()
+						local status = window.activatedetail.getValue();
+						
+						if status == 1 then
+						bStatus = true
+						else
+						bStatus = false
+						end
+						window.spelleffects.setVisible(bStatus);
+					
+					end
+				</script>
+			</buttoncontrol>
+			<windowlist name="spelleffects">
+				<anchored>
+					<left offset="47" />
+					<top offset="37" />
+					<size>
+						<width>300</width>
+					</size>
+				</anchored>
+				<class>npcsheet_spellshow</class>
+				<datasource>.spelleffects</datasource>
+				<allowcreate />
+			</windowlist>
+			<stringfield name="duration">
+				<bounds>355,3,150,20</bounds>
+				<invisible />
+				<controlline />
+				<lineoffset>-2</lineoffset>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+</root>

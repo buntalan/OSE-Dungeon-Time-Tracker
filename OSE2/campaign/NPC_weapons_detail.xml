@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="NPC_weapons_detail">
+		<placement>
+			<size height="33" width="400" />
+		</placement>
+		<sheetdata>
+			<basicstring name="name">
+				<anchored>
+					<left offset="4" />
+					<top offset="6" />
+					<size>
+						<width>79</width>
+					</size>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<script>
+					function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					
+					
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+									local nodeChar = DB.getChild(nodeWeapon,"...");
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local nSpace =   DB.getValue(nodeChar,"size","Medium")
+					                local sLabel = window.name.getValue().." [NPC] [SIZE "..nSpace.."]";
+									local nAtk_roll = window.atk_roll.getValue();
+									local sType = window.type_select.getValue();
+									local nAtk_bonus = 0;
+									local Thaco = DB.getValue(nodeChar, "thaco");
+					
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+				</script>
+			</basicstring>
+			<number name="atk_roll">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>88,0,30,27</bounds>
+				<font>Ose-Reference</font>
+				<script>function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					
+					
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeWeapon,"...");
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local nSpace =   DB.getValue(nodeChar,"size","Medium")
+					                local sLabel = window.name.getValue().." [NPC] [SIZE "..nSpace.."]";
+									local nAtk_roll = window.atk_roll.getValue();
+									local sType = window.type_select.getValue();
+									local nAtk_bonus = 0;
+									local Thaco = DB.getValue(nodeChar, "thaco");
+					
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+				</script>
+			</number>
+			<hs name="type_select">
+				<frame name="fielddark" offset="7,0,0,0" />
+				<bounds>10010,0,107,30</bounds>
+			</hs>
+			<stringfield name="Damagedie">
+				<frame name="fieldlight" />
+				<bounds>120,0,107,30</bounds>
+				<center></center>
+				<script>function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+									local nodeChar = DB.getChild(nodeWeapon,"...");
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local sProperties = DB.getValue(nodeWeapon,"properties","")	
+					                local sLabel = window.name.getValue().." ["..sProperties.."]";
+					                local sDamageDie= window.Damagedie.getValue();
+									local sString = string.match(sDamageDie, "%+(%d+)") or "0";
+									local nAtk_roll = window.atk_roll.getValue();
+									local nBonus = window.dmg_bonus.getValue();
+									local sType = window.type_select.getValue();
+									local sSub = " ";
+									local nDamageAdd = tonumber(sString)
+									
+										if Input.isShiftPressed() then
+										nDouble = 2
+										sLabel = sLabel.." [Double Damage]"
+										else
+										nDouble =1
+										end
+					
+					manager_action_damage.performRoll(dragInfo,rActor, sLabel, sDamageDie, nAtk_roll, nBonus, sType,sSub,nDamageAdd,nDouble); 
+					return true;
+					end
+				</script>
+			</stringfield>
+			<number name="dmg_bonus">
+				<bounds>493,0,60,23</bounds>
+				<invisible />
+				<readonly />
+				<min>0</min>
+				<max>0</max>
+				<default>0</default>
+			</number>
+			<basicstring name="properties">
+				<frame name="fielddark" offset="7,1,1,1" />
+				<bounds>234,1,106,28</bounds>
+			</basicstring>
+			<hs name="type">
+			</hs>
+			<hs name="subtype">
+			</hs>
+			<hs name="Damagedies">
+			<script>
+			function onFirstLayout()
+				local sValue = DB.getValue(window.getDatabaseNode(),"Damagedies","")
+					if sValue ~= "" then
+						DB.setValue(window.getDatabaseNode(),"Damagedie","string",sValue)
+						DB.setValue(window.getDatabaseNode(),"Damagedies","string","")
+					end
+			end
+			</script>
+			</hs>
+			<rsw_combobox name="andoroperator">
+				<frame name="fieldlight" offset="7,5,7,5" />
+				<bounds>347,7,41,15</bounds>
+				<empty textres="NPC_weapons_detail_andoroperator_EmptyText" />
+				<script>
+					function onInit()
+					
+					super.onInit();
+					add("or","or");
+					add("and","and");
+					add("plus","plus");
+					add("dash","-");
+					end
+					
+				</script>
+			</rsw_combobox>
+			<button_idelete name="idelete">
+				<bounds>378,7,18,18</bounds>
+			</button_idelete>
+		</sheetdata>
+	</windowclass>
+</root>

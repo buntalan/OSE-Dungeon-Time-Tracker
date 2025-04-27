@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="class_skill">
+		<frame>charsheetframe</frame>
+		<placement>
+			<size height="298" width="705" />
+		</placement>
+		<sizelimits resize="both">
+			<maximum height="350" />
+			<dynamic />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>Window_class_skill_Title</resource>
+			</windowtitlebar>
+			<minHeightList name="skilldata_window">
+				<anchored>
+					<left offset="17" />
+					<top offset="64" />
+					<size>
+						<width>639</width>
+					</size>
+				</anchored>
+				<class>classskill_detail</class>
+				<datasource>.classskills</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>skills</class>
+					<field>*</field>
+				</acceptdrop>
+			</minHeightList>
+			<stringcontrol name="skillname_label">
+				<bounds>17,24,60,37</bounds>
+				<static textres="class_skill_skillname_label_LabelCaption" />
+				<multilinespacing>16</multilinespacing>
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label1">
+				<bounds>160,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label1_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label2">
+				<bounds>193,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label2_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label3">
+				<bounds>230,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label3_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label4">
+				<bounds>264,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label4_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label5">
+				<bounds>297,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label5_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label6">
+				<bounds>331,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label6_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label7">
+				<bounds>365,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label7_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label8">
+				<bounds>401,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label8_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label9">
+				<bounds>437,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label9_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label10">
+				<bounds>471,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label10_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label11">
+				<bounds>508,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label11_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label12">
+				<bounds>545,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label12_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label13">
+				<bounds>579,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label13_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label14">
+				<bounds>611,41,20,18</bounds>
+				<center />
+				<static textres="class_skill_Label14_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<close_recordsheet name="close_button">
+				<bounds>-26,6,22,21</bounds>
+				<icon normal="button_close" pressed="button_close_down" />
+				<font>button-white</font>
+			</close_recordsheet>
+			<stringcontrol name="dielabel">
+				<bounds>113,41,32,18</bounds>
+				<center />
+				<static textres="class_skill_dielabel_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

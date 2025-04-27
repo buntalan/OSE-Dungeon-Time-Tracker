@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="power">
+		<script file="campaign/scripts/power_window.lua" />
+		<placement>
+			<size height="90" width="460" />
+		</placement>
+		<sheetdata>
+			<minHeightList name="spellslist">
+				<frame offset="5,0,5,0" />
+				<anchored>
+					<left offset="19" />
+					<right offset="-26" />
+					<top offset="36" />
+				</anchored>
+				<class>spells_detail</class>
+				<datasource>.spellslist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>spells</class>
+					<field>*</field>
+				</acceptdrop>
+				<sortby>
+					<control>spelllevel</control>
+					<control>name</control>
+				</sortby>
+				<script file="common/scripts/list_text.lua"></script>
+			</minHeightList>
+			<scrollbarcontrol name="Spellscroll_bar">
+				<frame name="scrollbar_base" offset="0,12,0,12" />
+				<bounds>437,42,20,21</bounds>
+				<target>spellslist</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol>
+			<genericcontrol name="spelllabelframe">
+				<frame name="metalplate" />
+				<bounds>0,3,-10,30</bounds>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<bounds>-36,5,20,20</bounds>
+				<icon normal="button_close" />
+				<font>button-white</font>
+			</button_idelete>
+			<powerstring name="spelllabelstring">
+				<anchored>
+					<left anchor="center" offset="-65" />
+					<right anchor="center" offset="55" />
+					<top offset="6" />
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tooltip textres="power_spelllabelstring_Tooltip" />
+				<center />
+				<default textres="power_spelllabelstring_DefaultText" />
+				<font>subwindowsmalltitle</font>
+				<script>function onInit()
+					local bWindow = window.idelete.isVisible()
+						if not bWindow then
+						window.spelllabelstring.setReadOnly(true)
+						else
+						window.spelllabelstring.setReadOnly(false)
+						end
+					end
+					function onClickDown()
+					local bWindow = window.idelete.isVisible()
+					
+						if not bWindow then
+						window.spelllabelstring.setReadOnly(true)
+						return window.actionDrag(draginfo);
+						else
+						window.spelllabelstring.setReadOnly(false)
+						end
+					
+					end
+				</script>
+			</powerstring>
+			<button_iadd name="spellslist_iadd">
+				<bounds>6,9,20,20</bounds>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>spellslist</target>
+			</button_iadd>
+		</sheetdata>
+	</windowclass>
+</root>

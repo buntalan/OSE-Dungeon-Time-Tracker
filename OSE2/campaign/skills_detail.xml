@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="skills_detail">
+		<placement>
+			<size height="30" width="425" />
+		</placement>
+		<sheetdata>
+			<stringfield name="skillname">
+				<frame offset="7,0,0,0" />
+				<bounds>9,4,214,23</bounds>
+				<readonly />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>Ose_referencesmall</font>
+				<script>function onInit()
+					        local w = addBitmapWidget("field_rollable");
+					        w.setPosition("bottomright", 1, -5);
+					        setHoverCursor("hand"); 
+							onValueChanged()
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+									local nodeChar = DB.getChild(window.getDatabaseNode(),"...");
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					
+					                local nSelf = DB.getValue(window.getDatabaseNode(),"chance_success",0) 
+					                local sName = window.skillname.getValue();
+					                local sDice = DB.getValue(window.getDatabaseNode(),"die","d100")
+									local bIsD6 = OptionsManager.isOption("OPT_D6", "on");	
+									local rThiefSkill = OSE_Tables.thiefSkills
+									local sClass = 	DB.getValue(nodeChar,"class_field","") 
+									local bThief = false
+									if sClass =="" then sClass = DB.getValue(nodeChar,"multiclassname","") end
+									if string.find (sClass:lower(),"thief") then bThief = true end
+					
+						if bIsD6 and StringManager.isWord(sName:lower(), rThiefSkill) and bThief then
+						aDice ={"d6"}
+						sDice = "6"
+						else
+					    aDice = StringManager.convertStringToDice(sDice , true)
+						end            
+						
+					        manager_skill.performroll(dragInfo, rActor,  nSelf, sName, aDice, StringManager.extractPattern(sDice, "%d+")); 
+					        return true; 
+					end
+					
+					function onValueChanged()
+					
+					if self.getValue() == window.name.getValue() then
+					
+					else
+					DB.setValue(window.getDatabaseNode(),"name", "string",self.getValue())
+					end
+					
+					
+					end
+				</script>
+			</stringfield>
+			<number name="chance_success">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>296,1,30,27</bounds>
+				<font>Ose-Reference</font>
+			</number>
+			<linkfield name="skills_link">
+				<bounds>-30,5,20,20</bounds>
+				<description>
+					<field>skillname</field>
+				</description>
+				<class>skills</class>
+				<selfonempty />
+				<allowdrop />
+			</linkfield>
+			<hs name="die">
+				<default textres="skills_detail_die_DefaultText" />
+			</hs>
+			<button_idelete name="idelete">
+				<bounds>-30,6,20,20</bounds>
+				<icon normal="button_close" />
+				<font>button-white</font>
+			</button_idelete>
+			<hs name="name">
+				<script>function onValueChanged()
+					
+					if self.getValue() == window.skillname.getValue() then
+					
+					else
+					DB.setValue(window.getDatabaseNode(),"skillname","string", self.getValue())
+					end
+					
+					
+					end
+				</script>
+			</hs>
+		</sheetdata>
+	</windowclass>
+</root>

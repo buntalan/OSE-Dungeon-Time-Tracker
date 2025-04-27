@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npcsheet_spellshow">
+		<script file="campaign/scripts/char_effect_spell.lua" />
+		<placement>
+			<size height="35" width="296" />
+		</placement>
+		<sheetdata>
+			<stringfield name="effects_name">
+				<frame name="fielddark" offset="7,0,0,0" />
+				<bounds>50,3,196,29</bounds>
+				<font>Ose_referencesmall</font>
+				<script>function onDragStart(button, x, y, draginfo)
+									local nodeEffect = window.getDatabaseNode()
+									local sEffect =window.effects_name.getValue();
+									DB.setValue(nodeEffect, "label","string",sEffect);
+									
+										return window.actionDrag(draginfo);
+					end
+				</script>
+			</stringfield>
+			<number name="duration">
+				<frame name="fielddark" />
+				<bounds>254,2,38,31</bounds>
+				<tooltip textres="npcsheet_spellshow_duration_Tooltip" />
+				<default>0</default>
+			</number>
+			<buttoncontrol name="effect_button">
+				<bounds>6,4,29,28</bounds>
+				<icon normal="effect_icon" pressed="gnome" />
+				<script>function onDragStart(button, x, y, draginfo)
+									local nodeEffect = window.getDatabaseNode()
+									local sEffect =window.effects_name.getValue();
+									DB.setValue(nodeEffect, "label","string",sEffect);
+									
+										return window.actionDrag(draginfo);
+					end
+					
+					function onButtonPress(x, y)
+					local nodespell = window.getDatabaseNode()
+					local sEffect = window.effects_name.getValue();
+					local nDuration = window.duration.getValue();
+					local nodeChar = DB.getChild(nodespell,"...");
+					local sName = DB.getValue(nodeChar,"name", "");
+					local rSource = ActorManager.resolveActor(nodeChar);
+					local aTarget = TargetingManager.getFullTargets(rSource)
+					
+					return manager_effectOSE.EffectHandler(rSource, aTarget,sEffect,nDuration);
+									
+					
+					end
+				</script>
+			</buttoncontrol>
+			<stringfield name="label">
+				<bounds>302,4,150,20</bounds>
+				<invisible />
+				<controlline />
+				<lineoffset>-2</lineoffset>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+</root>

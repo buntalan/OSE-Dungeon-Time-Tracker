@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="sub_main">
+		<placement>
+			<size height="414" width="315" />
+		</placement>
+		<margins control="1,1,1,1" />
+		<script>function onInit()
+			local nodeRecord = getDatabaseNode();
+			local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+			update(bReadOnly)
+			updateEnc();
+			OptionsManager.registerCallback("BEMP_ENCTYPE", updateEnc);
+			end
+			
+			
+			function onClose()
+			OptionsManager.unregisterCallback("BEMP_ENCTYPE", updateEnc);
+			end
+			
+			function updateEnc()
+				local bIsAdvance = OptionsManager.isOption("BEMP_ENCTYPE", "Detailed");
+				local bIsItemBased = OptionsManager.isOption("BEMP_ENCTYPE", "Item");
+				local bIsDefault = (bIsAdvance);
+			local aMod = Module.getModuleInfo("OSE Carcass Crawler 02")
+						weight_label.setVisible(true)
+						weight.setVisible(true)
+						encumbrance.setVisible(false)
+						encumbrance_label.setVisible(false) 
+						
+			if aMod ~= nil then
+					if  aMod.loaded then
+					
+						if bIsItemBased then
+						weight_label.setVisible(false)
+						weight.setVisible(false)
+						encumbrance.setVisible(true)
+						encumbrance_label.setVisible(true)
+						else
+						weight_label.setVisible(true)
+						weight.setVisible(true)
+						encumbrance.setVisible(false)
+						encumbrance_label.setVisible(false)
+						end
+					end
+			end 
+			end
+			
+			
+			function update(bReadOnly)
+			
+			type.setReadOnly(bReadOnly);
+			subtype.setReadOnly(bReadOnly);
+			acbase.setReadOnly(bReadOnly);
+			weight.setReadOnly(bReadOnly);
+			encumbrance.setReadOnly(bReadOnly);
+			bonus.setReadOnly(bReadOnly);
+			description.setReadOnly(bReadOnly);
+			cover_label.setVisible(bReadOnly)
+			cover_label.bringToFront()
+			if bReadOnly then 
+			spelleffects_iadd.setVisible(false)
+			spelleffects_iedit.setVisible(false)
+			else
+			spelleffects_iadd.setVisible(true)
+			spelleffects_iedit.setVisible(true)
+			end
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<label_column name="type_label">
+				<static textres="sub_main_type_label_LabelCaption" />
+				<script>function onInit()
+					updateItem();
+					end
+					
+					
+					function updateItem()
+					        local nodeItem = window.getDatabaseNode();
+					        
+					        local sType = DB.getValue(nodeItem, "type", "string", Type);
+					        local sSubtype = DB.getValue(nodeItem, "subtype", "string", Subtype);
+					        
+					
+					        if sType == "Armor" then
+					        window.acbase_label.setVisible(true);
+					        window.acbase.setVisible(true);
+					        window.bonus_label.setVisible(true);
+					        window.bonus.setVisible(true);
+					        
+					        elseif sType == "Shield" then 
+					        window.acbase.setVisible(false);
+					        window.acbase_label.setVisible(false);
+								if sSubtype == "Magic" then
+					        window.bonus_label.setVisible(true);
+					        window.bonus.setVisible(true);
+								else
+					        window.bonus.setVisible(false);
+					        window.bonus_label.setVisible(false);
+								end
+					                
+					        else
+					        window.acbase_label.setVisible(false);
+					        window.acbase.setVisible(false);
+					        window.bonus.setVisible(false);
+					        window.bonus_label.setVisible(false);
+					 
+					end
+					end
+				</script>
+				<readonly />
+			</label_column>
+			<combobox_column name="type">
+				<empty textres="sub_main_type_EmptyText" />
+				<listdirection>down</listdirection>
+				<script>
+					function onValueChanged()
+					updateItem();
+					end
+					
+					function updateItem()
+					        local nodeItem = window.getDatabaseNode();
+					        
+					        local sType = DB.getValue(nodeItem, "type", "string", Type);
+					        local sSubtype = DB.getValue(nodeItem, "subtype", "string", Subtype);
+					        
+					              
+					       
+					       
+					        if sType == "Armor" then
+					        window.acbase_label.setVisible(true);
+					        window.acbase.setVisible(true);
+					        window.bonus_label.setVisible(true);
+					        window.bonus.setVisible(true);
+					        elseif sType == "Shield" then 
+					        window.acbase.setVisible(false);
+					        window.acbase_label.setVisible(false);
+								if sSubtype == "Magic" then
+					        window.bonus_label.setVisible(true);	
+					        window.bonus.setVisible(true);
+								else
+					        window.bonus.setVisible(false);
+					        window.bonus_label.setVisible(false);
+								end
+					
+					                
+					        else
+					        window.acbase.setVisible(false);
+					        window.bonus.setVisible(false);
+					        window.acbase_label.setVisible(false);
+					        window.bonus_label.setVisible(false);
+					
+					 
+					end
+					end
+					function onInit()
+					
+					super.onInit();
+					add("Armor","Armor");
+					add("Shield","Shield");
+					add("Weapon","Weapon");
+					add("Gear","Gear");
+					add("Container","Container");
+					add("Scroll","Scroll");
+					add("Wand","Wand");
+					add("Ring","Ring");
+					add("Treasure","Treasure");
+					add("Cloak","Cloak");
+					add("Potion","Potion");
+					add("Staff","Staff");
+					add("Gem","Gem");
+					add("Tool","Tool");
+					add("Jewelry","Jewelry");
+					add("Art","Art");
+					add("Ammunition","Ammunition");
+					add("Animal","Animal");
+					add("Transport","Transport");
+					add("Provisions","Provisions");
+					add("Daily Food and Lodging","Daily Food and Lodging");
+					add("Robe","Robe");
+					add("Book","Book");
+					end
+					
+				</script>
+			</combobox_column>
+			<label_column name="subtype_label">
+				<static textres="sub_main_subtype_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<combobox_column name="subtype">
+				<empty textres="sub_main_subtype_EmptyText" />
+				<listdirection>down</listdirection>
+				<script>
+					function onValueChanged()
+					updateItem();
+					end
+					
+					function updateItem()
+					        local nodeItem = window.getDatabaseNode();
+					        
+					        local sType = DB.getValue(nodeItem, "type", "string", Type);
+					        local sSubtype = DB.getValue(nodeItem, "subtype", "string", Subtype);
+					       
+					
+					        if sType == "Armor" then
+					        window.acbase_label.setVisible(true);
+					        window.acbase.setVisible(true);
+					        window.bonus_label.setVisible(true);
+					        window.bonus.setVisible(true);
+					        
+					        elseif sType == "Shield" then 
+					        window.acbase.setVisible(false);
+					        window.acbase_label.setVisible(false);
+								if sSubtype == "Magic" then
+					        window.bonus_label.setVisible(true);
+					        window.bonus.setVisible(true);
+					
+								else
+					        window.bonus.setVisible(false);
+					        window.bonus_label.setVisible(false);
+								end
+					
+					                
+					        else
+					        window.acbase.setVisible(false);
+					        window.bonus.setVisible(false);
+					        window.acbase_label.setVisible(false);
+					        window.bonus_label.setVisible(false);
+					
+					end
+					end
+					function onInit()
+					
+					super.onInit();
+					add("Magic","Magic");
+					add("Weapon","Weapon");
+					add("Std. Equipment","Std. Equipment");
+					add("Gear","Gear");
+					add("Container","Container");
+					add("Scroll","Scroll");
+					add("Wand","Wand");
+					add("Gem","Gem");
+					add("Cloak","Cloak");
+					add("Potion","Potion");
+					add("Staff","Staff");
+					add("Provisions","Provisions");
+					add("Other","Other");
+					add("Jewelry","Jewelry");
+					add("Art","Art");
+					add("Ammunition","Ammunition");
+					add("Tool","Tool");
+					add("Animal","Animal");
+					add("Daily Food and Lodging","Daily Food and Lodging");
+					add("Tool","Tool");
+					add("Robe","Robe");
+					end
+					
+				</script>
+			</combobox_column>
+			<label_column name="weight_label">
+				<static textres="sub_main_weight_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<number_columnh name="weight">
+				<default>0</default>
+			</number_columnh>
+			<label_column name="encumbrance_label">
+				<tooltip textres="sub_main_encumbrance_label_Tooltip" />
+				<static textres="sub_main_encumbrance_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<number_columnh name="encumbrance">
+				<tooltip textres="sub_main_encumbrance_Tooltip" />
+				<default>0</default>
+			</number_columnh>
+			<label_column name="acbase_label">
+				<static textres="sub_main_acbase_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<number_columnh name="acbase">
+				<gmeditonly />
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose-Reference</font>
+			</number_columnh>
+			<label_column name="bonus_label">
+				<static textres="sub_main_bonus_label_LabelCaption" />
+				<multilinespacing>0</multilinespacing>
+				<readonly />
+			</label_column>
+			<number_columnh name="bonus">
+				<gmeditonly />
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose-Reference</font>
+			</number_columnh>
+			<header_column name="effect_label">
+				<static textres="sub_main_effect_label_LabelCaption" />
+				<readonly />
+			</header_column>
+			<list_column name="spelleffects">
+				<class>spelleffects_detail</class>
+				<datasource>.spelleffects</datasource>
+				<allowdelete />
+			</list_column>
+			<button_iadd name="spelleffects_iadd">
+				<anchored>
+					<right offset="-37" />
+					<top offset="-27" anchor="top" parent="spelleffects" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>spelleffects</target>
+			</button_iadd>
+			<button_iedit name="spelleffects_iedit">
+				<anchored>
+					<right offset="-13" />
+					<top offset="-27" anchor="top" parent="spelleffects" relation="current" />
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon normal="visibilityon" />
+				<font>button-white</font>
+				<target>spelleffects</target>
+			</button_iedit>
+			<line_column name="divider_effect">
+				<readonly />
+			</line_column>
+			<ft_column name="description">
+				<frame offset="16,20,16,12" />
+				<tooltip textres="sub_main_description_Tooltip" />
+			</ft_column>
+			<stringcontrol name="cover_label">
+				<anchored>
+					<left offset="68" />
+					<right offset="-4" />
+					<top offset="-1" anchor="top" parent="type" relation="current" />
+					<size>
+						<height>63</height>
+					</size>
+				</anchored>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

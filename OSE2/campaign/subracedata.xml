@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="subracedata">
+		<placement>
+			<size height="394" width="285" />
+		</placement>
+		<sizelimits resize="both">
+			<dynamic />
+		</sizelimits>
+		<script>function onInit()
+				self.update();
+			end
+			
+			function update()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+			
+			asenses.setReadOnly(bReadOnly);
+			ldrace_score.setReadOnly(bReadOnly);
+			asdrace_score.setReadOnly(bReadOnly);
+			ftrace_score.setReadOnly(bReadOnly);
+			meleeracial_Bonus.setReadOnly(bReadOnly);
+			missracial_bonus.setReadOnly(bReadOnly);
+			int_scoreBonus.setReadOnly(bReadOnly);
+			astr_scoreBonus.setReadOnly(bReadOnly);
+			awis_scoreBonus.setReadOnly(bReadOnly);
+			chr_scoreBonus.setReadOnly(bReadOnly);
+			con_scoreBonus.setReadOnly(bReadOnly);
+			ctrace_score.setReadOnly(bReadOnly);
+			dex_scoreBonus.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<stringcontrol name="sense_label">
+				<bounds>2,10,65,20</bounds>
+				<static textres="subracedata_sense_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringfield name="asenses">
+				<bounds>79,11,150,20</bounds>
+				<controlline />
+				<lineoffset>0</lineoffset>
+			</stringfield>
+			<stringcontrol name="ld_lable">
+				<bounds>6,51,35,30</bounds>
+				<tooltip textres="subracedata_ld_lable_Tooltip" />
+				<center />
+				<static textres="subracedata_ld_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="sd_label">
+				<bounds>75,51,35,30</bounds>
+				<tooltip textres="subracedata_sd_label_Tooltip" />
+				<center />
+				<static textres="subracedata_sd_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="ft_lable">
+				<bounds>146,51,35,30</bounds>
+				<center />
+				<static textres="subracedata_ft_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="ldrace_score">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>46,55,24,24</bounds>
+				<tooltip textres="subracedata_ldrace_score_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<font>reference-b-large</font>
+			</number>
+			<number name="asdrace_score">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>117,55,24,24</bounds>
+				<tooltip textres="subracedata_asdrace_score_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<font>reference-b-large</font>
+			</number>
+			<number name="ftrace_score">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>188,55,24,24</bounds>
+				<tooltip textres="subracedata_ftrace_score_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="mel_combat">
+				<bounds>8,168,33,30</bounds>
+				<center />
+				<static textres="subracedata_mel_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="mis_combat">
+				<bounds>119,168,35,30</bounds>
+				<center />
+				<static textres="subracedata_mis_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="meleeracial_Bonus">
+				<frame name="attboxose_icon" />
+				<bounds>46,168,28,30</bounds>
+				<tooltip textres="subracedata_meleeracial_Bonus_Tooltip" />
+				<gmeditonly />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<number name="missracial_bonus">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>169,171,24,24</bounds>
+				<tooltip textres="subracedata_missracial_bonus_Tooltip" />
+				<gmeditonly />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="abil_label">
+				<bounds>2,211,141,20</bounds>
+				<static textres="subracedata_abil_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="skill_label">
+				<bounds>2,30,82,20</bounds>
+				<static textres="subracedata_skill_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="str_att">
+				<bounds>4,235,32,25</bounds>
+				<center />
+				<static textres="subracedata_str_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="int_att">
+				<bounds>101,236,32,25</bounds>
+				<center />
+				<static textres="subracedata_int_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="wis_att">
+				<bounds>201,236,32,25</bounds>
+				<center />
+				<static textres="subracedata_wis_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="dex_att">
+				<bounds>4,282,32,25</bounds>
+				<center />
+				<static textres="subracedata_dex_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="con_att">
+				<bounds>101,279,32,25</bounds>
+				<center />
+				<static textres="subracedata_con_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="chr_att">
+				<bounds>201,281,32,25</bounds>
+				<center />
+				<static textres="subracedata_chr_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="int_scoreBonus">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>144,239,24,24</bounds>
+				<tooltip textres="subracedata_int_scoreBonus_Tooltip" />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<number name="awis_scoreBonus">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>244,238,24,24</bounds>
+				<tooltip textres="subracedata_awis_scoreBonus_Tooltip" />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<number name="dex_scoreBonus">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>48,282,24,24</bounds>
+				<tooltip textres="subracedata_dex_scoreBonus_Tooltip" />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<number name="con_scoreBonus">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>144,282,24,24</bounds>
+				<tooltip textres="subracedata_con_scoreBonus_Tooltip" />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<number name="chr_scoreBonus">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>244,281,24,24</bounds>
+				<tooltip textres="subracedata_chr_scoreBonus_Tooltip" />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<number name="astr_scoreBonus">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>48,236,24,24</bounds>
+				<tooltip textres="subracedata_astr_scoreBonus_Tooltip" />
+				<default>0</default>
+				<displaysign />
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="racialattk_label">
+				<bounds>2,144,201,20</bounds>
+				<static textres="subracedata_racialattk_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="ct_label">
+				<bounds>215,51,35,30</bounds>
+				<center />
+				<static textres="subracedata_ct_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="ctrace_score">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>258,55,24,24</bounds>
+				<tooltip textres="subracedata_ctrace_score_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="hunt_label">
+				<bounds>6,93,50,30</bounds>
+				<tooltip textres="subracedata_hunt_label_Tooltip" />
+				<center />
+				<static textres="subracedata_hunt_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="hide_label">
+				<bounds>104,93,45,30</bounds>
+				<center />
+				<static textres="subracedata_hide_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="huntrace_score">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>69,97,24,24</bounds>
+				<tooltip textres="subracedata_huntrace_score_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<font>reference-b-large</font>
+			</number>
+			<number name="hiderace_score">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>161,97,24,24</bounds>
+				<tooltip textres="subracedata_hiderace_score_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="Label3">
+				<bounds>195,93,55,30</bounds>
+				<center />
+				<static textres="subracedata_Label3_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="foragerace_score">
+				<frame name="attboxose_icon" offset="3,3,3,3" />
+				<bounds>258,97,24,24</bounds>
+				<tooltip textres="subracedata_foragerace_score_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<font>reference-b-large</font>
+			</number>
+		</sheetdata>
+	</windowclass>
+</root>

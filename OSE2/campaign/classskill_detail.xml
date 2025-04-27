@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="classskill_detail">
+		<frame>groupbox</frame>
+		<placement>
+			<size height="45" width="623" />
+		</placement>
+		<sheetdata>
+			<number name="lvl1">
+				<frame name="fieldlight" />
+				<bounds>143,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<stringfield name="skill_name">
+				<bounds>7,5,85,35</bounds>
+				<controlline />
+				<lineoffset>-2</lineoffset>
+				<multilinespacing>12</multilinespacing>
+				<font>reference-b</font>
+			</stringfield>
+			<number name="lvl2">
+				<frame name="fieldlight" />
+				<bounds>176,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl3">
+				<frame name="fieldlight" />
+				<bounds>211,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl4">
+				<frame name="fieldlight" />
+				<bounds>245,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl5">
+				<frame name="fieldlight" />
+				<bounds>279,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl6">
+				<frame name="fieldlight" />
+				<bounds>314,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl7">
+				<frame name="fieldlight" />
+				<bounds>349,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl8">
+				<frame name="fieldlight" />
+				<bounds>383,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl9">
+				<frame name="fieldlight" />
+				<bounds>419,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl10">
+				<frame name="fieldlight" />
+				<bounds>454,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl11">
+				<frame name="fieldlight" />
+				<bounds>489,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl12">
+				<frame name="fieldlight" />
+				<bounds>525,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl13">
+				<frame name="fieldlight" />
+				<bounds>559,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="lvl14">
+				<frame name="fieldlight" />
+				<bounds>592,9,25,25</bounds>
+				<font>Ose_referencesmall</font>
+			</number>
+			<stringfield name="die">
+				<frame name="fieldlight" />
+				<bounds>93,7,52,30</bounds>
+				<center />
+				<default textres="classskill_detail_die_DefaultText" />
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+</root>

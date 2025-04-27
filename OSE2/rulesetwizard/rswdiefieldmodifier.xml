@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<template name="rsw_dieFieldModifier">
+		<simpledice>
+			<frame>
+				<name>fielddark</name>
+			</frame>
+			<script file="rulesetwizard/rswdiefieldmodifier.lua"/>
+		</simpledice>
+	</template>
+</root>

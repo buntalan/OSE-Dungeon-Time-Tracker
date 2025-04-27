@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="ct_turn">
+		<frame>ctbox</frame>
+		<placement>
+			<size height="199" width="585" />
+		</placement>
+		<sheetdata>
+			<stringcontrol name="houlabel">
+				<bounds>24,136,47,20</bounds>
+				<center />
+				<static textres="ct_turn_houlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="minulabel">
+				<bounds>73,136,57,20</bounds>
+				<center />
+				<static textres="ct_turn_minulabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="seconlabel">
+				<bounds>131,136,57,20</bounds>
+				<center />
+				<static textres="ct_turn_seconlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="hour">
+				<frame name="attboxose_icon" />
+				<bounds>33,107,30,30</bounds>
+				<default>0</default>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="minute">
+				<frame name="attboxose_icon" />
+				<bounds>89,107,30,30</bounds>
+				<default>0</default>
+				<font>Ose_referencesmall</font>
+				<script>function onValueChanged()
+					
+					local nTimeRandom = window.turns.getValue()
+					local nodeCT = window.getDatabaseNode()
+					local nRandom = window.randomenc.getValue()
+					if  nRandom &lt;= 0 then
+					DB.setValue(nodeCT, "randomenc","number",(nTimeRandom*10));
+					end
+					end
+				</script>
+			</number>
+			<number name="second">
+				<frame name="attboxose_icon" />
+				<bounds>145,107,30,30</bounds>
+				<default>0</default>
+				<font>Ose_referencesmall</font>
+			</number>
+			<stringcontrol name="colon2label">
+				<bounds>118,108,25,23</bounds>
+				<center />
+				<static textres="ct_turn_colon2label_LabelCaption" />
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="colon1label">
+				<bounds>63,109,25,22</bounds>
+				<center />
+				<static textres="ct_turn_colon1label_LabelCaption" />
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+			<genericcontrol name="plate1">
+				<bounds>49,74,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<stringcontrol name="clocklabel">
+				<bounds>55,78,100,20</bounds>
+				<center />
+				<static textres="ct_turn_clocklabel_LabelCaption" />
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+			<genericcontrol name="plate2">
+				<bounds>246,74,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<stringcontrol name="daytrackerlabel">
+				<bounds>254,78,100,20</bounds>
+				<center />
+				<static textres="ct_turn_daytrackerlabel_LabelCaption" />
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+			<stringfield name="month">
+				<frame name="charsheetframe" offset="7,0,0,0" />
+				<bounds>286,106,101,29</bounds>
+				<font>OSE_Reference_medium</font>
+			</stringfield>
+			<stringcontrol name="monthlabel">
+				<bounds>301,136,57,20</bounds>
+				<center />
+				<static textres="ct_turn_monthlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="day">
+				<frame name="attboxose_icon" />
+				<bounds>227,107,30,30</bounds>
+				<default>1</default>
+				<font>Ose_referencesmall</font>
+			</number>
+			<stringcontrol name="daylabel">
+				<bounds>211,136,57,20</bounds>
+				<center />
+				<static textres="ct_turn_daylabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<buttoncontrol name="addday">
+				<bounds>526,67,25,25</bounds>
+				<icon normal="button_add" pressed="gnome" />
+				<font>button-white</font>
+				<script>function onClickDown()
+											
+					local nodeCT = window.getDatabaseNode()
+					local nRound =DB.getValue(nodeCT,"round",1)
+					DB.setValue(nodeCT, "lastround","number",nRound)
+					DB.setValue(nodeCT, "hour","number",(window.hourvar.getValue()+window.hour.getValue()))				
+											
+																	
+					end							
+					function onClickRelease()
+					
+					local nVar = window.hourvar.getValue()
+					local nTotal = nVar*360
+					
+					
+					
+						for _,v in pairs(CombatManager.getCombatantNodes()) do
+							
+							local nodeEffects = DB.getChild(v,"effects")
+							
+							for _,j in pairs (DB.getChildren(nodeEffects)) do
+								
+							local nDur = DB.getValue(j,"duration",0)
+								if nDur &lt;= 0 then
+								elseif nDur &gt;= nTotal then
+								
+								local nDurationNew = nDur - nTotal 
+								DB.setValue(j,"duration","number",nDurationNew)
+								elseif nDur &lt;= nTotal then
+								DB.deleteNode(j)	
+								
+								end
+							end
+							
+					
+						end
+					
+					
+					
+					---Comm.clearChat()
+									local msg = 
+											{
+												font = "reference-b", 
+												icon = "sunrise";
+												text ="A long period of time has passed";
+											}
+											Comm.deliverChatMessage(msg);
+													
+																																
+					end
+					
+					
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="addturn">
+				<bounds>526,129,25,25</bounds>
+				<icon normal="button_add" pressed="gnome" />
+				<font>button-white</font>
+				<script>function onClickDown()
+					local nodeCT = window.getDatabaseNode()
+					local nRound =DB.getValue(nodeCT,"round",1)
+					DB.setValue(nodeCT, "lastround","number",nRound)
+					
+					end
+					
+					
+					
+					function onClickRelease()
+					
+					CombatManager.nextRound(60);
+					Comm.clearChat()
+									local msg = 
+											{
+												font = "reference-b", 
+												icon = "sundial";
+												text ="A short period of time has passed.";
+											}
+											Comm.deliverChatMessage(msg);	
+					
+					local nRandom = window.randomenc.getValue()
+					local nTurns = window.turns.getValue()
+					
+					if (nTurns*10) == nRandom then
+									local msg = 
+											{
+												font = "reference-b", 
+												icon = "gnome";
+												text ="Time to roll a Random Encounter. Shhh!";
+											}
+											Comm.addChatMessage(msg);		
+																																				
+					end
+																
+					end
+				</script>
+			</buttoncontrol>
+			<stringcontrol name="turnlabel">
+				<bounds>476,129,45,20</bounds>
+				<static textres="ct_turn_turnlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="daylebel">
+				<bounds>478,72,43,20</bounds>
+				<static textres="ct_turn_daylebel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="oflabel">
+				<bounds>254,112,29,20</bounds>
+				<center />
+				<static textres="ct_turn_oflabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<buttoncontrol name="addhour">
+				<bounds>526,100,25,25</bounds>
+				<icon normal="button_add" pressed="gnome" />
+				<font>button-white</font>
+				<script>function onClickDown()
+					local nodeCT = window.getDatabaseNode()
+					local nRound =DB.getValue(nodeCT,"round",1)
+					DB.setValue(nodeCT, "lastround","number",nRound)
+					DB.setValue(nodeCT, "hour","number",(1+window.hour.getValue()))
+					end
+					
+					
+					
+					function onClickRelease()
+					
+					local nTotal = 360
+					
+					
+					
+						for _,v in pairs(CombatManager.getCombatantNodes()) do
+							
+							local nodeEffects = DB.getChild(v,"effects")
+							
+							for _,j in pairs (DB.getChildren(nodeEffects)) do
+								
+							local nDur = DB.getValue(j,"duration",0)
+								if nDur &lt;= 0 then
+								elseif nDur &gt;= nTotal then
+								
+								local nDurationNew = nDur - nTotal 
+								DB.setValue(j,"duration","number",nDurationNew)
+								elseif nDur &lt;= nTotal then
+								j.delete()	
+								
+								end
+							end
+							
+					
+						end
+					
+					
+					---CombatManager.nextRound(360);
+					---Comm.clearChat()	
+									local msg = 
+											{
+												font = "reference-b", 
+												icon = "sundial";
+												text ="An hour has passed your chat window has become a distant memory";
+											}
+											Comm.deliverChatMessage(msg);
+					local nRandom = window.randomenc.getValue()
+					local nTurns = window.turns.getValue()
+					
+					if (nTurns*10) == nRandom then
+									local msg = 
+											{
+												font = "reference-b", 
+												icon = "gnome";
+												text ="Time to roll a Random Encounter. Shhh!";
+											}
+											Comm.addChatMessage(msg);		
+																																				
+					end
+					end
+					
+					
+				</script>
+			</buttoncontrol>
+			<stringcontrol name="hourlabel">
+				<bounds>476,101,45,20</bounds>
+				<static textres="ct_turn_hourlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<close_recordsheet name="close_button">
+				<frame name="buttonup" />
+				<bounds>-37,22,20,20</bounds>
+				<icon normal="button_close" pressed="button_close_down" />
+				<stateframe>
+					<pressed name="buttonup" offset="-1,-1,-1,-1" nobaseframe="true" />
+				</stateframe>
+				<font>button-white</font>
+			</close_recordsheet>
+			<linkfield name="link">
+				<bounds>11,37,20,20</bounds>
+				<description>
+					<field>name</field>
+				</description>
+				<class>table</class>
+			</linkfield>
+			<stringfield name="tablename">
+				<bounds>38,37,170,20</bounds>
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<script>function onDrop(x, y, draginfo)
+					local nodeChar = window.getDatabaseNode()
+					
+									if draginfo.isType("shortcut") then
+										local sClass, sRecord = draginfo.getShortcutData();
+										local nodeSource = DB.findNode(sRecord);
+										local sName = DB.getValue(nodeSource, "name", "")
+									if StringManager.contains({"table"}, sClass) then
+					
+									DB.setValue(nodeChar, "tablename", "string", DB.getValue(nodeSource, "name", ""));
+									DB.setValue(nodeChar, "link", "windowreference", sClass, DB.getPath(nodeSource));
+										return true;
+										end
+									end
+								end
+				</script>
+			</stringfield>
+			<number name="randomenc">
+				<frame name="attboxose_icon" />
+				<bounds>480,33,30,30</bounds>
+				<default>20</default>
+				<font>Ose_referencesmall</font>
+				<script>function onValueChanged()
+					local nRandom = window.randomenc.getValue()
+					
+					if nRandom &gt;=20 then
+					
+									local msg = 
+											{
+												font = "reference-b", 
+												icon = "gnome";
+												text ="Time to roll a Random Encounter. Shhh!";
+											}
+											Comm.addChatMessage(msg);
+					
+					
+					end
+					end
+				</script>
+			</number>
+			<stringcontrol name="turntoenclabel">
+				<bounds>210,33,135,29</bounds>
+				<center />
+				<static textres="ct_turn_turntoenclabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="turns">
+				<frame name="attboxose_icon" />
+				<bounds>348,33,30,30</bounds>
+				<default>2</default>
+				<font>Ose_referencesmall</font>
+				<script>function onInit()
+					onValueChanged()
+					end
+					
+					
+					function onValueChanged()
+					local nRandom = window.turns.getValue()
+					local nodeCT = window.getDatabaseNode()
+					DB.setValue(nodeCT, "randomenc","number",(nRandom*10));
+					
+					end
+				</script>
+			</number>
+			<stringcontrol name="endcountdwnlabel">
+				<bounds>376,32,101,29</bounds>
+				<center />
+				<static textres="ct_turn_endcountdwnlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="encminlabel">
+				<bounds>511,32,27,29</bounds>
+				<static textres="ct_turn_encminlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="hourvar">
+				<frame name="attboxose_icon" />
+				<bounds>446,68,30,30</bounds>
+				<default>8</default>
+				<font>Ose_referencesmall</font>
+			</number>
+		</sheetdata>
+	</windowclass>
+</root>

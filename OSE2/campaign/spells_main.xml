@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="spells_main">
+		<script file="campaign/scripts/spells_main.lua" />
+		<placement>
+			<size height="500" width="322" />
+		</placement>
+		<sizelimits resize="both">
+			<dynamic />
+		</sizelimits>
+		<script>    
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<label_column name="spelllevel_label">
+				<static textres="spells_main_spelllevel_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<number_columnh name="spelllevel">
+				<default>0</default>
+			</number_columnh>
+			<label_column name="class_cycler_label">
+				<static textres="spells_main_class_cycler_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<string_columnh name="class_cycler" />
+			<simpledice name="spells_2">
+				<bounds>414,1,56,41</bounds>
+				<invisible />
+				<backcolor>#FFFFFFFF</backcolor>
+				<script>
+					function onDoubleClick(x, y)
+						return action();
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+						return action(draginfo);
+					end
+					
+					function action(dragInfo)
+						DiceRollString = StringManager.convertDiceToString(getDice()).. "";
+						DiceRollDescription = "";
+						GameSystem.actions["spells_2RollAction"] = { bUseModStack = "true" }
+						DiceRollAdditionalInfo = {};
+						if onBeforeDiceRoll then if onBeforeDiceRoll(dragInfo) == false then return; end; end;
+						local windataref = window.getDatabaseNode();
+						if windataref == nil then windataref = window; end;
+						RulesetWizardDiceRoller.Roll(dragInfo, windataref,"spells_2RollAction", DiceRollDescription, DiceRollString, 0, DiceRollAdditionalInfo);
+						if onAfterDiceRoll then onAfterDiceRoll(); end;
+						return true;
+					end
+					
+				</script>
+			</simpledice>
+			<label_column name="Spelluse_type_label">
+				<static textres="spells_main_Spelluse_type_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<button_stringcycler_column name="Spelluse_type">
+				<alignleft />
+				<parameters>
+					<defaultlabelres>spells_main_Spelluse_type_DefaultLabel</defaultlabelres>
+					<labelsres>spells_main_Spelluse_type_Label_Both|spells_main_Spelluse_type_Label_Healing|spells_main_Spelluse_type_Label_Damage|spells_main_Spelluse_type_Label_None</labelsres>
+					<values>Both|Healing|Damage|None</values>
+				</parameters>
+			</button_stringcycler_column>
+			<label_column name="range_label">
+				<static textres="spells_main_range_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<string_columnh name="range" />
+			<label_column name="duration_label">
+				<static textres="spells_main_duration_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<string_columnh name="duration" />
+			<label_column name="properties_label">
+				<static textres="spells_main_properties_label_LabelCaption" />
+				<readonly />
+			</label_column>
+			<string_columnh name="properties">
+				<multilinespacing>20</multilinespacing>
+			</string_columnh>
+			<button_stringcycler name="onsave_cycler">
+				<frame offset="0,0,0,0" />
+				<anchored>
+					<left offset="29" />
+					<top offset="13" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>120</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<parameters>
+					<defaultlabelres>spells_main_onsave_cycler_DefaultLabel</defaultlabelres>
+					<labelsres>spells_main_onsave_cycler_Label_Half_on_Save|spells_main_onsave_cycler_Label_No_Effect_on_Save|spells_main_onsave_cycler_Label_No_Save</labelsres>
+					<values>1|2|3</values>
+				</parameters>
+				<font>reference-b</font>
+			</button_stringcycler>
+			<button_stringcycler name="save_type">
+				<frame offset="0,0,0,0" />
+				<anchored>
+					<left offset="168" />
+					<top offset="13" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>120</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<parameters>
+					<defaultlabelres>spells_main_save_type_DefaultLabel</defaultlabelres>
+					<labelsres>spells_main_save_type_Label_None|spells_main_save_type_Label_Death|spells_main_save_type_Label_Wands|spells_main_save_type_Label_Paralysis|spells_main_save_type_Label_Breath|spells_main_save_type_Label_Spells|spells_main_save_type_Label_Poison</labelsres>
+					<values>0|1|2|3|4|5|6</values>
+				</parameters>
+				<font>reference-b</font>
+			</button_stringcycler>
+			<stringcontrol name="dierollmult_label">
+				<anchored>
+					<left offset="114" />
+					<top offset="46" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>35</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tooltip textres="spells_main_dierollmult_label_Tooltip" />
+				<center />
+				<static textres="spells_main_dierollmult_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="die_label">
+				<anchored>
+					<left offset="29" />
+					<top offset="48" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>31</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tooltip textres="spells_main_die_label_Tooltip" />
+				<center />
+				<static textres="spells_main_die_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Casterlvl_label">
+				<anchored>
+					<left offset="183" />
+					<top offset="48" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>33</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="spells_main_Casterlvl_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="mod_label">
+				<anchored>
+					<left offset="246" />
+					<top offset="48" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>31</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="spells_main_mod_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<number name="numbertoroll">
+				<anchored>
+					<left offset="115" />
+					<top offset="68" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<tooltip textres="spells_main_numbertoroll_Tooltip" />
+				<min>1</min>
+				<default>1</default>
+				<backcolor>#FFFFFFFF</backcolor>
+				<font>Ose_referencesmall</font>
+			</number>
+			<button_stringcycler name="level_field">
+				<frame name="ct_subgroupbox" offset="0,0,0,0" />
+				<anchored>
+					<left offset="168" />
+					<top offset="68" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>60</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<tooltip textres="spells_main_level_field_Tooltip" />
+				<parameters>
+					<labelsres>spells_main_level_field_Label_None|spells_main_level_field_Label_Level</labelsres>
+					<values>1|level</values>
+				</parameters>
+			</button_stringcycler>
+			<number name="modifier">
+				<frame name="ct_subgroupbox" />
+				<anchored>
+					<left offset="246" />
+					<top offset="68" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<tooltip textres="spells_main_modifier_Tooltip" />
+				<default>0</default>
+			</number>
+			<stringfield name="spells_die">
+				<frame name="groupbox" />
+				<anchored>
+					<left offset="6" />
+					<top offset="71" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>86</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<gmeditonly />
+				<font>Ose_referencesmall</font>
+			</stringfield>
+			<stringfield name="mult">
+				<anchored>
+					<left offset="98" />
+					<top offset="76" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>14</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<default textres="spells_main_mult_DefaultText" />
+				<readonly />
+				<center></center>
+			</stringfield>
+			<stringfield name="multsign_label">
+				<anchored>
+					<left offset="151" />
+					<top offset="76" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>14</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<default textres="spells_main_multsign_label_DefaultText" />
+				<readonly />
+				<center></center>
+			</stringfield>
+			<stringfield name="plus_sign">
+				<anchored>
+					<left offset="231" />
+					<top offset="76" anchor="bottom" parent="properties" relation="current" />
+					<size>
+						<width>14</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<default textres="spells_main_plus_sign_DefaultText" />
+				<readonly />
+				<center>center</center>
+			</stringfield>
+			<ft_columnh name="spelldescription_text">
+				<anchored>
+					<left offset="4" />
+					<right offset="-8" />
+					<top offset="10" anchor="bottom" parent="spells_die" relation="relative" />
+					<bottom offset="-4" />
+				</anchored>
+				<tooltip textres="spells_main_spelldescription_text_Tooltip" />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+</root>

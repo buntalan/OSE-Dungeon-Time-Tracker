@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="class_detail">
+		<placement>
+			<size height="35" width="284" />
+		</placement>
+		<sheetdata>
+			<stringfield name="name">
+				<frame offset="5,0,0,0" />
+				<bounds>5,8,86,20</bounds>
+				<readonly />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>Ose_referencesmall</font>
+				<script>function onValueChanged()		
+						
+					    local nodePC = window.getDatabaseNode();
+					    local nodeChar =  DB.getChild(nodePC,"...")
+					    local sClasstype = window.name.getValue();
+						local sName= DB.getValue(nodeChar,"name","")
+						
+					--manager_char.fixclass(nodeChar, sClasstype, sName)
+								
+						
+						end
+				</script>
+			</stringfield>
+			<linkfield name="class_link">
+				<bounds>95,6,20,20</bounds>
+				<class>class</class>
+				<allowdrop />
+			</linkfield>
+			<stringcontrol name="level_label">
+				<bounds>129,6,41,20</bounds>
+				<static textres="class_detail_level_label_LabelCaption" />
+				<font>Ose_referencesmall</font>
+				<script>function onInit()
+					
+					    local nodePC = window.getDatabaseNode();
+					    local nodeChar =  DB.getChild(nodePC,"...")
+					DB.addHandler(DB.getPath(nodeChar, "xp_field"), "onUpdate", updateLevel);
+					updateLevel();
+					end 
+					
+					function onClose()
+					    local nodePC = window.getDatabaseNode();
+					    local nodeChar =  DB.getChild(nodePC,"...")
+							DB.removeHandler(DB.getPath(nodeChar, "xp_field*"), "onAdd", updateLevel);
+					
+					end
+					
+					
+					function updateLevel()
+					
+					    local nodePC = window.getDatabaseNode();
+					    local nodeChar =  DB.getChild(nodePC,"...")  
+						local nLevel = DB.getValue(nodeChar,"Level_new", 0);
+						local sPCClass =DB.getValue(nodeChar, "class_field", "");
+						local nXp = DB.getValue(nodeChar, "xp_field", 0);
+						local nXpneed = DB.getValue(nodeChar, "Xpneed_field", 0); 
+					
+					local nodeClassData = DB.getChild(nodePC,"characterclassdata")
+					local i = 0
+					
+					if nodeClassData then
+					for _,v in pairs (DB.getChildren(nodeClassData)) do
+					i=i+1
+					end
+					end
+							
+					if sPCClass ~=nil and nLevel &lt; i then
+					
+								if nXp &gt;= nXpneed then
+								window.lvlup_button.setVisible(true);
+								window.levelup_label.setVisible(true);
+								else 
+								window.lvlup_button.setVisible(false);
+								window.levelup_label.setVisible(false);
+								end 
+					
+					end
+					           
+					end    
+				</script>
+				<readonly />
+			</stringcontrol>
+			<number name="lvl_box">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>172,1,28,24</bounds>
+				<readonly />
+				<default>0</default>
+				<font>Ose-Reference</font>
+			</number>
+			<buttoncontrol name="lvlup_button">
+				<bounds>237,2,16,13</bounds>
+				<tooltip textres="class_detail_lvlup_button_Tooltip" />
+				<icon normal="button_add" pressed="button_effect_down" />
+				<script>function onButtonPress()
+					
+					     local nodePC = window.getDatabaseNode();
+					     local nodeChar = DB.getChild(nodePC,"...")
+					     local lvl_curr = window.lvl_box.getValue();
+					     local nNewlvl = lvl_curr +1;
+					     local sClass = window.name.getValue();
+					     local nCheck = DB.getValue(nodeChar,"multiclasscheck",0)
+					 
+					       DB.setValue(nodePC, "lvl_box", "number",  nNewlvl);
+					       DB.setValue(nodeChar, "Level_new", "number",  nNewlvl);
+							if StringManager.isWord(sClass:lower(), {"cleric","friar","paladin","avenger","dervish"}) then
+							DB.setValue(nodeChar,"turn_level", "number",nNewlvl)
+							end
+					       DB.setValue(nodeChar, "class_field", "string", sClass);
+					if nCheck == 0 then
+					
+					
+					manager_AdvRules.LevelPC(window.getDatabaseNode());
+					manager_char.levelchar(window.getDatabaseNode());
+					else
+					
+					end
+					window.lvlup_button.setVisible(false)
+					window.levelup_label.setVisible(false)      
+					end
+					
+				</script>
+			</buttoncontrol>
+			<stringcontrol name="levelup_label">
+				<bounds>208,13,71,17</bounds>
+				<center />
+				<static textres="class_detail_levelup_label_LabelCaption" />
+				<font>Ose_referencesmall</font>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

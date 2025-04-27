@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="charsheet_movement">
+		<frame>ctbox</frame>
+		<placement>
+			<size height="176" width="344" />
+		</placement>
+		<softclose />
+		<sheetdata>
+		<frame_char_overlay/>
+			<windowtitlebar name="title">
+				<resource>Window_charsheet_movement_Title</resource>
+			</windowtitlebar>
+			<close_recordsheet name="close_button">
+				<bounds>307,9,24,20</bounds>
+				<icon normal="button_close" pressed="button_close_down" />
+				<font>button-white</font>
+			</close_recordsheet>
+			<number name="base">
+				<frame name="attboxose_icon" />
+				<bounds>61,70,30,30</bounds>
+				<readonly />
+				<default>120</default>
+				<font>Ose-Reference</font>
+			</number>
+			<stringcontrol name="plus_label">
+				<bounds>105,77,24,20</bounds>
+				<center />
+				<static textres="charsheet_movement_plus_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="move_bonus">
+				<frame name="attboxose_icon" />
+				<bounds>146,70,30,30</bounds>
+				<default>0</default>
+				<displaysign />
+				<font>Ose-Reference</font>
+				<script file="campaign/scripts/update_movementcustom.lua" />
+				<script>function onInit()
+					onValueChanged()
+					
+					end
+					
+					function onValueChanged()
+					local nodeChar = window.getDatabaseNode()
+					local nTotalMove = 120 + self.getValue()
+					
+					DB.setValue(nodeChar,"movement_base.score","number",nTotalMove)
+					updateMove();
+					end
+				</script>
+			</number>
+			<stringcontrol name="bonusmove_label">
+
+				<bounds>132,102,52,20</bounds>
+				<center />
+				<static textres="charsheet_movement_bonusmove_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label1">
+				<bounds>48,102,52,20</bounds>
+				<center />
+				<static textres="charsheet_movement_Label1_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label2">
+				<bounds>200,77,24,20</bounds>
+				<center />
+				<static textres="charsheet_movement_Label2_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="movement_base" source="movement_base.score">
+				<frame name="attboxose_icon" />
+				<bounds>256,70,30,30</bounds>
+				<readonly />
+				<default>120</default>
+				<font>Ose-Reference</font>
+				<script file="campaign/scripts/encum_options.lua" />
+			</number>
+			<stringcontrol name="Label3">
+
+				<bounds>233,102,66,49</bounds>
+				<center />
+				<static textres="charsheet_movement_Label3_LabelCaption" />
+				<multilinespacing>18</multilinespacing>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

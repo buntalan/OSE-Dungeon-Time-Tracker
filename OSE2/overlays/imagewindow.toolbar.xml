@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="imagewindow_toolbar" version="&gt;=4" merge="join">
+		<script file="overlays/scripts/imagewindow_toolbar.lua" />
+		<sheetdata>
+			<toolbar_toggle_right name="clear_wound_separator" >
+				<invisible />
+			</toolbar_toggle_right>
+
+			<toolbar_toggle_right name="toolbar_clear_wounds" >
+				<state icon="tool_clear_wounds" />
+				<frame name="toolbar_30" />
+				<tooltip textres="tooltip_clear_wounds" />	
+				<invisible />
+				<script>
+					function onButtonPress()	
+					
+					token_overlay_manager.sendMessageDeleteAllWoundOverlays()
+					end	
+				</script>
+			</toolbar_toggle_right>
+		</sheetdata>
+	</windowclass>
+</root>

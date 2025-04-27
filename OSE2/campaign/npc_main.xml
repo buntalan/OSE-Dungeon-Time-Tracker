@@ -1,0 +1,895 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npc_main">
+		<script file="campaign/scripts/npc_main.lua" />
+		<placement>
+			<size height="608" width="400" />
+		</placement>
+		<sizelimits resize="both">
+			<maximum width="445" height="650" />
+			<minimum width="445" />
+		</sizelimits>
+		<script> 
+		</script>
+		<sheetdata>
+			<stringfield name="Armourclass_string">
+				<bounds>3,38,97,30</bounds>
+				<default textres="npc_main_Armourclass_string_DefaultText" />
+				<readonly />
+			</stringfield>
+			<stringfield name="hitdice_string">
+				<bounds>3,74,61,30</bounds>
+				<default textres="npc_main_hitdice_string_DefaultText" />
+				<readonly />
+			</stringfield>
+			<minHeightList name="weaponslist">
+				<frame offset="10,11,10,13" />
+				<anchored>
+					<left offset="10" />
+					<right offset="-18" />
+					<top offset="199" />
+				</anchored>
+				<class>NPC_weapons_detail</class>
+				<datasource>.weaponslist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>item</class>
+					<field>*</field>
+				</acceptdrop>
+				<script file="common/scripts/list_text.lua"></script>
+			</minHeightList>
+			<button_iadd name="weaponslist_iadd">
+				<anchored to="weaponslist" position="insidetopright" offset="-5,-5" />
+				<target>weaponslist</target>
+			</button_iadd>
+			<stringfield name="movement_label">
+				<bounds>186,67,74,30</bounds>
+				<default textres="npc_main_movement_label_DefaultText" />
+				<readonly />
+			</stringfield>
+			<basicOSEnumber name="armor_class">
+				<frame name="attboxose_icon" />
+				<bounds>101,39,30,30</bounds>
+				<tabtarget>
+					<next>hd_current</next>
+					<prev>nonid_name</prev>
+				</tabtarget>
+				<gmeditonly />
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<basicOSEnumber name="hd_current">
+				<frame name="attboxose_icon" />
+				<bounds>101,74,30,30</bounds>
+				<tabtarget>
+					<next>hp_current</next>
+					<prev>armor_class</prev>
+				</tabtarget>
+				<gmeditonly />
+				<delaykeyupdate />
+				<font>Ose-Reference</font>
+				<script>function onValueChanged()
+					
+					local aMonsterSave = DataCommon.monstersaves
+					local nHD = self.getValue()
+					if nHD == 0 then return false 
+					elseif nHD &gt;= 23 then nHD= 22 end
+					local aSvTable = aMonsterSave[nHD]
+					local nodeNPC = window.getDatabaseNode()
+					for k,v in pairs (aSvTable) do
+						if k==1 then DB.setValue(nodeNPC,"dsave_score","number",v)
+						elseif k==2 then DB.setValue(nodeNPC,"wsave_score","number",v) 
+						elseif k==3 then DB.setValue(nodeNPC,"psave_score","number",v)
+						elseif k==4 then DB.setValue(nodeNPC,"bsave_score","number",v) 
+						elseif k==5 then DB.setValue(nodeNPC,"ssave_score","number",v)
+						end
+					end
+					
+					end
+				</script>
+			</basicOSEnumber>
+			<stringfield name="thaco_string">
+				<bounds>186,33,58,30</bounds>
+				<default textres="npc_main_thaco_string_DefaultText" />
+				<readonly />
+			</stringfield>
+			<basicOSEnumber name="dsave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="55" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>wsave_score</next>
+					<prev>size</prev>
+				</tabtarget>
+				<tooltip textres="npc_main_dsave_score_Tooltip" />
+				<default>14</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand");
+					onValueChanged()
+					end
+					
+					function onValueChanged()
+					local nodechar = window.getDatabaseNode()
+					local nDeath = window.dsave_score.getValue()
+					
+					DB.setValue(nodeChar,"poison","number",nDeath)
+					
+					
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 1
+					                local sName = "[SAVE] Vs Death"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringfield name="morale_string">
+				<anchored>
+					<left offset="3" />
+					<top offset="7" anchor="bottom" parent="dsave_score" relation="current" />
+					<size>
+						<width>52</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<default textres="npc_main_morale_string_DefaultText" />
+				<readonly />
+			</stringfield>
+			<basicOSEnumber name="thaco">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>271,33,30,27</bounds>
+				<tabtarget>
+					<next>movement_str</next>
+					<prev>hp_current</prev>
+				</tabtarget>
+				<gmeditonly />
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<number name="movement_field">
+				<bounds>434,69,50,30</bounds>
+				<invisible />
+				<gmeditonly />
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="d_save">
+				<anchored>
+					<left offset="17" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_d_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="morale_npc">
+				<frame name="attboxose_icon" />
+				<anchored>
+					<left offset="140" />
+					<top offset="7" anchor="bottom" parent="dsave_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>XP_field</next>
+					<prev>ssave_score</prev>
+				</tabtarget>
+				<gmeditonly />
+				<default>8</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					
+					                managerOnresults.performroll(dragInfo, rActor, nSelf); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringfield name="alignment_string">
+				<anchored>
+					<left offset="3" />
+					<top offset="10" anchor="bottom" parent="morale_npc" relation="current" />
+					<size>
+						<width>77</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<default textres="npc_main_alignment_string_DefaultText" />
+				<readonly />
+			</stringfield>
+			<stringcontrol name="w_save">
+				<anchored>
+					<left offset="88" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_w_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringfield name="numberappearing_string">
+				<anchored>
+					<left offset="3" />
+					<top offset="52" anchor="bottom" parent="morale_npc" relation="current" />
+					<size>
+						<width>103</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<default textres="npc_main_numberappearing_string_DefaultText" />
+				<readonly />
+			</stringfield>
+			<stringfield name="treasuretype_string">
+				<anchored>
+					<left offset="3" />
+					<top offset="88" anchor="bottom" parent="morale_npc" relation="current" />
+					<size>
+						<width>97</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<default textres="npc_main_treasuretype_string_DefaultText" />
+				<readonly />
+			</stringfield>
+			<basicstring name="Treasure_type">
+				<anchored>
+					<left offset="112" />
+					<top offset="88" anchor="bottom" parent="morale_npc" relation="current" />
+					<size>
+						<width>120</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<gmeditonly />
+				<center></center>
+			</basicstring>
+			<stringcontrol name="p_save">
+				<anchored>
+					<left offset="158" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_p_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="b_save">
+				<anchored>
+					<left offset="228" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_b_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="s_save">
+				<anchored>
+					<left offset="297" />
+					<top offset="24" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_s_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="wsave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="123" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>psave_score</next>
+					<prev>dsave_score</prev>
+				</tabtarget>
+				<tooltip textres="npc_main_wsave_score_Tooltip" />
+				<default>15</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 2
+					                local sName = "[SAVE] Vs Wands"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="bsave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="263" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>ssave_score</next>
+					<prev>psave_score</prev>
+				</tabtarget>
+				<tooltip textres="npc_main_bsave_score_Tooltip" />
+				<default>17</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 4
+					                local sName = "[SAVE] Vs Breath"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="ssave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="332" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>morale_npc</next>
+					<prev>bsave_score</prev>
+				</tabtarget>
+				<tooltip textres="npc_main_ssave_score_Tooltip" />
+				<default>18</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 5
+					                local sName = "[SAVE] Vs Rods, Spells or Staves"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="psave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="193" />
+					<top offset="25" anchor="bottom" parent="weaponslist" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>bsave_score</next>
+					<prev>wsave_score</prev>
+				</tabtarget>
+				<tooltip textres="npc_main_psave_score_Tooltip" />
+				<default>16</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 3
+					                local sName = "[SAVE] Vs Paralyzation"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringfield name="size_field">
+				<bounds>186,114,35,30</bounds>
+				<default textres="npc_main_size_field_DefaultText" />
+				<readonly />
+			</stringfield>
+			<stringfield name="size">
+				<bounds>265,114,91,30</bounds>
+				<tabtarget>
+					<next>dsave_score</next>
+					<prev>movement_str</prev>
+				</tabtarget>
+				<default textres="npc_main_size_DefaultText" />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<script>function onValueChanged()
+					
+					local nodeNPC = window.getDatabaseNode();
+					local sMonsterSize = window.size.getValue();
+					
+					if sMonsterSize == "medium" or sMonsterSize == "Medium" or sMonsterSize == "small" or sMonsterSize == "Small" then
+					
+					local nMedium = 5;
+					DB.setValue(nodeNPC, "space", "number", nMedium);
+					
+					elseif sMonsterSize == "L" or sMonsterSize == "Large" or sMonsterSize == "large" then
+					local nMedium = 10;
+					DB.setValue(nodeNPC, "space", "number", nMedium);
+					
+					elseif sMonsterSize == "H" or sMonsterSize == "Huge" or sMonsterSize == "huge" then
+					local nMedium = 15;
+					DB.setValue(nodeNPC, "space", "number", nMedium);
+					
+					else
+					local nMedium = 20;
+					DB.setValue(nodeNPC, "space", "number", nMedium);
+					
+					end
+					end
+				</script>
+			</stringfield>
+			<number name="space">
+				<bounds>444,20,41,26</bounds>
+				<invisible />
+			</number>
+			<stringfield name="nonid_name">
+				<bounds>101,7,150,20</bounds>
+				<tabtarget>
+					<next>armor_class</next>
+				</tabtarget>
+				<controlline />
+				<lineoffset>0</lineoffset>
+			</stringfield>
+			<stringfield name="nonid_label">
+				<bounds>3,6,93,20</bounds>
+				<default textres="npc_main_nonid_label_DefaultText" />
+				<readonly />
+			</stringfield>
+			<basicOSEnumber name="hp_current">
+				<frame name="attboxose_icon" />
+				<bounds>86,114,30,30</bounds>
+				<tabtarget>
+					<next>thaco</next>
+					<prev>hd_current</prev>
+				</tabtarget>
+				<gmeditonly />
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<stringfield name="hp_label">
+				<bounds>3,114,68,30</bounds>
+				<default textres="npc_main_hp_label_DefaultText" />
+				<readonly />
+			</stringfield>
+			<stringfield name="Xp_label">
+				<anchored>
+					<left offset="223" />
+					<top offset="7" anchor="bottom" parent="dsave_score" relation="current" />
+					<size>
+						<width>24</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<default textres="npc_main_Xp_label_DefaultText" />
+				<readonly />
+			</stringfield>
+			<basicOSEnumber name="XP_field">
+				<frame name="fieldlight" offset="5,0,0,0" />
+				<anchored>
+					<left offset="291" />
+					<top offset="7" anchor="bottom" parent="dsave_score" relation="current" />
+					<size>
+						<width>50</width>
+						<height>30</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>alignment_dropdown</next>
+					<prev>morale_npc</prev>
+				</tabtarget>
+				<gmeditonly />
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<basicstring name="numappear">
+				<anchored>
+					<left offset="112" />
+					<top offset="52" anchor="bottom" parent="morale_npc" relation="current" />
+					<size>
+						<width>120</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>Treasure_type</next>
+					<prev>alignment_dropdown</prev>
+				</tabtarget>
+				<center></center>
+			</basicstring>
+			<number name="maxhp_combat">
+				<frame name="attboxose_icon" />
+				<bounds>133,114,30,30</bounds>
+				<font>Ose-Reference</font>
+			</number>
+			<number name="wounds">
+				<bounds>505,210,38,29</bounds>
+				<invisible />
+			</number>
+			<number name="temp_hp">
+				<bounds>447,145,38,29</bounds>
+				<invisible />
+			</number>
+			<number name="initresult">
+				<bounds>458,187,30,28</bounds>
+				<invisible />
+			</number>
+			<number name="nSpecHD">
+				<bounds>505,143,39,30</bounds>
+				<invisible />
+			</number>
+			<number name="level_field">
+				<bounds>441,107,39,30</bounds>
+				<invisible />
+				<script>function onInit()
+					local nodeNPC = window.getDatabaseNode();
+					local nHd = window.hd_current.getValue();
+					DB.setValue(nodeNPC, "level_field", "number", nHd);
+					end
+				</script>
+			</number>
+			<stringcontrol name="Item">
+				<bounds>11,162,71,20</bounds>
+				<center />
+				<static textres="npc_main_Item_LabelCaption" />
+				<font>reference-i</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="atk_label">
+				<bounds>85,162,57,20</bounds>
+				<center />
+				<static textres="npc_main_atk_label_LabelCaption" />
+				<font>reference-i</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="wepdmg_label">
+				<bounds>152,162,57,20</bounds>
+				<center />
+				<static textres="npc_main_wepdmg_label_LabelCaption" />
+				<font>reference-i</font>
+				<readonly />
+			</stringcontrol>
+			<button_generatenpc name="generatenpc">
+				<frame name="border" />
+				<anchored>
+					<left offset="329" />
+					<top offset="44" anchor="bottom" parent="XP_field" relation="current" />
+					<size>
+						<width>40</width>
+						<height>40</height>
+					</size>
+				</anchored>
+			</button_generatenpc>
+			<basicstring name="alignment_dropdown">
+				<anchored>
+					<left offset="112" />
+					<top offset="10" anchor="bottom" parent="morale_npc" relation="current" />
+					<size>
+						<width>120</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>numappear</next>
+					<prev>XP_field</prev>
+				</tabtarget>
+				<center></center>
+			</basicstring>
+			<number name="hptotal">
+				<bounds>410,263,60,30</bounds>
+				<invisible />
+			</number>
+			<basicstring name="movement_str">
+				<anchored>
+					<left offset="263" />
+					<right offset="-37" />
+					<top offset="69" />
+				</anchored>
+				<tabtarget>
+					<next>size</next>
+					<prev>thaco</prev>
+				</tabtarget>
+				<multilinespacing>20</multilinespacing>
+				<center></center>
+			</basicstring>
+			<button_specialeffects name="specialeffects">
+				<frame name="border" />
+				<anchored>
+					<left offset="255" />
+					<top offset="44" anchor="bottom" parent="XP_field" relation="current" />
+					<size>
+						<width>40</width>
+						<height>40</height>
+					</size>
+				</anchored>
+			</button_specialeffects>
+			<stringcontrol name="npcgen_label">
+				<anchored>
+					<left offset="315" />
+					<top offset="1" anchor="bottom" parent="XP_field" relation="current" />
+					<size>
+						<width>65</width>
+						<height>41</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_npcgen_label_LabelCaption" />
+				<multilinespacing>14</multilinespacing>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Speceff_label">
+				<anchored>
+					<left offset="242" />
+					<top offset="17" anchor="bottom" parent="XP_field" relation="current" />
+					<size>
+						<width>68</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_Speceff_label_LabelCaption" />
+				<multilinespacing>14</multilinespacing>
+				<readonly />
+			</stringcontrol>
+			<basicstring name="tags">
+				<anchored>
+					<left offset="250" />
+					<right offset="-30" />
+					<top offset="88" anchor="bottom" parent="XP_field" relation="current" />
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+			</basicstring>
+			<stringcontrol name="tags_label">
+				<anchored>
+					<left offset="277" />
+					<top offset="110" anchor="bottom" parent="XP_field" relation="current" />
+					<size>
+						<width>63</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="npc_main_tags_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<number name="poison">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>10005,407,30,27</bounds>
+				<tabtarget>
+					<next>wsave_score</next>
+					<prev>size</prev>
+				</tabtarget>
+				<invisible />
+				<tooltip textres="npc_main_poison_Tooltip" />
+				<default>14</default>
+				<font>Ose-Reference</font>
+			</number>
+			<buttonfield name="specHD">
+				<bounds>78,76,18,18</bounds>
+				<tooltip textres="npc_main_specHD_Tooltip" />
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+			</buttonfield>
+			<stringcontrol name="Label2">
+				<bounds>254,162,57,20</bounds>
+				<center />
+				<static textres="npc_main_Label2_LabelCaption" />
+				<font>reference-i</font>
+				<readonly />
+			</stringcontrol>
+			<hn name="numturned">
+				<bounds>332,19,24,30</bounds>
+			</hn>
+			<stringcontrol name="max_hp_label">
+				<bounds>124,140,44,20</bounds>
+				<static textres="npc_main_max_hp_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Curr_HP_label">
+				<bounds>80,140,44,20</bounds>
+				<static textres="npc_main_Curr_HP_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicstring name="bonushd">
+				<bounds>130,68,15,15</bounds>
+				<tooltip textres="npc_main_bonushd_Tooltip" />
+				<center />
+				<default textres="npc_main_bonushd_DefaultText" />
+			</basicstring>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="special_effects">
+		<frame>ctbox</frame>
+		<placement>
+			<size height="347" width="322" />
+		</placement>
+		<sheetdata>
+		<frame_char_overlay/>
+			<basicstring name="damageresistances">
+				<bounds>44,79,241,51</bounds>
+				<multilinespacing>16</multilinespacing>
+			</basicstring>
+			<basicstring name="damageimmunities">
+				<bounds>47,166,241,51</bounds>
+				<multilinespacing>16</multilinespacing>
+			</basicstring>
+			<basicstring name="damagevulnerabilities">
+				<bounds>44,253,241,50</bounds>
+				<multilinespacing>16</multilinespacing>
+			</basicstring>
+			<stringcontrol name="vuln_label">
+				<bounds>123,229,69,20</bounds>
+				<center />
+				<static textres="special_effects_vuln_label_LabelCaption" />
+				<font>chatgmfont</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="imu_label">
+				<bounds>118,143,83,20</bounds>
+				<center />
+				<static textres="special_effects_imu_label_LabelCaption" />
+				<font>chatgmfont</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="res_label">
+				<bounds>119,49,86,20</bounds>
+				<center />
+				<static textres="special_effects_res_label_LabelCaption" />
+				<font>chatgmfont</font>
+				<readonly />
+			</stringcontrol>
+			<close_recordsheet name="close_button">
+				<bounds>-29,8,22,17</bounds>
+				<icon normal="button_close" pressed="button_close_down" />
+				<font>button-white</font>
+			</close_recordsheet>
+		</sheetdata>
+	</windowclass>
+
+
+</root>

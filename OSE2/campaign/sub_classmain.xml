@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="sub_classmain">
+		<placement>
+			<size height="702" width="305" />
+		</placement>
+		<script>function onInit()
+				self.update();
+			end
+			
+			function update()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+			
+			classresq_string.setReadOnly(bReadOnly);
+			classprime_string.setReadOnly(bReadOnly);
+			classhitdice_string.setReadOnly(bReadOnly);
+			classmaxlevel_string.setReadOnly(bReadOnly);
+			classlanguages_string.setReadOnly(bReadOnly);
+			classweapons_string.setReadOnly(bReadOnly);
+			description_text.setReadOnly(bReadOnly);
+			classarmor_string.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<stringcontrol name="classreq_label">
+				<bounds>6,3,100,20</bounds>
+				<static textres="sub_classmain_classreq_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringfield name="classresq_string">
+				<frame name="ct_subgroupbox" offset="9,7,6,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-9" />
+					<top offset="10" />
+				</anchored>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classprime_string">
+				<frame name="ct_subgroupbox" offset="9,7,6,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-9" />
+					<top offset="12" anchor="bottom" parent="classresq_string" relation="current" />
+				</anchored>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classhitdice_string">
+				<frame name="ct_subgroupbox" offset="9,7,6,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-9" />
+					<top offset="36" anchor="bottom" parent="classresq_string" relation="current" />
+				</anchored>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classmaxlevel_string">
+				<frame name="ct_subgroupbox" offset="9,7,6,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-9" />
+					<top offset="11" anchor="bottom" parent="classhitdice_string" relation="current" />
+				</anchored>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classweapons_string">
+				<frame name="ct_subgroupbox" offset="9,7,6,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-9" />
+					<top offset="16" anchor="bottom" parent="classmaxlevel_string" relation="current" />
+				</anchored>
+				<multilinespacing>12</multilinespacing>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classarmor_string">
+				<frame name="ct_subgroupbox" offset="9,7,6,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-9" />
+					<top offset="15" anchor="bottom" parent="classweapons_string" relation="current" />
+				</anchored>
+				<multilinespacing>12</multilinespacing>
+				<font>reference-i</font>
+			</stringfield>
+			<stringfield name="classlanguages_string">
+				<frame name="ct_subgroupbox" offset="9,7,6,7" />
+				<anchored>
+					<left offset="117" />
+					<right offset="-9" />
+					<top offset="19" anchor="bottom" parent="classarmor_string" relation="current" />
+				</anchored>
+				<multilinespacing>12</multilinespacing>
+				<font>reference-i</font>
+			</stringfield>
+			<scrollbarcontrol name="textscroll_bar">
+				<frame name="scrollbar_base" offset="0,12,0,12" />
+				<bounds>295,205,20,193</bounds>
+				<target>description_text</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol>
+			<stringcontrol name="classprime_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="5" anchor="bottom" parent="classresq_string" relation="current" />
+					<size>
+						<width>100</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="sub_classmain_classprime_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classhitdice_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="29" anchor="bottom" parent="classresq_string" relation="current" />
+					<size>
+						<width>100</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="sub_classmain_classhitdice_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classmaclvl_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="6" anchor="bottom" parent="classhitdice_string" relation="current" />
+					<size>
+						<width>108</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="sub_classmain_classmaclvl_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classweapons_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="9" anchor="bottom" parent="classmaxlevel_string" relation="current" />
+					<size>
+						<width>100</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="sub_classmain_classweapons_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classarmor_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="8" anchor="bottom" parent="classweapons_string" relation="current" />
+					<size>
+						<width>100</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="sub_classmain_classarmor_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classlanguages_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="-7" anchor="top" parent="classlanguages_string" relation="current" />
+					<size>
+						<width>100</width>
+						<height>28</height>
+					</size>
+				</anchored>
+				<static textres="sub_classmain_classlanguages_label_LabelCaption" />
+				<font>reference-bi</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="desc_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="9" anchor="bottom" parent="classlanguages_string" relation="current" />
+					<size>
+						<width>86</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="sub_classmain_desc_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<formattedtextfield name="description_text">
+				<frame offset="8,8,8,8" />
+				<anchored>
+					<left offset="8" />
+					<right offset="-15" />
+					<top offset="37" anchor="bottom" parent="classlanguages_string" relation="current" />
+				</anchored>
+				<gmeditonly />
+			</formattedtextfield>
+			<stringcontrol name="classabilites_label">
+				<anchored>
+					<left offset="6" />
+					<top offset="12" anchor="bottom" parent="description_text" relation="current" />
+					<size>
+						<width>106</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="sub_classmain_classabilites_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<minHeightList name="classdata_ability">
+				<frame name="charsheetframe" offset="0,5,0,1" />
+				<anchored>
+					<left offset="7" />
+					<right offset="-10" />
+					<top offset="0" anchor="bottom" parent="classabilites_label" relation="current" />
+				</anchored>
+				<class>classability_detail</class>
+				<datasource>.abilitylist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>skills</class>
+					<field>*</field>
+				</acceptdrop>
+				<sortby>
+					<control>ability_level</control>
+				</sortby>
+			</minHeightList>
+			<scrollbarcontrol name="abilityscroll_bar">
+				<frame name="scrollbar_base" offset="0,12,0,12" />
+				<bounds>295,577,20,97</bounds>
+				<target>classdata_ability</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

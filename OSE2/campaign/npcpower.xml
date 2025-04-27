@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npcpower">
+		<script file="campaign/scripts/power_window.lua" />
+		<placement>
+			<size height="127" width="365" />
+		</placement>
+		<sheetdata>
+			<windowlist name="spellslist">
+				<frame offset="5,5,5,8" />
+				<anchored>
+					<left offset="18" />
+					<right offset="-18" />
+					<top offset="39" />
+					<sizelimits>
+						<minimum height="60" />
+					</sizelimits>
+				</anchored>
+				<class>npc_spells_detail</class>
+				<datasource>.spellslist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>spells</class>
+					<field>*</field>
+				</acceptdrop>
+				<sortby>
+					<control>name</control>
+				</sortby>
+				<script file="common/scripts/list_text.lua"></script>
+			</windowlist>
+			<genericcontrol name="spelllabelframe">
+				<frame name="metalplate" />
+				<bounds>0,3,363,30</bounds>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<bounds>337,5,20,20</bounds>
+				<icon normal="button_close" />
+				<font>button-white</font>
+			</button_idelete>
+			<powerstring name="spelllabelstring">
+				<bounds>123,5,120,20</bounds>
+				<tooltip textres="npcpower_spelllabelstring_Tooltip" />
+				<center />
+				<default textres="npcpower_spelllabelstring_DefaultText" />
+				<font>subwindowsmalltitle</font>
+				<script>function onInit()
+					local bWindow = window.idelete.isVisible()
+						if not bWindow then
+						window.spelllabelstring.setReadOnly(true)
+						else
+						window.spelllabelstring.setReadOnly(false)
+						end
+					end
+					function onClickDown()
+					local bWindow = window.idelete.isVisible()
+					
+						if not bWindow then
+						window.spelllabelstring.setReadOnly(true)
+						return window.actionDrag(draginfo);
+						else
+						window.spelllabelstring.setReadOnly(false)
+						end
+					
+					end
+				</script>
+			</powerstring>
+			<button_iadd name="spellslist_iadd">
+				<bounds>-359,9,20,20</bounds>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>spellslist</target>
+			</button_iadd>
+		</sheetdata>
+	</windowclass>
+</root>

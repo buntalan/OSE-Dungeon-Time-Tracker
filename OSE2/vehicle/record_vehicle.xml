@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="vehicle" copy="record_window_tabbed">
+		<sizelimits>
+			<minimum width="400" height="500" />
+		</sizelimits>
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>vehicle_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>notes</name>
+			<resource>tab_notes</resource>
+			<class>record_content_text</class>
+			<embed />
+		</tab>
+	</windowclass>
+	
+<windowclass name="vehicle_main">
+
+		<script file="campaign/scripts/vehicle_main.lua" />
+    	<margins control="4,4,4,4"></margins>
+
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<label_column name="size_label">
+				<static textres="vehicle_label_size" />
+			</label_column>
+			<string_columnh name="size" />
+
+			<label_column name="type_label">
+				<static textres="subvehicle_typelabel_LabelCaption" />
+			</label_column>
+			<string_columnh name="type" >
+				<nohide />
+				<delaykeyupdate />
+				<script>
+					function onValueChanged()
+						window.update();
+					end
+				</script>
+			</string_columnh>
+
+
+			<hn name="wounds">
+			</hn>
+			<label_column name="crew_label">
+				<static textres="subvehicle_crewlabel_LabelCaption" />
+			</label_column>
+			<number_columnh name="crew">
+			</number_columnh>
+			<label_column name="cost_label">
+				<static textres="subvehicle_cost_label_LabelCaption" />
+			</label_column>
+			<string_columnh name="cost">
+				<multilinespacing>20</multilinespacing>
+			</string_columnh>
+			<label_column name="movement_label">
+				<static textres="subvehicle_movelabel_LabelCaption" />
+			</label_column>
+			<string_columnh name="movement">
+				<multilinespacing>20</multilinespacing>
+			</string_columnh>
+
+
+			<line_column name="divider1">
+			</line_column>
+
+			<sub_column name="type_lists" />
+
+
+
+			<spacer_column  name="spacer_lists" />
+
+
+		</sheetdata>
+	</windowclass>
+	<windowclass name="airship">
+    	<margins control="4,4,4,4"></margins>
+		<script>function onInit()
+			local nodeClass = getDatabaseNode()
+			onLockChanged();
+			DB.addHandler(DB.getPath(nodeClass, "locked_state"), "onUpdate", onLockChanged);
+			end
+			
+			function onClose()
+			local nodeClass = getDatabaseNode()
+			DB.removeHandler(DB.getPath(nodeClass, "locked_state*"), "onAdd", onLockChanged);
+			end
+			
+			function onLockChanged()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				armor_class.setReadOnly(bReadOnly);
+				hp_current.setReadOnly(bReadOnly)
+				crew.setReadOnly(bReadOnly)
+			
+			end
+		</script>
+		<sheetdata>
+			<basicnumber name="crew">
+				<bounds>100,5,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="crewlabel">
+				<bounds>10,10,62,20</bounds>
+				<static textres="airship_crewlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicnumber name="armor_class">
+				<bounds>100,46,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="aclabel">
+				<bounds>10,51,82,20</bounds>
+				<static textres="airship_aclabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicnumber name="hp_current">
+				<bounds>250,46,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="hp_current_label">
+				<bounds>152,51,82,20</bounds>
+				<static textres="airship_hp_current_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="landvehicle">
+    	<margins control="4,4,4,4"></margins>
+		<script>function onInit()
+			local nodeClass = getDatabaseNode()
+			onLockChanged();
+			DB.addHandler(DB.getPath(nodeClass, "locked_state"), "onUpdate", onLockChanged);
+			end
+			
+			function onClose()
+			local nodeClass = getDatabaseNode()
+			DB.removeHandler(DB.getPath(nodeClass, "locked_state*"), "onAdd", onLockChanged);
+			end
+			
+			function onLockChanged()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				armor_class.setReadOnly(bReadOnly);
+				hp_current.setReadOnly(bReadOnly)
+				minanimalload.setReadOnly(bReadOnly)
+				maxanimalload.setReadOnly(bReadOnly)
+				minanimal.setReadOnly(bReadOnly)
+				maxanimal.setReadOnly(bReadOnly)
+			end
+		</script>
+		<sheetdata>
+			<basicnumber name="armor_class">
+				<bounds>97,8,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="aclabel">
+				<bounds>9,13,82,20</bounds>
+				<static textres="landvehicle_aclabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="maxloadlabel">
+				<bounds>173,50,40,20</bounds>
+				<static textres="landvehicle_maxloadlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicstring name="minanimalload">
+				<bounds>220,50,70,20</bounds>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<stringcontrol name="Label1">
+				<bounds>9,50,75,20</bounds>
+				<static textres="landvehicle_Label1_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicstring name="minanimal">
+				<anchored>
+					<left offset="90" />
+					<top offset="50" />
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<stringcontrol name="Label2">
+				<anchored>
+					<left offset="173" />
+					<top offset="15" anchor="bottom" parent="minanimal" relation="current" />
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="landvehicle_Label2_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicstring name="maxanimalload">
+				<anchored>
+					<left offset="220" />
+					<top offset="13" anchor="bottom" parent="minanimal" relation="current" />
+					<size>
+						<width>70</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<stringcontrol name="Label3">
+				<anchored>
+					<left offset="9" />
+					<top offset="15" anchor="bottom" parent="minanimal" relation="current" />
+					<size>
+						<width>72</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="landvehicle_Label3_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicstring name="maxanimal">
+				<anchored>
+					<left offset="90" />
+					<top offset="13" anchor="bottom" parent="minanimal" relation="current" />
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<basicnumber name="hp_current">
+				<bounds>253,8,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="hp_current_label">
+				<bounds>152,13,82,20</bounds>
+				<static textres="landvehicle_hp_current_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="siegevehicle">
+    	<margins control="4,4,4,4"></margins>
+		<script>function onInit()
+			local nodeClass = getDatabaseNode()
+			onLockChanged();
+			DB.addHandler(DB.getPath(nodeClass, "locked_state"), "onUpdate", onLockChanged);
+			end
+			
+			function onClose()
+			local nodeClass = getDatabaseNode()
+			DB.removeHandler(DB.getPath(nodeClass, "locked_state*"), "onAdd", onLockChanged);
+			end
+			
+			function onLockChanged()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				armor_class.setReadOnly(bReadOnly);
+				hp_current.setReadOnly(bReadOnly)
+				crew.setReadOnly(bReadOnly)
+			
+			
+			end
+		</script>
+		<sheetdata>
+			<basicnumber name="crew">
+				<bounds>99,5,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="crewlabel">
+				<bounds>8,10,62,20</bounds>
+				<static textres="siegevehicle_crewlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicnumber name="armor_class">
+				<bounds>99,43,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="aclabel">
+				<bounds>8,48,82,20</bounds>
+				<static textres="siegevehicle_aclabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicnumber name="hp_current">
+				<bounds>250,43,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="hp_current_label">
+				<bounds>149,48,82,20</bounds>
+				<static textres="siegevehicle_hp_current_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>	
+	<windowclass name="watervessel">
+    	<margins control="4,4,12,12"></margins>
+		<script>function onInit()
+			local nodeClass = getDatabaseNode()
+			onLockChanged();
+			DB.addHandler(DB.getPath(nodeClass, "locked_state"), "onUpdate", onLockChanged);
+			end
+			
+			function onClose()
+			local nodeClass = getDatabaseNode()
+			DB.removeHandler(DB.getPath(nodeClass, "locked_state*"), "onAdd", onLockChanged);
+			end
+			
+			function onLockChanged()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+			    oars.setReadOnly(bReadOnly);
+				sail.setReadOnly(bReadOnly);
+				armor_class.setReadOnly(bReadOnly);
+				hp_current.setReadOnly(bReadOnly)
+				maxload.setReadOnly(bReadOnly)
+				usage.setReadOnly(bReadOnly)
+				length.setReadOnly(bReadOnly)
+				beam.setReadOnly(bReadOnly)
+				draft.setReadOnly(bReadOnly)
+				
+				    for _,w in ipairs(weapons_list.getWindows()) do 
+			        w.name.setReadOnly(bReadOnly);
+			        w.Damagedie.setReadOnly(bReadOnly);
+			        w.type_select.setReadOnly(bReadOnly);
+			        w.atk_roll.setReadOnly(bReadOnly);
+			        
+			    end
+			
+			end
+		</script>
+		<sheetdata>
+			<basicnumber name="oars">
+				<bounds>108,8,30,30</bounds>
+			</basicnumber>
+			<basicnumber name="sail">
+				<bounds>251,8,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="crewlabel">
+				<bounds>8,13,95,20</bounds>
+				<static textres="watervessel_crewlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="sail_label">
+				<bounds>150,13,92,20</bounds>
+				<static textres="watervessel_sail_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicnumber name="armor_class">
+				<bounds>108,41,30,30</bounds>
+			</basicnumber>
+			<basicnumber name="hp_current">
+				<bounds>251,41,30,30</bounds>
+			</basicnumber>
+			<stringcontrol name="aclabel">
+				<bounds>8,46,82,20</bounds>
+				<static textres="watervessel_aclabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="hp_current_label">
+				<bounds>150,46,82,20</bounds>
+				<static textres="watervessel_hp_current_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="maxloadlabel">
+				<bounds>8,77,82,20</bounds>
+				<static textres="watervessel_maxloadlabel_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicstring name="maxload">
+				<bounds>108,77,150,20</bounds>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<stringcontrol name="usuage_label">
+				<bounds>8,110,82,20</bounds>
+				<static textres="watervessel_usuage_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<basicstring name="usage">
+				<bounds>108,110,150,20</bounds>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<basicstring name="length">
+				<bounds>8,143,70,20</bounds>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<basicstring name="beam">
+				<bounds>108,143,70,20</bounds>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<basicstring name="draft">
+				<bounds>208,143,70,20</bounds>
+				<multilinespacing>20</multilinespacing>
+			</basicstring>
+			<stringcontrol name="length_label">
+				<bounds>16,171,56,20</bounds>
+				<center />
+				<static textres="watervessel_length_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="beam_label">
+				<bounds>114,171,56,20</bounds>
+				<center />
+				<static textres="watervessel_beam_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="draft_label">
+				<bounds>214,171,56,20</bounds>
+				<center />
+				<static textres="watervessel_draft_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<minHeightList name="weapons_list">
+				<frame offset="10,11,10,13" />
+ 
+				<anchored>
+					<left offset="17" />
+					<right offset="-8" />
+					<top offset="222" />
+				</anchored>
+				<class>vehicle_weapons_detail</class>
+				<datasource>.weaponslist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<script file="common/scripts/list_text.lua"></script>
+			</minHeightList>
+			<button_iadd name="weapons_list_iadd">
+				<bounds>-42,192,15,15</bounds>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<target>weapons_list</target>
+			</button_iadd>
+			<button_iedit name="weapons_list_iedit">
+				<bounds>-24,192,15,15</bounds>
+				<icon normal="visibilityon" />
+				<font>button-white</font>
+				<target>weapons_list</target>
+			</button_iedit>
+		</sheetdata>
+	</windowclass>
+</root>

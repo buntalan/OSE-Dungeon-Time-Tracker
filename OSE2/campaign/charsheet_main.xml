@@ -1,0 +1,2237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="charsheet_main">
+		<placement>
+			<size height="635" width="520" />
+		</placement>
+		<sizelimits resize="both">
+			<maximum height="800" />
+			<minimum width="530" />
+			<dynamic />
+		</sizelimits>
+		<sheetdata>
+			<genericcontrol name="character_box">
+				<frame name="charnamebox_frame" offset="0,0,0,0" />
+				<bounds>15,17,448,68</bounds>
+			</genericcontrol>
+			<stringcontrol name="class_label">
+				<bounds>15,21,50,30</bounds>
+				<center />
+				<static textres="charsheet_main_class_label_LabelCaption" />
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="al_lable">
+				<bounds>209,55,87,30</bounds>
+				<center />
+				<static textres="charsheet_main_al_lable_LabelCaption" />
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="title_lable">
+				<bounds>15,54,50,30</bounds>
+				<center />
+				<static textres="charsheet_main_title_lable_LabelCaption" />
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+			<rsw_combobox name="alignment">
+				<frame name="border" offset="8,0,8,0" />
+				<bounds>306,52,141,25</bounds>
+				<empty textres="charsheet_main_alignment_EmptyText" />
+				<listdirection>down</listdirection>
+				<font>Ose-Reference</font>
+				<center></center>
+				<script>
+					function onInit()
+					
+					super.onInit();
+					add("1","Law");
+					add("2","Neutrality");
+					add("3","Chaos");
+					end
+					
+				</script>
+			</rsw_combobox>
+			<stringfield name="title_string">
+				<bounds>63,56,140,23</bounds>
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>Ose_referencesmall</font>
+			</stringfield>
+			<hn name="Level_new">
+				<invisible />
+				<font>reference-b-large</font>
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>function onInit()
+					checkdata();
+					end
+					function onValueChanged()
+					
+					checkdata();
+					end
+					
+				</script>
+			</hn>
+			<stringcontrol name="str_att">
+				<bounds>11,185,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_str_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="int_att">
+				<bounds>11,220,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_int_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<script>
+					
+					
+				</script>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="wis_att">
+				<bounds>11,255,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_wis_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="dex_att">
+				<bounds>11,290,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_dex_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="con_att">
+				<bounds>11,325,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_con_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="chr_att">
+				<bounds>11,360,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_chr_att_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="int_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>57,222,30,27</bounds>
+				<tooltip textres="charsheet_main_int_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.int_score.getValue();
+					                local sName = "Intelligence"
+					                manager_ability.performroll(dragInfo, rActor, nSelf,sName); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="wis_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>57,256,30,27</bounds>
+				<tooltip textres="charsheet_main_wis_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.wis_score.getValue();
+					                local sName = "Wisdom"
+					                manager_ability.performroll(dragInfo, rActor, nSelf,sName); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="dex_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>57,290,30,27</bounds>
+				<tooltip textres="charsheet_main_dex_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.dex_score.getValue();
+					                local sName = "Dexterity"
+					                manager_ability.performroll(dragInfo, rActor, nSelf,sName); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="con_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>57,327,30,27</bounds>
+				<tooltip textres="charsheet_main_con_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.con_score.getValue();
+					                local sName = "Constitution"
+					                manager_ability.performroll(dragInfo, rActor, nSelf,sName); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="chr_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>57,360,30,27</bounds>
+				<tooltip textres="charsheet_main_chr_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.chr_score.getValue();
+					                local sName = "Charisma"
+					                manager_ability.performroll(dragInfo, rActor, nSelf,sName); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringcontrol name="d_save">
+				<bounds>141,185,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_d_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="w_save">
+				<bounds>141,220,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_w_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="p_save">
+				<bounds>141,255,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_p_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="b_save">
+				<bounds>141,290,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_b_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="s_save">
+				<bounds>141,325,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_s_save_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="dsave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>186,186,30,27</bounds>
+				<tooltip textres="charsheet_main_dsave_score_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(draginfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 1
+					                local sName = "[SAVE] Vs Death"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(draginfo,rActor,nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="wsave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>186,222,30,27</bounds>
+				<tooltip textres="charsheet_main_wsave_score_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 2
+					                local sName = "[SAVE] Vs Wands"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="psave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>186,256,30,27</bounds>
+				<tooltip textres="charsheet_main_psave_score_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 3
+					                local sName = "[SAVE] Vs Paralyzation or Petrification"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="bsave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>186,290,30,27</bounds>
+				<tooltip textres="charsheet_main_bsave_score_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 4
+					                local sName = "[SAVE] Vs Breath"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="ssave_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>186,327,30,27</bounds>
+				<tooltip textres="charsheet_main_ssave_score_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 5
+					                local sName = "[SAVE] Vs Spells, Rods or Staves"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(dragInfo, rActor, nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringcontrol name="hp_combat">
+				<bounds>263,185,30,30</bounds>
+				<center />
+				<static textres="charsheet_main_hp_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="mel_combat">
+				<bounds>256,326,60,30</bounds>
+				<center />
+				<static textres="charsheet_main_mel_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="ac_combat">
+				<bounds>256,255,60,30</bounds>
+				<center />
+				<static textres="charsheet_main_ac_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="hp_current">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>296,186,30,27</bounds>
+				<tooltip textres="charsheet_main_hp_current_Tooltip" />
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<number name="attscore_combat">
+				<bounds>355,319,30,30</bounds>
+				<invisible />
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="maxhpscore_combat">
+				<bounds>256,220,60,30</bounds>
+				<center />
+				<static textres="charsheet_main_maxhpscore_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="un_combat">
+				<bounds>256,290,60,30</bounds>
+				<center />
+				<static textres="charsheet_main_un_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="mis_combat">
+				<bounds>256,360,60,30</bounds>
+				<center />
+				<static textres="charsheet_main_mis_combat_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="maxhp_combat">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>321,222,30,27</bounds>
+				<tooltip textres="charsheet_main_maxhp_combat_Tooltip" />
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<basicOSEnumber name="unscore_combat">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>321,290,30,27</bounds>
+				<tooltip textres="charsheet_main_unscore_combat_Tooltip" />
+				<default>9</default>
+				<font>Ose-Reference</font>
+				<script>
+					function onValueChanged()
+					manager_char.CheckUnarmored(window.getDatabaseNode())
+					end
+				</script>
+			</basicOSEnumber>
+			<number name="melscore_combat">
+				<frame offset="3,3,3,3" />
+				<bounds>362,332,17,14</bounds>
+				<invisible />
+				<font>reference-b-large</font>
+			</number>
+			<number name="hpmod_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>377,222,30,27</bounds>
+				<tooltip textres="charsheet_main_hpmod_score_Tooltip" />
+				<readonly />
+				<displaysign />
+				<font>Ose-Reference</font>
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>function onInit()
+					
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "con_score"), "onUpdate", updateCon);
+					DB.addHandler(DB.getPath(nodeChar, "con_effect"), "onUpdate", updateCon);
+					updateCon();
+					return true
+					
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "con_score*"), "onUpdate", updateCon);
+							DB.removeHandler(DB.getPath(nodeChar, "con_effect*"), "onUpdate", updateCon);
+					end
+				</script>
+			</number>
+			<number name="acmodscore_combat">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>377,256,30,27</bounds>
+				<tooltip textres="charsheet_main_acmodscore_combat_Tooltip" />
+				<gmeditonly />
+				<displaysign />
+				<font>Ose-Reference</font>
+			</number>
+			<number name="attmod_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>321,327,30,27</bounds>
+				<tooltip textres="charsheet_main_attmod_score_Tooltip" />
+				<readonly />
+				<displaysign />
+				<font>Ose-Reference</font>
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					updateStr();
+					
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "str_score"), "onUpdate", updateStr);
+					DB.addHandler(DB.getPath(nodeChar, "str_effect"), "onUpdate", updateStr);
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "str_score*"), "onUpdate", updateStr);
+							DB.removeHandler(DB.getPath(nodeChar, "str_effect*"), "onUpdate", updateStr);
+					end
+					function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					function action(dragInfo)
+					                local nodeChar = window.getDatabaseNode();
+					
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local sLabel = "Basic Melee [Attack]";
+									local nAtk_roll = 0;
+									local sType = "Melee";
+									local nAtk_bonus = self.getValue();
+									local Thaco = DB.getValue(nodeChar, "thaco");
+											
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+				</script>
+			</number>
+			<stringcontrol name="init_lable">
+				<bounds>11,441,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_init_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="ld_lable">
+				<bounds>421,188,40,25</bounds>
+				<tooltip textres="charsheet_main_ld_lable_Tooltip" />
+				<center />
+				<static textres="charsheet_main_ld_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="od_lable">
+				<anchored>
+					<left offset="421" />
+					<top offset="4" anchor="bottom" parent="ld_lable" relation="current" />
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_od_lable_Tooltip" />
+				<center />
+				<static textres="charsheet_main_od_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="sd_lable">
+				<anchored>
+					<left offset="421" />
+					<top offset="7" anchor="bottom" parent="od_lable" relation="current" />
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_sd_lable_Tooltip" />
+				<center />
+				<static textres="charsheet_main_sd_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="ft_lable">
+				<anchored>
+					<left offset="421" />
+					<top offset="8" anchor="bottom" parent="sd_lable" relation="current" />
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_main_ft_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="init_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>62,440,30,27</bounds>
+				<tooltip textres="charsheet_main_init_score_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 2, -6);
+					          setHoverCursor("hand"); 
+					
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					
+					
+					function action(draginfo)
+					
+						local bIsIndividual = OptionsManager.isOption("BEMP_INITTYPE", "Individual");
+						local bIsGroup = OptionsManager.isOption("BEMP_INITTYPE", "Group");
+						local bIsDefault = (not bIsIndividual);
+						
+							if bIsIndividual then
+							sName = "Individual"
+							nSelf = self.getValue()
+							else
+							sName = "Group"
+							nSelf =0;
+							end
+									local nodeChar = window.getDatabaseNode();
+									local rActor = ActorManager.resolveActor(nodeChar);
+					
+							manager_initiative.performroll(draginfo,rActor,nSelf,sName); 
+							return true;
+					end
+					
+					
+					
+					
+				</script>
+			</number>
+			<basicOSEnumber name="ld_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>473,184,30,27</bounds>
+				<tooltip textres="charsheet_main_ld_score_Tooltip" />
+				<default>1</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.ld_score.getValue();
+					                local sName = "Listen Door"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6");
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="od_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="ld_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_od_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.od_score.getValue();
+					                local sName = "Open Door"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6");
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="sd_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="od_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_sd_score_Tooltip" />
+				<default>1</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.sd_score.getValue();
+					                local sName = "Secret Door"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6");
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="ft_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="sd_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_ft_score_Tooltip" />
+				<default>1</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.ft_score.getValue();
+					                local sName = "Find a Trap"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6");
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringcontrol name="ov_lable">
+				<bounds>173,469,40,30</bounds>
+				<tooltip textres="charsheet_main_ov_lable_Tooltip" />
+				<center />
+				<static textres="charsheet_main_ov_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="ex_lable">
+				<bounds>259,437,40,30</bounds>
+				<tooltip textres="charsheet_main_ex_lable_Tooltip" />
+				<center />
+				<static textres="charsheet_main_ex_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="en_lable">
+				<bounds>259,469,40,30</bounds>
+				<tooltip textres="charsheet_main_en_lable_Tooltip" />
+				<center />
+				<static textres="charsheet_main_en_lable_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="ov_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>224,469,30,27</bounds>
+				<tooltip textres="charsheet_main_ov_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>function onInit()
+					Interface.toggleWindow("charsheet_movement", window.getDatabaseNode());
+					Interface.toggleWindow("charsheet_movement", window.getDatabaseNode());
+					updateMove();
+					
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "movement_base.total"), "onUpdate", updateMove);
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "movement_base.total*"), "onAdd", updateMove);
+					
+					end
+					      
+				</script>
+			</number>
+			<number name="ex_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>308,440,30,27</bounds>
+				<tooltip textres="charsheet_main_ex_score_Tooltip" />
+				<font>Ose-Reference</font>
+			</number>
+			<number name="en_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>308,469,30,27</bounds>
+				<tooltip textres="charsheet_main_en_score_Tooltip" />
+				<font>Ose-Reference</font>
+			</number>
+			<basicOSEnumber name="str_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>57,186,30,27</bounds>
+				<tooltip textres="charsheet_main_str_score_Tooltip" />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.str_score.getValue();
+					                local sName = "Strength"
+					
+					                manager_ability.performroll(dragInfo, rActor, nSelf,sName); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<number name="ac_current">
+				<frame name="shield" offset="3,3,3,3" />
+				<bounds>324,259,25,25</bounds>
+				<font>reference-b</font>
+			</number>
+			<minHeightList name="weaponslist">
+				<frame name="charsheetframe" offset="1,3,1,5" />
+				<anchored>
+					<left offset="37" />
+					<top offset="549" />
+					<size>
+						<width>448</width>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_weaponslist_Tooltip" />
+				<class>weapons_detail</class>
+				<datasource>.weaponlist</datasource>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>item</class>
+					<field>*</field>
+				</acceptdrop>
+			</minHeightList>
+			<number name="wis_bonus">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>186,360,30,27</bounds>
+				<tooltip textres="charsheet_main_wis_bonus_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>function onInit()
+					
+					updateWis();
+					
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "wis_score"), "onUpdate", updateWis);
+					DB.addHandler(DB.getPath(nodeChar, "wis_effect"), "onUpdate", updateWis);
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "wis_score*"), "onAdd", updateWis);
+							DB.removeHandler(DB.getPath(nodeChar, "wis_effect*"), "onAdd", updateWis);
+					end
+					      
+				</script>
+			</number>
+			<number name="chr_bonus">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>123,440,30,27</bounds>
+				<tooltip textres="charsheet_main_chr_bonus_Tooltip" />
+				<gmeditonly />
+				<displaysign />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.chr_bonus.getValue();
+					                
+					                manager_reaction.performroll(dragInfo, rActor, nSelf); 
+					        return true; 
+					end
+				</script>
+			</number>
+			<number name="max_retain">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>92,360,30,27</bounds>
+				<tooltip textres="charsheet_main_max_retain_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>
+					function onInit()
+					
+					updateChr();
+					
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "chr_score"), "onUpdate", updateChr);
+					DB.addHandler(DB.getPath(nodeChar, "chr_effect"), "onUpdate", updateChr);
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "chr_score*"), "onAdd", updateChr);
+							DB.removeHandler(DB.getPath(nodeChar, "chr_effect*"), "onAdd", updateChr);
+					end
+					      
+				</script>
+			</number>
+			<number name="max_loyalty">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>127,360,30,27</bounds>
+				<tooltip textres="charsheet_main_max_loyalty_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>
+					
+				</script>
+			</number>
+			<stringfield name="lang_string">
+				<bounds>130,502,176,27</bounds>
+				<tooltip textres="charsheet_main_lang_string_Tooltip" />
+				<readonly />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>reference-i</font>
+			</stringfield>
+			<number name="miss_bonus">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>321,360,30,27</bounds>
+				<tooltip textres="charsheet_main_miss_bonus_Tooltip" />
+				<readonly />
+				<displaysign />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand");
+					end
+					function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					function action(dragInfo)
+					                local nodeChar = window.getDatabaseNode();
+					
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local sLabel = "Basic Ranged [Attack]";
+									local nAtk_roll = 0;
+									local sType = "Ranged";
+									local nAtk_bonus = window.miss_bonus.getValue();
+									local Thaco = DB.getValue(nodeChar, "thaco");
+											
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+					
+				</script>
+			</number>
+			<stringcontrol name="reac_label">
+				<bounds>110,471,51,20</bounds>
+				<center />
+				<static textres="charsheet_main_reac_label_LabelCaption" />
+				<font>mini_name</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="follower_label">
+				<bounds>82,386,44,20</bounds>
+				<center />
+				<static textres="charsheet_main_follower_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="loyalty_label">
+				<bounds>126,386,29,20</bounds>
+				<center />
+				<static textres="charsheet_main_loyalty_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<genericcontrol name="logo_icon">
+				<bounds>354,88,138,62</bounds>
+				<icon>oselogo</icon>
+			</genericcontrol>
+			<number name="base_score" source="movement_base.total">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>224,440,30,27</bounds>
+				<font>Ose-Reference</font>
+			</number>
+			<stringcontrol name="reaplusminus_label">
+				<bounds>93,442,26,28</bounds>
+				<center />
+				<static textres="charsheet_main_reaplusminus_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="svmod_label">
+				<bounds>155,360,26,28</bounds>
+				<center />
+				<static textres="charsheet_main_svmod_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="mxhp_label">
+				<bounds>350,222,26,28</bounds>
+				<center />
+				<static textres="charsheet_main_mxhp_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="acbon_label">
+				<bounds>350,256,26,28</bounds>
+				<center />
+				<static textres="charsheet_main_acbon_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="lang_label">
+				<bounds>40,504,82,25</bounds>
+				<tooltip textres="charsheet_main_lang_label_Tooltip" />
+				<center />
+				<static textres="charsheet_main_lang_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<windowlist name="classlist">
+				<bounds>70,18,328,30</bounds>
+				<class>class_detail</class>
+				<datasource>.classlist</datasource>
+				<allowdelete />
+				<noscroll />
+				<acceptdrop>
+					<class>class</class>
+					<field>*</field>
+				</acceptdrop>
+			</windowlist>
+			<stringcontrol name="base_label">
+				<bounds>173,437,40,30</bounds>
+				<center />
+				<static textres="charsheet_main_base_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="THACO_label">
+				<bounds>223,86,70,30</bounds>
+				<center />
+				<static textres="charsheet_main_THACO_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="thaco">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>295,86,30,27</bounds>
+				<tooltip textres="charsheet_main_thaco_Tooltip" />
+				<gmeditonly />
+				<default>19</default>
+				<font>Ose-Reference</font>
+			</number>
+			<stringcontrol name="XP_label">
+				<bounds>9,119,70,30</bounds>
+				<center />
+				<static textres="charsheet_main_XP_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="xp_field">
+				<frame name="fieldlight" offset="3,3,3,3" />
+				<bounds>86,122,52,24</bounds>
+				<tooltip textres="charsheet_main_xp_field_Tooltip" />
+				<gmeditonly />
+				<min>0</min>
+				<default>0</default>
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="xpneed_label">
+				<bounds>145,119,60,36</bounds>
+				<center />
+				<static textres="charsheet_main_xpneed_label_LabelCaption" />
+				<multilinespacing>12</multilinespacing>
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<number name="Xpneed_field">
+				<frame name="fieldlight" offset="3,3,3,3" />
+				<bounds>217,122,72,24</bounds>
+				<tooltip textres="charsheet_main_Xpneed_field_Tooltip" />
+				<gmeditonly />
+				<min>0</min>
+				<default>0</default>
+				<font>reference-b-large</font>
+			</number>
+			<stringcontrol name="turn_label">
+				<bounds>407,463,60,39</bounds>
+				<center />
+				<static textres="charsheet_main_turn_label_LabelCaption" />
+				<multilinespacing>12</multilinespacing>
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<hs name="class_field">
+				<invisible />
+			</hs>
+			<buttoncontrol name="turn_roll">
+				<frame name="turnundead" />
+				<bounds>473,465,30,30</bounds>
+				<stateframe>
+					<pressed name="turnundead" offset="-1,-1,-1,-1" nobaseframe="true" />
+				</stateframe>
+				<font>button-white</font>
+				<script>function onClickDown()
+					window.numturned.setValue(0)
+					manager_action_turn.ResetTurned()
+					end
+					
+					function onClickRelease()
+					
+									local nodeChar = window.getDatabaseNode()
+									local rActor = ActorManager.resolveActor(nodeChar)
+									local sDice = "d6 +d6"
+									local aDice = StringManager.convertStringToDice(sDice, true)
+									local sType = "Turn"				
+									local sName = DB.getValue(nodeChar,"name","")
+									local sType= "turn"
+									local sClass = DB.getValue(nodeChar,"class_field",""):lower()
+									if StringManager.isWord(sClass,{"paladin","avenger"}) then
+									nAction = DB.getValue(nodeChar,"turn_level",0) -2
+									else
+									nAction = DB.getValue(nodeChar,"turn_level",0)
+									end
+					
+									if nAction&lt;= 0 then return false end
+									local nBonus = 0
+					
+									manager_action_turn.performRoll(draginfo, rActor,sType,aDice,nBonus,sName,tostring(nAction));
+									return true;
+					end
+					
+				</script>
+			</buttoncontrol>
+			<stringfield name="senses">
+				<bounds>387,502,106,27</bounds>
+				<tooltip textres="charsheet_main_senses_Tooltip" />
+				<gmeditonly />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>reference-i</font>
+			</stringfield>
+			<basicOSEnumber name="ct_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="ft_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_ct_score_Tooltip" />
+				<default>2</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.ct_score.getValue();
+					                local sName = "Construction Tricks"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6");
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringcontrol name="CT_label">
+				<anchored>
+					<left offset="421" />
+					<top offset="3" anchor="bottom" parent="ft_lable" relation="current" />
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_main_CT_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="hfl_hide_label">
+				<anchored>
+					<left offset="421" />
+					<top offset="5" anchor="bottom" parent="CT_label" relation="current" />
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_main_hfl_hide_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="hfl_hide">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="ct_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_hfl_hide_Tooltip" />
+				<default>2</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.hfl_hide.getValue();
+					                local sName = "Hide in a Dungeon"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6"); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringcontrol name="Item">
+				<bounds>61,533,77,20</bounds>
+				<center />
+				<static textres="charsheet_main_Item_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<basicOSEnumber name="wounds">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>377,186,30,27</bounds>
+				<tooltip textres="charsheet_main_wounds_Tooltip" />
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<hn name="temp_hp">
+				<invisible />
+			</hn>
+			<hn name="initresult">
+				<invisible />
+			</hn>
+			<number name="misbonusbox">
+				<bounds>360,359,22,22</bounds>
+				<invisible />
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>function onInit()
+					
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "dex_score"), "onUpdate", updateDex);
+					DB.addHandler(DB.getPath(nodeChar, "class_field"), "onUpdate", updateDex);
+					DB.addHandler(DB.getPath(nodeChar, "dex_effect"), "onUpdate", updateDex);
+					DB.addHandler(DB.getPath(nodeChar, "int_score"), "onUpdate", updateInt);
+					DB.addHandler(DB.getPath(nodeChar, "int_effect"), "onUpdate", updateInt);
+					updateInt();
+					updateDex();
+					return true
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "dex_score*"), "onUpdate", updateDex);
+							DB.removeHandler(DB.getPath(nodeChar, "class_field*"), "onUpdate", updateDex);
+							DB.removeHandler(DB.getPath(nodeChar, "int_score*"), "onUpdate", updateInt);
+							DB.removeHandler(DB.getPath(nodeChar, "int_effect*"), "onUpdate", updateInt);
+						    DB.removeHandler(DB.getPath(nodeChar, "dex_effect*"), "onUpdate", updateDex);
+					end
+				</script>
+			</number>
+			<button_charclasslevel name="button_classlevel">
+				<bounds>294,117,33,34</bounds>
+				<tooltip textres="charsheet_main_button_classlevel_Tooltip" />
+			</button_charclasslevel>
+			<hn name="exp">
+				<invisible />
+				<script>function onInit()
+					
+					local nodeChar = window.getDatabaseNode();
+					
+					local nXp = DB.getValue(nodeChar, "exp", 0);
+					
+					if nXp &gt; 0 then
+					DB.setValue(nodeChar, "exp_current", "number", nXp);
+					
+					else
+					end
+					
+					end
+					
+					function onValueChanged()
+					
+					local nodeChar = window.getDatabaseNode();
+					
+					local nXp = DB.getValue(nodeChar, "exp", 0);
+					
+					if nXp &gt; 0 then
+					DB.setValue(nodeChar, "exp_current", "number", nXp);
+					
+					else
+					end
+					
+					end
+					
+					
+				</script>
+			</hn>
+			<basicOSEnumber name="hunt_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="hfl_hide" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_hunt_score_Tooltip" />
+				<default>5</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.hunt_score.getValue();
+					                local sName = "Hunt"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6");
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<basicOSEnumber name="for_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="hunt_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_for_score_Tooltip" />
+				<default>2</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = window.for_score.getValue();
+					                local sName = "Forage"
+					                
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6");
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringcontrol name="hunt_label">
+				<anchored>
+					<left offset="421" />
+					<top offset="7" anchor="bottom" parent="hfl_hide_label" relation="current" />
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_main_hunt_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="forage_label">
+				<anchored>
+					<left offset="407" />
+					<top offset="6" anchor="bottom" parent="hunt_label" relation="current" />
+					<size>
+						<width>60</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_main_forage_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="race_label">
+				<bounds>9,91,49,23</bounds>
+				<center />
+				<static textres="charsheet_main_race_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<windowlist name="racelist">
+				<bounds>550,56,150,25</bounds>
+				<invisible />
+				<class>race_detail</class>
+				<datasource>.racelist</datasource>
+				<allowdelete />
+				<noscroll />
+				<acceptdrop>
+					<class>race</class>
+					<field>*</field>
+				</acceptdrop>
+				<script file="campaign/scripts/droprace.lua" />
+			</windowlist>
+			<buttonfield name="race_box">
+				<bounds>585,25,17,18</bounds>
+				<invisible />
+				<gmvisibleonly />
+				<state icon="button_checkoff" />
+				<state icon="button_checkon" />
+				<script>function onInit()
+					checkrace();
+					
+					OptionsManager.registerCallback("BEMP_RACETYPE", checkrace);
+					
+					end
+					
+					function onClose()
+					
+					OptionsManager.unregisterCallback("BEMP_RACETYPE", checkrace);
+					
+					end
+					
+					function checkrace()
+					
+					local nodeChar = window.getDatabaseNode();
+						local bIsAdvance = OptionsManager.isOption("BEMP_RACETYPE", "Advanced");
+						local bIsBasic = OptionsManager.isOption("BEMP_RACETYPE", "Basic");
+						local bIsDefault = (not bIsAdvance);
+					
+					if bIsBasic then
+					
+					window.race_label.setVisible(false)
+					window.race_field.setVisible(false)
+					
+					else
+					window.race_label.setVisible(true)
+					window.race_field.setVisible(true)
+					end
+					end
+				</script>
+			</buttonfield>
+			<hn name="Missracial" />
+			<stringcontrol name="senses_label">
+				<bounds>316,504,62,25</bounds>
+				<tooltip textres="charsheet_main_senses_label_Tooltip" />
+				<center />
+				<static textres="charsheet_main_senses_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<button_charskillshow name="Skilldisplay_button">
+				<bounds>489,125,25,25</bounds>
+				<tooltip textres="charsheet_main_Skilldisplay_button_Tooltip" />
+			</button_charskillshow>
+			<hn name="HIDE">
+				<invisible />
+				<script>function onInit()
+					
+					checkhide();
+					end
+					function onValueChanged()
+					checkhide();
+					end
+					function checkhide()
+					local nodeChar = window.getDatabaseNode();
+					local nToggle = window.HIDE.getValue();
+					
+					
+					if nToggle == 1 then
+					window.hfl_hide.setVisible(true)
+					window.hfl_hide_label.setVisible(true)
+					else
+					window.hfl_hide.setVisible(false)
+					window.hfl_hide_label.setVisible(false)
+					
+					end
+					end
+				</script>
+			</hn>
+			<hn name="TRICKS">
+				<invisible />
+				<script>function onInit()
+					
+					checktricks();
+					end
+					
+					function onValueChanged()
+					checktricks();
+					end
+					function checktricks()
+					
+					local nodeChar = window.getDatabaseNode();
+					local nToggle = window.TRICKS.getValue();
+					
+					
+					if nToggle == 1 then
+					window.ct_score.setVisible(true)
+					window.CT_label.setVisible(true)
+					else
+					window.ct_score.setVisible(false)
+					window.CT_label.setVisible(false)
+					
+					end
+					end
+				</script>
+			</hn>
+			<hn name="FORAGE">
+				<invisible />
+				<script>function onInit()
+					
+					checkforage();
+					end
+					
+					
+					
+					function onValueChanged()
+					checkforage();
+					end
+					function checkforage()
+					local nodeChar = window.getDatabaseNode();
+					local nToggle = window.FORAGE.getValue();
+					
+					
+					if nToggle == 1 then
+					window.for_score.setVisible(true)
+					window.forage_label.setVisible(true);
+					else
+					window.for_score.setVisible(false)
+					window.forage_label.setVisible(false);
+					
+					end
+					end
+				</script>
+			</hn>
+			<hn name="HUNT">
+				<invisible />
+				<script>function onInit()
+					
+					checkhunt();
+					end
+					
+					function onValueChanged()
+					checkhunt();
+					end
+					function checkhunt()
+					local nodeChar = window.getDatabaseNode();
+					local nToggle = window.HUNT.getValue();
+					
+					
+					if nToggle == 1 then
+					
+					window.hunt_score.setVisible(true)
+					window.hunt_label.setVisible(true);
+					else
+					
+					window.hunt_score.setVisible(false)
+					window.hunt_label.setVisible(false);
+					
+					end
+					end
+				</script>
+			</hn>
+			<hn name="TURN">
+				<invisible />
+				<script>function onInit()
+					
+					checkturn();
+					end
+					
+					
+					function onValueChanged()
+					checkturn();
+					end
+					function checkturn()
+					local nodeChar = window.getDatabaseNode();
+					local nToggle = window.TURN.getValue();
+					
+					
+					if nToggle == 1 then
+					window.turn_roll.setVisible(true)
+					window.turn_label.setVisible(true)
+					else
+					window.turn_roll.setVisible(false)
+					window.turn_label.setVisible(false)
+					
+					end
+					end
+				</script>
+			</hn>
+			<stringfield name="race_field">
+				<bounds>63,91,122,20</bounds>
+				<tooltip textres="charsheet_main_race_field_Tooltip" />
+				<controlline />
+				<lineoffset>-2</lineoffset>
+				<script>function onDrop(x, y, draginfo)
+					
+					
+									if draginfo.isType("shortcut") then
+										local sClass, sRecord = draginfo.getShortcutData();
+										local nodeSource = DB.findNode(sRecord);
+										local sName = window.race_field.getValue();
+										if sName ~= "" then
+										return false
+										end
+					
+								
+					
+										if StringManager.contains({"race"}, sClass) then
+										
+											droprace.addInfoDB(window.getDatabaseNode(), sClass, sRecord);
+											return true;
+										end
+									end
+					end
+					
+					
+					
+				</script>
+			</stringfield>
+			<hn name="saveammo">
+				<invisible />
+			</hn>
+			<basicOSEnumber name="stealth_score">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<anchored>
+					<left offset="473" />
+					<top offset="4" anchor="bottom" parent="for_score" relation="current" />
+					<size>
+						<width>30</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<tooltip textres="charsheet_main_stealth_score_Tooltip" />
+				<default>1</default>
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+					end
+					
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(dragInfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local sName = "Stealth"
+					 
+					                manager_skill.performroll(dragInfo, rActor, nSelf, sName, {"d6"}, "6"); 
+					        return true; 
+					end
+				</script>
+			</basicOSEnumber>
+			<stringcontrol name="stealth_label">
+				<anchored>
+					<left offset="407" />
+					<top offset="6" anchor="bottom" parent="forage_label" relation="current" />
+					<size>
+						<width>60</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<center />
+				<static textres="charsheet_main_stealth_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<hn name="STEALTH">
+				<invisible />
+				<script>function onInit()
+					
+					checktricks();
+					end
+					
+					function onValueChanged()
+					checktricks();
+					end
+					function checktricks()
+					
+					local nodeChar = window.getDatabaseNode();
+					local nToggle = window.STEALTH.getValue();
+					
+					
+					if nToggle == 1 then
+					window.stealth_score.setVisible(true)
+					window.stealth_label.setVisible(true)
+					else
+					window.stealth_score.setVisible(false)
+					window.stealth_label.setVisible(false)
+					
+					end
+					end
+				</script>
+			</hn>
+			<genericcontrol name="graphframe2">
+				<bounds>14,153,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<genericcontrol name="graphframe3">
+				<bounds>135,153,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<genericcontrol name="graphframe1">
+				<bounds>265,153,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<genericcontrol name="graphframe4">
+				<bounds>393,153,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<genericcontrol name="graphframe5">
+				<bounds>200,408,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<genericcontrol name="graphframe6">
+				<bounds>25,408,115,30</bounds>
+				<icon>labelframe</icon>
+			</genericcontrol>
+			<stringcontrol name="abil_label">
+				<bounds>14,156,115,23</bounds>
+				<center />
+				<static textres="charsheet_main_abil_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="savethr_label">
+				<bounds>134,156,115,23</bounds>
+				<center />
+				<static textres="charsheet_main_savethr_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="combat_label">
+				<bounds>265,156,115,23</bounds>
+				<center />
+				<static textres="charsheet_main_combat_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="explor_label">
+				<bounds>393,156,115,23</bounds>
+				<center />
+				<static textres="charsheet_main_explor_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="move_label">
+				<bounds>199,411,115,23</bounds>
+				<center />
+				<static textres="charsheet_main_move_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="enc_label">
+				<bounds>25,411,115,23</bounds>
+				<center />
+				<static textres="charsheet_main_enc_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<stringfield name="multiclassname">
+				<frame offset="5,0,0,0" />
+				<bounds>77,22,198,28</bounds>
+				<controlline />
+				<lineoffset>-2</lineoffset>
+				<font>OSE_Reference_medium</font>
+			</stringfield>
+			<hn name="setmulti">
+				<invisible />
+				<script>function onInit()
+					
+					onValueChanged()
+					
+					end
+					function onValueChanged()
+					local nCheck = window.setmulti.getValue()
+					if nCheck ==1 then
+					
+					window.classlist.setVisible(false)
+					window.multiclassname.setVisible(true)
+					window.Xpneed_field.setVisible(false)
+					window.xp_field.setVisible(false)
+					window.xpneed_label.setVisible(false)
+					window.XP_label.setVisible(false)
+					
+					else
+					window.classlist.setVisible(true)
+					window.multiclassname.setVisible(false)
+					window.Xpneed_field.setVisible(true)
+					window.xp_field.setVisible(true)
+					window.xpneed_label.setVisible(true)
+					window.XP_label.setVisible(true)
+					
+					end
+					end
+				</script>
+			</hn>
+			<number name="poison">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>219,186,30,27</bounds>
+				<tooltip textres="charsheet_main_poison_Tooltip" />
+				<gmeditonly />
+				<font>Ose-Reference</font>
+				<script>function onInit()
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomleft", 1, -5);
+					          setHoverCursor("hand"); 
+							local nodeChar = window.getDatabaseNode();
+							DB.addHandler(DB.getPath(nodeChar, "dsave_score"), "onUpdate", onUpdatePSaves);
+							DB.addHandler(DB.getPath(nodeChar, "con_score"), "onUpdate", onUpdatePSaves);
+							DB.addHandler(DB.getPath(nodeChar, "con_effect"), "onUpdate", onUpdatePSaves);
+					
+					end 
+					
+					function onClose()
+							local nodeChar = window.getDatabaseNode();
+							DB.removeHandler(DB.getPath(nodeChar, "dsave_score*"), "onAdd", onUpdatePSaves);
+							DB.removeHandler(DB.getPath(nodeChar, "con_score*"), "onAdd", onUpdatePSaves);
+							DB.removeHandler(DB.getPath(nodeChar, "con_effect*"), "onAdd", onUpdatePSaves);
+					end
+					function onUpdatePSaves()
+					local nodeChar = window.getDatabaseNode()
+					window.poison.setVisible(true)
+					manager_resilience.onUpdatePoisonSaves(nodeChar)
+					
+					end
+					function onDoubleClick(x, y)
+					return action();
+					
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					
+					return action(draginfo);
+					end
+					
+					function action(draginfo)
+					
+					                local nodeChar = window.getDatabaseNode();
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local nSelf = self.getValue();
+					                local save_type = 1
+					                local sName = "[SAVE] Vs  Poison"
+					                local sType ="spellsavepc"
+					                pcsavingthrow.performroll(draginfo,rActor,nSelf,sName,save_type,sType); 
+					        return true; 
+					end
+					
+				</script>
+			</number>
+			<linkfield name="race_link">
+				<bounds>189,90,20,20</bounds>
+				<description>
+					<field>racename</field>
+				</description>
+				<script>function onInit()
+					onValueChanged();
+					end
+					
+					function onValueChanged()
+					if isEmpty() then
+					setVisible(false);
+					else
+					setVisible(true);
+					end
+					end
+				</script>
+			</linkfield>
+			<stringcontrol name="wnd_label">
+				<bounds>329,185,46,30</bounds>
+				<center />
+				<static textres="charsheet_main_wnd_label_LabelCaption" />
+				<font>reference-b-large</font>
+				<readonly />
+			</stringcontrol>
+			<hs name="race_effects" />
+			<button_movement name="movement_button">
+				<bounds>318,410,25,25</bounds>
+			</button_movement>
+			<hn name="movement_base_score" source="movement_base.score" />
+			<hn name="natural_ac">
+				<invisible />
+				<script file="campaign/scripts/manager_char.lua" />
+				<script>function onInit()
+					
+					if self.getValue() == 0 then
+					self.setValue(9)
+					end
+					end
+					function onValueChanged()
+					updateDex();
+					end
+				</script>
+			</hn>
+			<number name="str_effect">
+				<bounds>38,183,18,18</bounds>
+				<readonly />
+				<displaysign />
+				<hideonvalue>0</hideonvalue>
+			</number>
+			<number name="int_effect">
+				<bounds>38,216,18,18</bounds>
+				<readonly />
+				<displaysign />
+				<hideonvalue>0</hideonvalue>
+			</number>
+			<number name="wis_effect">
+				<bounds>38,251,18,18</bounds>
+				<readonly />
+				<displaysign />
+				<hideonvalue>0</hideonvalue>
+			</number>
+			<number name="dex_effect">
+				<bounds>38,284,18,18</bounds>
+				<readonly />
+				<displaysign />
+				<hideonvalue>0</hideonvalue>
+			</number>
+			<number name="con_effect">
+				<bounds>38,321,18,18</bounds>
+				<readonly />
+				<displaysign />
+				<hideonvalue>0</hideonvalue>
+			</number>
+			<number name="chr_effect">
+				<bounds>38,356,18,18</bounds>
+				<readonly />
+				<displaysign />
+				<hideonvalue>0</hideonvalue>
+			</number>
+			<hn name="wsave_base" />
+			<hn name="spellsave_base" />
+			<hn name="turn_level">
+				<bounds>360,463,30,30</bounds>
+				<script>function onInit()
+					local nodeWin = window.getDatabaseNode()
+					
+					local nLevelcurrent = DB.getValue(nodeWin, "Level_new", 0)
+					
+						local nodeAbility = DB.getChild(nodeWin,"abilitylist")
+						for _,vAbility in pairs (DB.getChildren(nodeAbility)) do
+						local sName = DB.getValue(vAbility,"skillname",""):lower()
+					
+							if string.find(sName,"turni?n?g?%s?undead") then
+							DB.setValue(nodeWin,"turn_level","number",nLevelcurrent )
+							break
+							else
+							DB.setValue(nodeWin,"turn_level","number",0)
+							end
+						end
+					
+					end
+				</script>
+			</hn>
+			<hn name="numturned">
+				<bounds>223,233,24,30</bounds>
+			</hn>
+		</sheetdata>
+	</windowclass>
+</root>

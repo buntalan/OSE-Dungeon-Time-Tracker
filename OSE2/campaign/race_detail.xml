@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="race_detail">
+		<placement>
+			<size height="25" width="150" />
+		</placement>
+		<sheetdata>
+			<stringfield name="racename">
+				<frame offset="5,0,0,0" />
+				<bounds>5,4,121,20</bounds>
+				<readonly />
+				<gmeditonly />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<script>function onValueChanged()
+						
+					    local nodePC = window.getDatabaseNode();
+					    local nodeChar = DB.getChild(nodePC,"...")
+					    local sRace = window.racename.getValue();
+					    local sRacecurr = DB.getValue(nodeChar, "race_field");
+						local sName= DB.getValue(nodeChar,"name")
+					
+						if sRacecurr == "" then
+						DB.setValue(nodeChar, "race_field", "string",  sRace);
+							
+					  	end
+					manager_char.fixrace(nodeChar, sRace, sName)
+					
+						end
+				</script>
+			</stringfield>
+			<linkfield name="race_link">
+				<bounds>129,0,20,20</bounds>
+				<description>
+					<field>racename</field>
+				</description>
+				<class>race</class>
+				<allowdrop />
+			</linkfield>
+		</sheetdata>
+	</windowclass>
+</root>

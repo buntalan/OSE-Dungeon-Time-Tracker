@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npc_generate">
+		<frame>ctbox</frame>
+		<placement>
+			<size height="385" width="297" />
+		</placement>
+		<sheetdata>
+
+		<frame_char_overlay/>
+
+			<basicstring name="gen_npc">
+				<anchored>
+					<left offset="28" />
+					<top offset="68" />
+					<size>
+						<width>222</width>
+					</size>
+				</anchored>
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<multilinespacing>14</multilinespacing>
+			</basicstring>
+			<buttoncontrol name="generate_button">
+				<bounds>-31,351,25,-9</bounds>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<script>function onClickRelease()
+					
+					manager_npcgenerate.generatenpc(window.getDatabaseNode());
+					
+					end
+				</script>
+			</buttoncontrol>
+			<close_recordsheet name="close_button">
+				<bounds>-27,11,22,17</bounds>
+				<icon normal="button_close" pressed="button_close_down" />
+				<font>button-white</font>
+			</close_recordsheet>
+			<stringcontrol name="statblock_label">
+				<bounds>28,46,56,20</bounds>
+				<static textres="npc_generate_statblock_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="desc_label">
+				<anchored>
+					<left offset="28" />
+					<top offset="50" anchor="bottom" parent="gen_npc" relation="current" />
+					<size>
+						<width>101</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<static textres="npc_generate_desc_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<formattedtextfield name="zzdescription_text">
+				<frame name="border" offset="8,8,8,8" />
+				<anchored>
+					<left offset="36" />
+					<bottom offset="-35" />
+					<size>
+						<width>217</width>
+						<height>196</height>
+					</size>
+				</anchored>
+			</formattedtextfield>
+			<stringcontrol name="Label1">
+				<anchored>
+					<left offset="28" />
+					<top offset="5" anchor="bottom" parent="gen_npc" relation="current" />
+					<size>
+						<width>221</width>
+						<height>47</height>
+					</size>
+				</anchored>
+				<static textres="npc_generate_Label1_LabelCaption" />
+				<multilinespacing>14</multilinespacing>
+				<font>Ose-Reference</font>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

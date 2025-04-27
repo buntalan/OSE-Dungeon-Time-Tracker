@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="sub_classdata">
+		<placement>
+			<size height="372" width="443" />
+		</placement>
+		<sizelimits resize="both">
+			<maximum width="598" />
+			<dynamic />
+		</sizelimits>
+		<script>function onInit()
+				self.update();
+			end
+			
+			function update()
+			local nodeClass = getDatabaseNode()
+			
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+			
+			skill_field.setReadOnly(bReadOnly);
+			
+			    for _,w in ipairs(classdata_window.getWindows()) do 
+			        w.Level_class.setReadOnly(bReadOnly);
+					w.XP_class.setReadOnly(bReadOnly);
+			        w.thaco_class.setReadOnly(bReadOnly);
+			        w.SVD_num.setReadOnly(bReadOnly);
+			        w.SVW_num.setReadOnly(bReadOnly);
+			        w.SVP_num.setReadOnly(bReadOnly);
+			        w.SVB_num.setReadOnly(bReadOnly);
+			        w.SVS_num.setReadOnly(bReadOnly);
+			        w.HDbonus.setReadOnly(bReadOnly);
+			        w.natural_ac.setReadOnly(bReadOnly);
+			        w.spells.setReadOnly(bReadOnly);
+			    end 
+			
+			end
+		</script>
+		<sheetdata>
+			<minHeightList name="classdata_window">
+				<frame name="border" offset="2,2,2,2" />
+				<anchored>
+					<left offset="8" />
+					<right offset="-11" />
+					<top offset="87" />
+				</anchored>
+				<gmeditonly />
+				<class>ClassData_detail</class>
+				<datasource>.characterclassdata</datasource>
+				<allowcreate />
+				<allowdelete />
+			</minHeightList>
+			<stringcontrol name="classlvl_label">
+				<bounds>11,56,23,20</bounds>
+				<center />
+				<static textres="sub_classdata_classlvl_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classxp_label">
+				<bounds>52,56,23,20</bounds>
+				<center />
+				<static textres="sub_classdata_classxp_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classhd_label">
+				<bounds>102,56,50,20</bounds>
+				<center />
+				<static textres="sub_classdata_classhd_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classthaco_label">
+				<bounds>152,56,43,20</bounds>
+				<center />
+				<static textres="sub_classdata_classthaco_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classSv_label">
+				<bounds>233,42,59,20</bounds>
+				<center />
+				<static textres="sub_classdata_classSv_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classD_label">
+				<bounds>195,56,23,20</bounds>
+				<center />
+				<static textres="sub_classdata_classD_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classW_label">
+				<bounds>221,56,23,20</bounds>
+				<center />
+				<static textres="sub_classdata_classW_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classP_label">
+				<bounds>253,56,23,20</bounds>
+				<center />
+				<static textres="sub_classdata_classP_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="classB_label">
+				<bounds>286,56,23,20</bounds>
+				<center />
+				<static textres="sub_classdata_classB_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<stringfield name="skill_field">
+				<frame offset="7,0,0,0" />
+				<bounds>45,1,261,45</bounds>
+				<tooltip textres="sub_classdata_skill_field_Tooltip" />
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<multilinespacing>14</multilinespacing>
+			</stringfield>
+			<stringcontrol name="classskills_label">
+				<bounds>4,0,35,20</bounds>
+				<static textres="sub_classdata_classskills_label_LabelCaption" />
+				<font>reference-b</font>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="ClassS_label">
+				<bounds>317,56,23,20</bounds>
+				<center />
+				<static textres="sub_classdata_ClassS_label_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+			<button_classskill name="button_skill">
+				<frame name="shield" />
+				<bounds>4,21,31,30</bounds>
+			</button_classskill>
+			<stringcontrol name="Label1">
+				<bounds>345,46,30,34</bounds>
+				<center />
+				<static textres="sub_classdata_Label1_LabelCaption" />
+				<multilinespacing>18</multilinespacing>
+				<readonly />
+			</stringcontrol>
+			<stringcontrol name="Label2">
+				<bounds>380,56,56,20</bounds>
+				<center />
+				<static textres="sub_classdata_Label2_LabelCaption" />
+				<multilinespacing>18</multilinespacing>
+				<readonly />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

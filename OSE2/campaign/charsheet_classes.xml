@@ -1,0 +1,419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="charsheet_classes">
+		<frame>charsheetframe</frame>
+		<placement>
+			<size height="189" width="417" />
+		</placement>
+		<sheetdata>
+			<stringcontrol name="XP_label">
+				<bounds>6,17,88,30</bounds>
+				<center />
+				<static textres="charsheet_classes_XP_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<number name="exp_current">
+				<frame name="fieldlight" offset="3,3,3,3" />
+				<bounds>18,54,64,24</bounds>
+				<gmeditonly />
+				<min>0</min>
+				<font>Ose_referencesmall</font>
+				<script>function onValueChanged()
+					
+					local nodeChar = window.getDatabaseNode();
+					
+					
+					DB.setValue(nodeChar, "exp", "number", 0);
+					
+					end
+				</script>
+			</number>
+			<stringfield name="multsign_label">
+				<bounds>89,56,14,20</bounds>
+				<default textres="charsheet_classes_multsign_label_DefaultText" />
+				<readonly />
+				<font>reference-b-large</font>
+				<center></center>
+			</stringfield>
+			<stringcontrol name="bonuspercent_label">
+				<bounds>112,17,74,30</bounds>
+				<center />
+				<static textres="charsheet_classes_bonuspercent_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<stringfield name="equal_label">
+				<bounds>194,55,14,20</bounds>
+				<default textres="charsheet_classes_equal_label_DefaultText" />
+				<readonly />
+				<font>OSE_Reference_medium</font>
+				<center></center>
+			</stringfield>
+			<basicOSEnumber name="bonus_field">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>134,51,30,27</bounds>
+				<font>Ose-Reference</font>
+			</basicOSEnumber>
+			<number name="Total_xp">
+				<frame name="fieldlight" offset="3,3,3,3" />
+				<bounds>230,55,86,24</bounds>
+				<gmeditonly />
+				<min>0</min>
+				<font>Ose_referencesmall</font>
+				<script>function onValueChanged()
+					local nodeChar =window.getDatabaseNode();
+					local nXpnew_current =DB.getValue(nodeChar, "Total_xp", 0);
+					
+					DB.setValue(nodeChar, "xp_field", "number", nXpnew_current);
+					
+					end
+				</script>
+			</number>
+			<stringcontrol name="totalxpearn_label">
+				<bounds>199,17,126,30</bounds>
+				<center />
+				<static textres="charsheet_classes_totalxpearn_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<buttoncontrol name="applyxp_button">
+				<bounds>354,50,22,30</bounds>
+				<icon normal="button_add" />
+				<font>button-white</font>
+				<script>function onClickRelease()
+					local nodeChar =window.getDatabaseNode();
+					local nCheck = window.multiclasscheck.getValue()
+					
+					
+					local nBonus =(window.bonus_field.getValue())/100;
+					local nTotalxp = DB.getValue(nodeChar, "Total_xp", 0);
+					local nXP_assigned = DB.getValue(nodeChar, "exp_current", 0);
+					
+					local nTotal_newxp = math.floor(nTotalxp + (nXP_assigned * (1+nBonus))+0.5);
+					
+					DB.setValue(nodeChar, "Total_xp", "number", nTotal_newxp);
+					DB.setValue(nodeChar, "exp_current", "number", 0);
+					
+					if nCheck == 1 then
+					
+					local nRemain =0
+					local nSplit = math.floor(nTotal_newxp/2)
+					local nRemainder = (nTotal_newxp) - nSplit*2
+					local nBonusOne = (DB.getValue(nodeChar, "xpclass1bonus", 0)+100)/100
+					local nBonusTwo = (DB.getValue(nodeChar, "xpclass2bonus", 0)+100)/100
+					
+									if nRemainder &gt;=1 then
+									nRemain = 1
+									end
+									
+					DB.setValue(nodeChar, "xpclass1", "number", math.floor((nSplit+nRemain)*nBonusOne+0.5));
+					DB.setValue(nodeChar, "xpclass2", "number", math.floor(nSplit*nBonusTwo+0.5));
+					end
+					end
+				</script>
+			</buttoncontrol>
+			<stringcontrol name="apply_label">
+				<bounds>341,17,52,30</bounds>
+				<center />
+				<static textres="charsheet_classes_apply_label_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<close_recordsheet name="close_button">
+				<frame name="buttonup" />
+				<bounds>392,2,20,20</bounds>
+				<icon normal="button_close" pressed="button_close_down" />
+				<stateframe>
+					<pressed name="buttonup" offset="-1,-1,-1,-1" nobaseframe="true" />
+				</stateframe>
+				<font>button-white</font>
+			</close_recordsheet>
+			<stringcontrol name="mclabel">
+				<bounds>6,87,88,30</bounds>
+				<center />
+				<static textres="charsheet_classes_mclabel_LabelCaption" />
+				<font>OSE_Reference_medium</font>
+				<readonly />
+			</stringcontrol>
+			<buttonfield name="multiclasscheck">
+				<frame name="border" />
+				<bounds>109,92,20,20</bounds>
+				<state icon="button_add" />
+				<state icon="button_collapse" />
+				<script>function onInit()
+					onValueChanged()
+					end
+					
+					
+					function onValueChanged()
+					
+					local nCheck = window.multiclasscheck.getValue()
+					local nodeChar= window.getDatabaseNode()
+					DB.setValue(nodeChar,"setmulti","number",nCheck)
+					
+					if nCheck ==1 then
+					window.xpclass1.setVisible(true)
+					window.xpclass2.setVisible(true)
+					window.class1.setVisible(true)
+					window.class2.setVisible(true)
+					window.earnedlabel.setVisible(true)
+					window.neededlabel.setVisible(true)
+					window.xpneed2.setVisible(true)
+					window.xpneed1.setVisible(true)
+					window.multlvl1.setVisible(true)
+					window.multlvl2.setVisible(true)
+					window.class_link1.setVisible(true)
+					window.class_link2.setVisible(true)
+					window.xpclass2bonus.setVisible(true)
+					window.xpclass1bonus.setVisible(true)
+					else
+					window.xpclass1.setVisible(false)
+
+					window.xpclass2bonus.setVisible(false)
+					window.xpclass1bonus.setVisible(false)
+					window.multlvl1.setVisible(false)
+					window.multlvl2.setVisible(false)
+					window.xpclass2.setVisible(false)
+					window.class1.setVisible(false)
+					window.class2.setVisible(false)
+					window.earnedlabel.setVisible(false)
+					window.neededlabel.setVisible(false)
+					window.xpneed2.setVisible(false)
+					window.xpneed1.setVisible(false)
+					window.class_link1.setVisible(false)
+					window.class_link2.setVisible(false)
+					end
+					end
+				</script>
+			</buttonfield>
+			<stringfield name="class1">
+				<bounds>9,124,115,25</bounds>
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>OSE_Reference_medium</font>
+				<script>function onDrop(x, y, draginfo)
+					
+					
+									if draginfo.isType("shortcut") then
+										local sClass, sRecord = draginfo.getShortcutData();
+										local nodeSource = DB.findNode(sRecord);
+										local sName = DB.getValue(nodeSource, "classname", "")
+										if  window.class1.getValue() ~= sName and window.multlvl1.getValue() &gt;= 1 then
+										return false;
+										end
+					
+										if StringManager.contains({"class"}, sClass) then
+											local sClassString = 1;
+											manager_AdvRules.addInfoDB(window.getDatabaseNode(), sClass, sRecord,sClassString);
+											return true;
+										end
+									end
+								end
+								
+								
+				</script>
+			</stringfield>
+			<stringfield name="class2">
+				<bounds>9,155,115,25</bounds>
+				<controlline />
+				<lineoffset>0</lineoffset>
+				<font>OSE_Reference_medium</font>
+				<script>function onDrop(x, y, draginfo)
+					
+					
+					
+									if draginfo.isType("shortcut") then
+										local sClass, sRecord = draginfo.getShortcutData();
+										local nodeSource = DB.findNode(sRecord);
+										local sName = DB.getValue(nodeSource, "classname", "")
+										if  window.class2.getValue() ~= sName and window.multlvl2.getValue() &gt;= 1 then
+										return false;
+										end
+					
+										if StringManager.contains({"class"}, sClass) then
+											local sClassString = 2;
+											manager_AdvRules.addInfoDB(window.getDatabaseNode(), sClass, sRecord,sClassString);
+											return true;
+										end
+									end
+								end
+				</script>
+			</stringfield>
+			<number name="xpclass1">
+				<frame name="fieldlight" offset="6,3,3,3" />
+				<bounds>234,122,61,24</bounds>
+				<gmeditonly />
+				<min>0</min>
+				<font>Ose_referencesmall</font>
+			</number>
+
+			<number name="xpclass2">
+				<frame name="fieldlight" offset="6,3,3,3" />
+				<bounds>234,153,61,24</bounds>
+				<gmeditonly />
+				<min>0</min>
+				<font>Ose_referencesmall</font>
+			</number>
+
+			<number name="xpneed1">
+				<frame name="fieldlight" offset="6,3,3,3" />
+				<bounds>324,122,61,24</bounds>
+				<gmeditonly />
+				<min>0</min>
+				<font>Ose_referencesmall</font>
+			</number>
+
+			<number name="xpclass1bonus">
+				<frame name="fieldlight" offset="6,3,3,3" />
+			<anchored to = "xpclass1" anchor="left" width = " 20" height =" 25">
+			<top/>
+			<left offset = "-30"/>
+			</anchored>
+				<min>0</min>
+			</number>
+
+			<number name="xpneed2">
+				<frame name="fieldlight" offset="6,3,3,3" />
+				<bounds>324,153,61,24</bounds>
+				<gmeditonly />
+				<min>0</min>
+				<font>Ose_referencesmall</font>
+			</number>
+			<number name="xpclass2bonus">
+				<frame name="fieldlight" offset="6,3,3,3" />
+			<anchored to ="xpclass2" anchor="left" width = " 20"  height =" 25" >
+			<top/>
+			<left offset = "-30"/>
+			</anchored>
+				<min>0</min>
+			</number>
+
+			<stringcontrol name="bonuspercent_label">
+				<bounds>182,87,66,20</bounds>
+				<center />
+				<static textres="charsheet_classes_bonus_label" />
+				<font>Ose_referencesmall</font>
+				<readonly />
+			</stringcontrol>
+
+
+
+			<stringcontrol name="earnedlabel">
+				<bounds>230,87,66,20</bounds>
+				<center />
+				<static textres="charsheet_classes_earnedlabel_LabelCaption" />
+				<font>Ose_referencesmall</font>
+				<readonly />
+			</stringcontrol>
+
+			<stringcontrol name="neededlabel">
+				<bounds>315,87,66,20</bounds>
+				<center />
+				<static textres="charsheet_classes_neededlabel_LabelCaption" />
+				<font>Ose_referencesmall</font>
+				<readonly />
+			</stringcontrol>
+			<number name="multlvl1">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>158,119,30,27</bounds>
+				<min>0</min>
+				<font>Ose-Reference</font>
+				<script>function onValueChanged()
+					
+					local nodeChar = window.getDatabaseNode();
+					
+					local sMultClass = DB.getValue(nodeChar,"class1", "")
+					local nlevel = DB.getValue(nodeChar,"multlvl1", 1)
+					
+					if sMultClass == "Thief" then
+					
+								if nlevel &lt;= 2 then
+								DB.setValue(nodeChar, "ld_score", "number", 2);
+								elseif nlevel &lt;= 6 then
+								DB.setValue(nodeChar, "ld_score", "number", 3);
+								elseif nlevel &lt;= 10 then
+								DB.setValue(nodeChar, "ld_score", "number", 4);
+								else
+								DB.setValue(nodeChar, "ld_score", "number", 5);
+								end
+					
+					end
+					end
+				</script>
+			</number>
+			<number name="multlvl2">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>158,150,30,27</bounds>
+				<min>0</min>
+				<font>Ose-Reference</font>
+				<script>function onValueChanged()
+					
+					local nodeChar = window.getDatabaseNode();
+					local sMultClass = DB.getValue(nodeChar,"class2", "")
+					local nlevel = DB.getValue(nodeChar,"multlvl2", 1)
+					
+					if sMultClass == "Thief" then
+					
+								if nlevel &lt;= 2 then
+								DB.setValue(nodeChar, "ld_score", "number", 2);
+								elseif nlevel &lt;= 6 then
+								DB.setValue(nodeChar, "ld_score", "number", 3);
+								elseif nlevel &lt;= 10 then
+								DB.setValue(nodeChar, "ld_score", "number", 4);
+								else
+								DB.setValue(nodeChar, "ld_score", "number", 5);
+								end
+					
+					end
+					end
+				</script>
+			</number>
+			<stringcontrol name="mclevellabel">
+				<bounds>146,87,55,20</bounds>
+				<center />
+				<static textres="charsheet_classes_mclevellabel_LabelCaption" />
+				<font>Ose_referencesmall</font>
+				<readonly />
+			</stringcontrol>
+			<linkfield name="class_link1">
+				<bounds>130,125,20,20</bounds>
+				<description>
+					<field>classname</field>
+				</description>
+				<allowdrop />
+				<script>function onInit()
+					onValueChanged();
+					end
+					
+					function onValueChanged()
+					if isEmpty() then
+					setVisible(false);
+					else
+					setVisible(true);
+					end
+					end
+				</script>
+			</linkfield>
+			<linkfield name="class_link2">
+				<bounds>130,157,20,20</bounds>
+				<description>
+					<field>classname</field>
+				</description>
+				<allowdrop />
+				<script>function onInit()
+					onValueChanged();
+					end
+					
+					function onValueChanged()
+					if isEmpty() then
+					setVisible(false);
+					else
+					setVisible(true);
+					end
+					end
+				</script>
+			</linkfield>
+		</sheetdata>
+	</windowclass>
+</root>

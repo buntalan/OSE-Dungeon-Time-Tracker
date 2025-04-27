@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="vehicle_weapons_detail">
+    	<margins control="4,4,4,4"></margins>
+		<sheetdata>
+			<basicstring name="name">
+				<bounds>4,6,127,20</bounds>
+				<script>function onInit()
+					
+					         local w = addBitmapWidget("field_rollable");
+					          w.setPosition("bottomright", -2, -6);
+					          setHoverCursor("hand"); 
+					
+					end
+					
+					function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					
+					
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeWeapon,"...")
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local nSpace =   DB.getValue(nodeChar,"size","Medium")
+					                local sLabel = window.name.getValue().." [NPC] [SIZE "..nSpace.."]";
+									local nAtk_roll = window.atk_roll.getValue();
+									local sType = window.type_select.getValue();
+									local nAtk_bonus = 0;
+									local Thaco = DB.getValue(nodeChar, "thaco", 19);
+					
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+				</script>
+			</basicstring>
+			<number name="atk_roll">
+				<frame name="attboxose_icon" offset="0,0,0,3" />
+				<bounds>144,0,30,27</bounds>
+				<font>Ose-Reference</font>
+				<script>function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					
+					
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeWeapon,"...")
+					                local rActor = ActorManager.resolveActor(nodeChar);
+									local nSpace =   DB.getValue(nodeChar,"size","Medium")
+					                local sLabel = window.name.getValue().." [NPC] [SIZE "..nSpace.."]";
+									local nAtk_roll = window.atk_roll.getValue();
+									local sType = window.type_select.getValue();
+									local nAtk_bonus = 0;
+									local Thaco = DB.getValue(nodeChar, "thaco", 19);
+					
+					manager_action_attack.performRoll(dragInfo,rActor, sLabel, nAtk_roll, nAtk_bonus, sType, Thaco); 
+					return true;
+					end
+				</script>
+			</number>
+			<basicstring name="type_select">
+				<bounds>305,3,97,20</bounds>
+				<invisible />
+			</basicstring>
+			<stringfield name="Damagedie">
+				<frame name="groupbox" />
+				<bounds>177,0,76,30</bounds>
+				<font>Ose_referencesmall</font>
+				<center></center>
+				<script>function onDoubleClick(x, y, draginfo)
+					    return action(draginfo);
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+					end
+					function action(dragInfo)
+					                local nodeWeapon = window.getDatabaseNode();
+					                local nodeChar = DB.getChild(nodeWeapon,"...")
+					                local rActor = ActorManager.resolveActor(nodeChar);
+					                local sLabel = window.name.getValue();
+					                local sDamageDie= window.Damagedie.getValue();
+									local sString = string.match(sDamageDie, "%+(%d+)") or "0";
+									local nAtk_roll = window.atk_roll.getValue();
+									local nBonus = window.dmg_bonus.getValue();
+									local sType = window.type_select.getValue();
+									local sSub = " ";
+									local nDamageAdd = tonumber(sString)
+					manager_action_damage.performRoll(dragInfo,rActor, sLabel, sDamageDie, nAtk_roll, nBonus, sType,sSub,nDamageAdd); 
+					return true;
+					end
+				</script>
+			</stringfield>
+			<number name="dmg_bonus">
+				<bounds>305,0,60,23</bounds>
+				<invisible />
+				<readonly />
+				<min>0</min>
+				<max>0</max>
+				<default>0</default>
+			</number>
+			<button_idelete name="idelete">
+				<bounds>254,5,20,20</bounds>
+				<icon normal="button_close" />
+				<font>button-white</font>
+			</button_idelete>
+		</sheetdata>
+	</windowclass>
+</root>

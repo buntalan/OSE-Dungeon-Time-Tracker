@@ -9,14 +9,12 @@ https://fantasygroundsunity.atlassian.net/wiki/spaces/FGCP/pages/996644483/Rules
         <class>dtt_window</class>
         <anchored>
             <top>30</top>
-            <botton />
-            <left />
-			<right parent="dicetower" anchor="left" offset="-45" />
+            <left>30</left>
+            <size>
+                <width>400</width>
+                <height>800</height>
+            </size>
         </anchored>
-        <size>
-            <width>1000</width>
-            <height>200</height>
-        </size>
         <dynamic />
         <locked />
     </panel>

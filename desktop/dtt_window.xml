@@ -3,14 +3,20 @@
 <root>
     <windowclass name="dtt_window">
         <frame>utlitybox</frame>
-        <sizelimits>
-            <minimum>
-                <width>1000</width>
-                <height>200</height>
-            </minimum>
-        </sizelimits>
+		<anchored>
+			<top offset="20" />
+			<left offset="29" />
+		</anchored>
         <sheetdata>
             <windowtitlebar_utilitybox name="title" />
+			<!-- <stringcontrol name="testtext">
+                <anchored>
+                    <top offset="20" />
+                    <left offset="20" />
+                </anchored>
+                <label>Hello World</label>
+                <default>Hello</default>
+            </stringcontrol> -->
         </sheetdata>
-    </windowclass>
+	</windowclass>
 </root>

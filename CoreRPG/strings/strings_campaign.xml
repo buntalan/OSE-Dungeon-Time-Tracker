@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -47,6 +47,8 @@
 	<string name="record_message_link_class_missing">Unable to find link display class.\r(%s) (%s)</string>
 	<string name="record_message_link_record_missing">Unable to find link record path.\r(%s) (%s)</string>
 
+	<string name="party_tag">PARTY</string>
+
 	<!-- Assets -->
 	<string name="pictures_window_title">Picture and Tokens</string>
 	<string name="pictures_window_title_charsheet">Portrait and Tokens</string>
@@ -63,7 +65,7 @@
 	<!-- Import -->
 	<string name="button_import">Import</string>
 	<string name="import_label_mode">Import Mode</string>
-	
+
 	<!-- Characters -->
 	<string name="charselect_window_title">Character Selection</string>
 	<string name="charselect_import_window_title">Import Character</string>
@@ -132,7 +134,7 @@
 	<string name="image_menu_sizeoriginal">Original Size</string>
 	<string name="image_menu_sizevertical">Adjust Vertical</string>
 	<string name="image_menu_sizehorizontal">Adjust Horizontal</string>
-	
+
 	<string name="image_tooltip_toolbartoggle">Toggle Toolbar</string>
 	<string name="image_tooltip_toolbarzoomtofit">Zoom To Fit</string>
 	<string name="image_tooltip_toolbarping">Ping Mode</string>
@@ -175,7 +177,14 @@
 	<string name="image_tooltip_rotateleft_viewcamera">Rotate Left (Q)</string>
 	<string name="image_tooltip_rotateright">Rotate Right (E)</string>
 	<string name="image_tooltip_rotateright_viewcamera">Rotate Right (E)</string>
-	
+
+	<string name="image_label_tokenmove_acceptall">Accept All</string>
+	<string name="image_label_tokenmove_cancelall">Cancel All</string>
+	<string name="image_tooltip_tokenmove_acceptall">Accept All</string>
+	<string name="image_tooltip_tokenmove_cancelall">Cancel All</string>
+	<string name="image_tooltip_tokenmove_accept">Accept</string>
+	<string name="image_tooltip_tokenmove_cancel">Cancel</string>
+
 	<!-- NPCs -->
 	<string name="npc_label_unidentified">Non-ID Name</string>
 	<string name="npc_label_size">Size</string>
@@ -201,10 +210,10 @@
 	<string name="battle_label_token">Token</string>
 	<string name="battle_label_name">Name</string>
 	<string name="battle_label_placement">Placement:</string>
-	<string name="battle_label_addct">Add To Tracker</string>
-	<string name="battle_tooltip_addct">Add To Tracker</string>
+	<string name="battle_tooltip_addtotracker">Add To Combat Tracker</string>
+	<string name="battle_tooltip_addtoquickmap">Add To Quick Map</string>
 	<string name="battle_message_wrong_source">Only records from campaign record lists can be added to encounters.</string>
-	
+
 	<!-- Encounters - Random -->
 	<string name="battlerandom_empty_expr">&#171; Ex: 1d6 &#187;</string>
 
@@ -226,6 +235,7 @@
 	<string name="parcel_label_money">Currency</string>
 	<string name="parcel_label_itemname">Item Name</string>
 	<string name="parcel_tooltip_id_all">Identify All Items</string>
+	<string name="parcel_tooltip_addtotracker">Add To Party Sheet</string>
 
 	<!-- Vehicles -->
 	<string name="vehicle_grouped_label_name">Name</string>
@@ -234,7 +244,7 @@
 	<string name="vehicle_grouped_tooltip_weight">Weight</string>
 	<string name="vehicle_grouped_label_speed">Spd</string>
 	<string name="vehicle_grouped_tooltip_speed">Top Speed</string>
-	
+
 	<string name="vehicle_label_unidentified">Non-ID Name</string>
 	<string name="vehicle_label_type">Type</string>
 	<string name="vehicle_label_size">Size</string>
@@ -255,14 +265,14 @@
 	<string name="story_book_index_button_chapter_new">New Chapter</string>
 	<string name="story_book_index_button_section_new">New Subchapter</string>
 	<string name="story_book_index_button_page_new">New Page</string>
-	
+
 	<string name="story_book_index_empty_chapter_name">&#171; New Chapter &#187;</string>
 	<string name="story_book_index_empty_section_name">&#171; New Subchapter &#187;</string>
 	<string name="story_book_index_empty_article_name">&#171; New Page &#187;</string>
 
-	<string name="story_book_tooltip_index_moveup">Move Up</string>
-	<string name="story_book_tooltip_index_movedown">Move Down</string>
-	
+	<string name="story_book_tooltip_index_moveup">Move Up\rShift+Click = Move Up 5 blocks\rCtrl+Click = Move to Top</string>
+	<string name="story_book_tooltip_index_movedown">Move Down\rShift+Click = Move Down 5 blocks\rCtrl+Click = Move to Bottom</string>
+
 	<string name="story_tooltip_block_moveup">Move Up\rShift+Click = Move Up 5 blocks\rCtrl+Click = Move to Top\rAlt+Click = duplicate block and insert above</string>
 	<string name="story_tooltip_block_movedown">Move Down\rShift+Click = Move Down 5 blocks\rCtrl+Click = Move to Bottom\rAlt+Click = duplicate block and insert below</string>
 
@@ -313,7 +323,7 @@
 	<string name="table_label_output_story">Story</string>
 	<string name="table_label_output_parcel">Parcel</string>
 	<string name="table_label_output_encounter">Enc.</string>
-	
+
 	<string name="table_error_lookupfail">[ERROR] Unable to find table.</string>
 	<string name="table_error_tablematch">Unable to find matching table</string>
 	<string name="table_error_columnmatch">Unable to find result row or column</string>
@@ -389,7 +399,7 @@
 	<string name="power_label_effect_applysingle">Once per modifier</string>
 
 	<string name="power_tooltip_use">Use Power</string>
-	
+
 	<string name="power_tooltip_cast">CAST</string>
 	<string name="power_tooltip_cl">CL</string>
 	<string name="power_tooltip_save">SAVE</string>

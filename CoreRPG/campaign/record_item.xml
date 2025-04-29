@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -15,15 +15,11 @@
 		<sub_content_column name="sub_pack">
 			<script>
 				function update(bReadOnly, bID)
-					if bID then 
-						local nodeRecord = window.getDatabaseNode();
-						if ItemManager.isPack(nodeRecord) then
-							setValue("item_main_subitems", nodeRecord);
-							subwindow.update(bReadOnly, bID);
-							return;
-						end
+					if bID and ItemManager.isPack(window.getDatabaseNode()) then
+						setValue("item_main_subitems", window.getDatabaseNode());
+					else
+						setValue("", "");
 					end
-					setValue("", "");
 				end
 			</script>
 		</sub_content_column>
@@ -59,7 +55,7 @@
 
 			<sub_record_nonid_notes name="sub_nonid" />
 			<sub_item_standard name="sub_standard" />
-			
+
 			<ft_content_columnh_full name="notes" />
 
 			<sub_item_pack name="sub_pack" />
@@ -68,12 +64,15 @@
 	<windowclass name="item_main_standard">
 		<margins control="0,0,0,2" />
 		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "cost", "weight", }, bReadOnly);
+				parentcontrol.setVisible(WindowManager.getAnyControlVisible(self, { "cost", "weight", }));
+			end
 			function update(bReadOnly, bID)
-				WindowManager.callSafeControlUpdate(self, "cost", bReadOnly, not bID);
-				WindowManager.callSafeControlUpdate(self, "weight", bReadOnly, not bID);
-
-				local bShow = WindowManager.getAnyControlVisible(self, { "cost", "weight", });
-				parentcontrol.setVisible(bShow);
+				-- Do Nothing - DEPRECATED call
 			end
 		</script>
 		<sheetdata>
@@ -94,8 +93,14 @@
 	</windowclass>
 	<windowclass name="item_main_subitems">
 		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "list", }, bReadOnly);
+			end
 			function update(bReadOnly, bID)
-				WindowManager.callSafeControlUpdate(self, "list", bReadOnly);
+				-- Do Nothing - DEPRECATED call
 			end
 		</script>
 		<sheetdata>
@@ -104,13 +109,8 @@
 			<header_content_framed_headersimple name="list_header">
 				<static textres="item_label_subitems" />
 			</header_content_framed_headersimple>
-			<button_iedit name="list_iedit">
-				<anchored to="list_header" position="righthigh" offset="-20,0" />
-				<edittarget>list</edittarget>
-			</button_iedit>
 			<button_iadd name="list_iadd">
-				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
-				<target>list</target>
+				<anchored to="list_header" position="righthigh" offset="-20,0" />
 			</button_iadd>
 			<list_content_column name="list">
 				<datasource>.subitems</datasource>
@@ -122,18 +122,23 @@
 	<windowclass name="item_main_subitems_item">
 		<margins control="0,0,0,2" />
 		<script>
-			function update(bReadOnly)
-				count.setReadOnly(bReadOnly);
-				name.setReadOnly(bReadOnly);
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "count", "name", "idelete", }, bReadOnly);
+			end
+			function update(bReadOnly, bID)
+				-- Do Nothing - DEPRECATED call
 			end
 		</script>
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
-			<number_listitem_left name="count" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
 
-			<anchor_listitem_right_sm name="rightanchor" />
-			<link_listitem_right name="link" />
-			<button_listitem_idelete name="idelete" />
+			<button_listitem_idelete_left name="idelete" />
+			<link_listitem_left name="link" />
+			<number_listitem_left name="count" />
 
 			<string_listitem_center name="name">
 				<font>sheetlabel</font>

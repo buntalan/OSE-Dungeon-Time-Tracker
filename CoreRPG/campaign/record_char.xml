@@ -144,6 +144,7 @@
 			<dynamic />
 		</sizelimits>
 		<windowmenu>
+			<norecord />
 			<nocustom />
 		</windowmenu>
 		<sheetdata>
@@ -157,7 +158,7 @@
 		</sheetdata>
 	</windowclass>
 
-	<!-- LEGACY (2025-02) -->
+	<!-- DEPRECATED (2025-02) -->
 	<windowclass name="charsheet_overview_base">
 		<sheetdata>
 			<anchor_listitem_left name="leftanchor" />

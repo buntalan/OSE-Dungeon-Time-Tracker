@@ -30,27 +30,52 @@
 	<template name="anchor_listitem_left">
 		<genericcontrol name="leftanchor">
 			<anchored position="insidetopleft" offset="0,5" width="0" height="0" />
-			<invisible />
+			<disabled />
 		</genericcontrol>
 	</template>
 	<template name="anchor_listitem_left_sm">
 		<genericcontrol name="leftanchor">
 			<anchored position="insidetopleft" offset="0,2" width="0" height="0" />
-			<invisible />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_left_lg">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" offset="0,10" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_left_flat">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" offset="0,0" width="0" height="0" />
+			<disabled />
 		</genericcontrol>
 	</template>
 	<template name="anchor_listitem_right">
 		<genericcontrol name="rightanchor">
 			<anchored position="insidetopright" offset="0,5" width="0" height="0" />
-			<invisible />
+			<disabled />
 		</genericcontrol>
 	</template>
 	<template name="anchor_listitem_right_sm">
 		<genericcontrol name="rightanchor">
 			<anchored position="insidetopright" offset="0,2" width="0" height="0" />
-			<invisible />
+			<disabled />
 		</genericcontrol>
 	</template>
+	<template name="anchor_listitem_right_lg">
+		<genericcontrol name="rightanchor">
+			<anchored position="insidetopright" offset="0,10" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_right_flat">
+		<genericcontrol name="rightanchor">
+			<anchored position="insidetopright" offset="0,0" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+
 	<template name="anchor_listitem_top">
 		<genericcontrol name="contentanchor">
 			<anchored to="leftanchor" position="insidetopleft" offset="0,0" height="0">
@@ -58,6 +83,16 @@
 			</anchored>
 			<disabled />
 		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_left_relative">
+		<anchor_listitem_left_flat>
+			<anchored to="contentanchor" />
+		</anchor_listitem_left_flat>
+	</template>
+	<template name="anchor_listitem_right_relative">
+		<anchor_listitem_right_flat>
+			<anchored to="contentanchor" />
+		</anchor_listitem_right_flat>
 	</template>
 
 	<includefile source="layout/template_layout_content_list_item_button.xml" />

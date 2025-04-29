@@ -9,11 +9,6 @@
 	<!-- Context Menu - REQUIRED -->
 	<icon name="context_more" file="graphics/radial/arrow-50.webp" />
 
-	<!-- Radial Menu - REQUIRED -->
-	<icon name="menubackground" file="graphics/radial/menubackground.png" />
-	<icon name="menuhub" file="graphics/radial/menuhub.png" />
-	<icon name="menuback" file="graphics/radial/menuback.png" />
-
 	<!-- Generic -->
 	<icon name="insert" file="graphics/radial/icon_insert.png" />
 	<icon name="edit" file="graphics/radial/icon_edit_on.png" />
@@ -122,11 +117,7 @@
 
 	<!-- Chat Window - REQUIRED -->
 	<icon name="chatclipboard" file="graphics/radial/icon_chat_clipboard.png" />
-	<icon name="prompt" file="graphics/radial/icon_chat_prompt.png" />
-	<icon name="hand" file="graphics/radial/icon_chat_hand.png" />
 	<icon name="chatclear" file="graphics/radial/icon_chat_clear.png" />
-	<icon name="log" file="graphics/radial/icon_chat_logon.png" />
-	<icon name="logoff" file="graphics/radial/icon_chat_logoff.png" />
 	<icon name="crossed" file="graphics/radial/icon_chat_total_off.png" />
 	<icon name="equals" file="graphics/radial/icon_chat_total_on.png" />
 	<icon name="halve" file="graphics/radial/icon_chat_total_half.png" />

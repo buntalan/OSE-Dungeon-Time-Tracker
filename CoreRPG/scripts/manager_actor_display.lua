@@ -5,16 +5,25 @@
 
 function onInit()
 	ActorDisplayManager.setDisplayCallback("name", "", ActorDisplayManager.addActorDisplayName);
-	ActorDisplayManager.setDisplayCallback("health", "", ActorDisplayManager.addActorDisplayHealth);
-	ActorDisplayManager.setDisplayCallback("effects", "", ActorDisplayManager.addActorDisplayEffects);
-	ActorDisplayManager.setDisplayCallback("height", "image", ActorDisplayManager.addActorDisplayHeight);
+
+	ActorDisplayManager.setDisplayCallback("health", "combatlist", ActorDisplayManager.addActorDisplayHealth);
+	ActorDisplayManager.setDisplayCallback("effects", "combatlist", ActorDisplayManager.addActorDisplayEffects);
+
+	ActorDisplayManager.setDisplayCallback("health", "tokenhover", ActorDisplayManager.addActorDisplayHealth);
+	ActorDisplayManager.setDisplayCallback("effects", "tokenhover", ActorDisplayManager.addActorDisplayEffects);
+	ActorDisplayManager.setDisplayCallback("height", "tokenhover", ActorDisplayManager.addActorDisplayHeight);
+
+	ActorDisplayManager.setDisplayCallback("health", "tokenviewer", ActorDisplayManager.addActorDisplayHealth);
+	ActorDisplayManager.setDisplayCallback("effects", "tokenviewer", ActorDisplayManager.addActorDisplayEffects);
+	ActorDisplayManager.setDisplayCallback("distance", "tokenviewer", ActorDisplayManager.addActorDisplayDistance);
+
+	ActorDisplayManager.setDisplayCallback("distance", "tokenmove", ActorDisplayManager.addActorDisplayDistance);
 end
 function onTabletopInit()
 	ActorDisplayManager.addStandardTokenDisplay();
 	ActorDisplayManager.addStandardNameDisplay();
 	ActorDisplayManager.addEffectTracking();
 	Token.addEventHandler("onHover", ActorDisplayManager.onTokenHover);
-	Token.addEventHandler("onMovePathChanged", ActorDisplayManager.onTokenMovePathChanged);
 end
 
 --
@@ -38,14 +47,19 @@ end
 function removeDisplayControl(c)
 	_tDisplayControls[c] = nil;
 end
-function updateActorDisplayControls(sDisplaySet, rActor)
+function updateActorDisplayControls(sDisplaySet, rActor, tokenMap)
 	local sActorPath = ActorManager.getCreatureNodeName(rActor);
-	if (sActorPath or "") == "" then
-		return;
-	end
-	for c,tData in pairs(_tDisplayControls) do
-		if sActorPath == tData.sActorPath then
-			ActorDisplayManager.updateDisplay(sDisplaySet, tData.sDisplayType, c, rActor, tData.tCustom);
+	if (sActorPath or "") ~= "" then
+		for c,tData in pairs(_tDisplayControls) do
+			if sActorPath == tData.sActorPath then
+				ActorDisplayManager.updateDisplay(sDisplaySet, tData.sDisplayType, c, rActor, tData.tCustom);
+			end
+		end
+	elseif tokenMap then
+		for c,tData in pairs(_tDisplayControls) do
+			if tData.tCustom and tData.tCustom.tokenMap == tokenMap then
+				ActorDisplayManager.updateDisplay(sDisplaySet, tData.sDisplayType, c, rActor, tData.tCustom);
+			end
 		end
 	end
 end
@@ -570,17 +584,21 @@ function addActorDisplayHeight(cDisplay, _, tCustom)
 	end
 
 	local sFontPositive, sFontNegative = TokenManager.getTokenFontsHeight();
-	local sFrame, sFrameOffset = TokenManager.getTokenFrameHeight();
-	local tWidget = {
-		name = "height",
-		position = "bottom",
-		y = -5,
-		frame = sFrame,
-		frameoffset = sFrameOffset,
-		font = sFontPositive,
-		text = "",
-	};
-	local widgetHeight = cDisplay.addTextWidget(tWidget);
+	local widgetHeight = cDisplay.findWidget("height");
+	if not widgetHeight then
+		local sFrame, sFrameOffset = TokenManager.getTokenFrameHeight();
+		local tWidget = {
+			name = "height",
+			position = "bottom",
+			y = -5,
+			frame = sFrame,
+			frameoffset = sFrameOffset,
+			font = sFontPositive,
+			text = "",
+		};
+		widgetHeight = cDisplay.addTextWidget(tWidget);
+	end
+
 	local nGridSize = TokenManager.getImageGridSize(tCustom.tokenMap);
 	if nHeight > 0 then
 		nHeight = math.ceil((nHeight / nGridSize) - 0.25);
@@ -593,22 +611,50 @@ function addActorDisplayHeight(cDisplay, _, tCustom)
 	widgetHeight.setText(string.format("%+d%s", nHeight * nBase, sSuffix));
 end
 
+function addActorDisplayDistance(cDisplay, _, tCustom)
+	if not cDisplay or not tCustom or not tCustom.tokenMap then
+		return;
+	end
+
+	local nDistance = Token.getPlannedMovementDistance(tCustom.tokenMap);
+	if nDistance == 0 then
+		cDisplay.deleteWidget("distance");
+		return
+	end
+
+	local widgetDistance = cDisplay.findWidget("distance");
+	if not widgetDistance then
+		local sFontPositive, _ = TokenManager.getTokenFontsHeight();
+		local sFrame, sFrameOffset = TokenManager.getTokenFrameHeight();
+		local tWidget = {
+			name = "distance",
+			position = "bottom",
+			y = -15,
+			frame = sFrame,
+			frameoffset = sFrameOffset,
+			font = sFontPositive,
+			text = "",
+		};
+		widgetDistance = cDisplay.addTextWidget(tWidget);
+	end
+
+	local nBase, sSuffix = TokenManager.getImageGridUnits(tCustom.tokenMap);
+	widgetDistance.setText(string.format("%d%s", nDistance * nBase, sSuffix));
+end
+
 --
 --	IMAGE TOKEN HOVER HANDLING
 --
 
 function onTokenHover(tokenMap, bHover)
-	local nodeImage = tokenMap.getContainerNode();
-	if nodeImage then
-		for _, cImage in ipairs(ImageManager.getActiveImages()) do
-			if cImage.getDatabaseNode() == nodeImage then
-				if cImage.getViewToken() == tokenMap then
-					ActorDisplayManager.setImageHoverTokenDetail(cImage.window, nil, bHover);
-				else
-					ActorDisplayManager.setImageHoverTokenDetail(cImage.window, tokenMap, bHover);
-				end
-			end
-		end
+	local cImage = ImageManager.getActiveImageFromToken(tokenMap);
+	if not cImage then
+		return;
+	end
+	if cImage.getViewToken() == tokenMap then
+		ActorDisplayManager.setImageHoverTokenDetail(cImage.window, nil, bHover);
+	else
+		ActorDisplayManager.setImageHoverTokenDetail(cImage.window, tokenMap, bHover);
 	end
 end
 function setImageHoverTokenDetail(wImage, tokenMap, bHover)
@@ -633,8 +679,8 @@ function setImageHoverTokenDetail(wImage, tokenMap, bHover)
 	if bShow then
 		cSubDetail.setValue("image_hover_token_detail", "");
 		cSubDetail.setVisible(true);
-		local rActor = ActorManager.resolveActor(CombatManager.getCTFromToken(tokenMap));
-		ActorDisplayManager.addDisplayControl(cSubDetail.subwindow.display, "image", rActor, { tokenMap = tokenMap });
+		local rActor = ActorManager.resolveActor(tokenMap);
+		ActorDisplayManager.addDisplayControl(cSubDetail.subwindow.display, "tokenhover", rActor, { tokenMap = tokenMap });
 	else
 		cSubDetail.setValue("", "");
 		cSubDetail.setVisible(false);
@@ -662,86 +708,11 @@ function setImageViewTokenDetail(wImage, tokenMap)
 	if bShow then
 		cSubDetail.setValue("image_view_token_detail", "");
 		cSubDetail.setVisible(true);
-		local rActor = ActorManager.resolveActor(CombatManager.getCTFromToken(tokenMap));
-		ActorDisplayManager.addDisplayControl(cSubDetail.subwindow.display, "image", rActor, { tokenMap = tokenMap });
-		ActorDisplayManager.updateImageViewTokenMovePath(wImage, tokenMap);
+		local rActor = ActorManager.resolveActor(tokenMap);
+		ActorDisplayManager.addDisplayControl(cSubDetail.subwindow.display, "tokenviewer", rActor, { tokenMap = tokenMap });
+		TokenMoveManager.updateViewTokenMove(tokenMap);
 	else
 		cSubDetail.setValue("", "");
 		cSubDetail.setVisible(false);
-	end
-end
-
---
---	TOKEN MOVE PATH HANDLING
---
-
-function onTokenMovePathChanged(tokenMap)
-	local nodeImage = tokenMap.getContainerNode();
-	if nodeImage then
-		for _, cImage in ipairs(ImageManager.getActiveImages()) do
-			if cImage.getDatabaseNode() == nodeImage then
-				if cImage.getViewToken() == tokenMap then
-					ActorDisplayManager.updateImageViewTokenMovePath(cImage.window, tokenMap);
-				end
-			end
-		end
-	end
-end
-function updateImageViewTokenMovePath(wImage, tokenMap)
-	if not wImage then
-		return;
-	end
-	local cSubDetail = wImage.sub_view_token_detail;
-	if not cSubDetail then
-		return;
-	end
-	if not cSubDetail.subwindow then
-		return;
-	end
-
-	local nDistance = Token.getPlannedMovementDistance(tokenMap);
-	local bShowMoveUI = (nDistance > 0);
-	cSubDetail.subwindow.distance.setValue(nDistance);
-	cSubDetail.subwindow.button_accept.setVisible(bShowMoveUI);
-	cSubDetail.subwindow.distance.setVisible(bShowMoveUI);
-	cSubDetail.subwindow.button_cancel.setVisible(bShowMoveUI);
-	if bShowMoveUI then
-		cSubDetail.setAnchoredWidth(140);
-	else
-		cSubDetail.setAnchoredWidth(120);
-	end
-end
-function acceptImageViewTokenMove(wImage)
-	if not wImage then
-		return;
-	end
-	local tokenView = wImage.image.getViewToken();
-	if not tokenView then
-		return;
-	end
-	Token.approvePlannedMovement(tokenView);
-	wImage.image.setFocus();
-end
-function cancelImageViewTokenMove(wImage)
-	if not wImage then
-		return;
-	end
-	local tokenView = wImage.image.getViewToken();
-	if not tokenView then
-		return;
-	end
-	Token.cancelPlannedMovement(tokenView);
-	wImage.image.setFocus();
-end
-function onImageViewTokenClick(wImage)
-	if not wImage then
-		return;
-	end
-	local tokenView = wImage.image.getViewToken();
-	if not tokenView then
-		return;
-	end
-	if Input.isControlPressed() then
-		tokenView.setTarget(not tokenView.isTargetedBy(tokenView), tokenView);
 	end
 end

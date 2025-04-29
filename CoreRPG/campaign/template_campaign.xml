@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -87,7 +87,7 @@
 						for _,v in ipairs(edittarget) do
 							WindowManager.onEditModeChanged(window[v]);
 						end
-					elseif target then
+					elseif target and window[target[1]] and window[target[1]].update then
 						window[target[1]].update();
 					else
 						WindowManager.onEditModeChanged(window);
@@ -131,7 +131,12 @@
 						if window.delete then
 							window.delete();
 						else
-							DB.deleteNode(window.getDatabaseNode());
+							local node = window.getDatabaseNode();
+							if node then
+								DB.deleteNode(node);
+							else
+								window.close();
+							end
 						end
 					end
 				end
@@ -169,7 +174,7 @@
 						setVisible(WindowManager.getEditMode(window, editmode[1]));
 					end
 				end
-				function onDragStart(button, x, y, draginfo)
+				function onDragStart(_, _, _, draginfo)
 					draginfo.setType("reorder");
 					draginfo.setIcon("reorder");
 					draginfo.setDatabaseNode(window.getDatabaseNode());
@@ -212,7 +217,7 @@
 			</script>
 		</genericcontrol>
 	</template>
-	
+
 	<template name="button_listitem_faction_right">
 		<button_faction>
 			<anchored to="rightanchor" >
@@ -220,61 +225,6 @@
 				<right relation="relative" offset="-2" postoffset="-2" />
 			</anchored>
 		</button_faction>
-	</template>
-	
-	<template name="anchor_listitem_left_encounter">
-		<genericcontrol name="leftanchor">
-			<anchored position="insidetopleft" height="30" width="0" />
-		</genericcontrol>
-	</template>
-	<template name="token_listitem_encounter">
-		<tokenfield name="token">
-			<anchored to="leftanchor" width="24" height="24">
-				<top offset="3" />
-				<left anchor="right" relation="relative" offset="3" />
-			</anchored>
-			<empty>token_empty</empty>
-			<script>
-				function onValueChanged()
-					if window.synchTokenView then window.synchTokenView(); end
-				end
-			</script>
-		</tokenfield>
-	</template>
-	<template name="string_listitem_name_encounter">
-		<stringu name="name">
-			<anchored to="rightanchor">
-				<top />
-				<left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-				<right anchor="left" relation="relative" offset="-5" />
-			</anchored>
-			<multilinespacing>20</multilinespacing>
-		</stringu>
-	</template>
-	<template name="number_listitem_count_encounter">
-		<basicnumber name="count">
-			<anchored to="leftanchor" width="25" height="20">
-				<top offset="5" />
-				<left anchor="right" relation="relative" offset="8" />
-			</anchored>
-			<default>1</default>
-			<min>1</min>
-			<script>
-				function onValueChanged()
-					window.synchToCount();
-				end
-			</script>
-		</basicnumber>
-	</template>
-	<template name="string_listitem_expr_encounterrandom">
-		<basicstring name="expr">
-			<anchored to="leftanchor" width="60" height="20">
-				<top offset="5" />
-				<left anchor="right" relation="relative" offset="8" />
-			</anchored>
-			<empty textres="battlerandom_empty_expr" />
-			<center />
-		</basicstring>
 	</template>
 	<template name="label_listitem_maplinks_encounter">
 		<label name="maplinks_label">
@@ -299,45 +249,6 @@
 		</windowlist>
 	</template>
 
-	<template name="number_parcel">
-		<number_dropadd>
-			<anchored width="25" height="20">
-				<top parent="rightanchor" />
-				<left offset="5" />
-			</anchored>
-		</number_dropadd>
-	</template>
-	<template name="string_parcel">
-		<string_textlistitem>
-			<anchored>
-				<left offset="40" />
-				<top parent="rightanchor" />
-				<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-			</anchored>
-			<frame />
-			<multilinespacing>20</multilinespacing>
-		</string_textlistitem>
-	</template>
-	<template name="button_parcel_id_all">
-		<buttoncontrol>
-			<anchored to="rightanchor" width="20" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="-5" />
-			</anchored>
-			<frame name="fieldlight" offset="7,7,7,7" />
-			<icon normal="record_identified" />
-			<tooltip textres="parcel_tooltip_id_all" />
-			<gmvisibleonly />
-			<script>
-				function onButtonPress()
-					for _,nodeItem in ipairs(DB.getChildList(window.getDatabaseNode(), "itemlist")) do
-						DB.setValue(nodeItem, "isidentified", "number", 1);
-					end
-				end
-			</script>
-		</buttoncontrol>
-	</template>
-	
 	<template name="label_tabletop">
 		<stringcontrol>
 			<anchored to="tabletoplabelanchor">
@@ -349,12 +260,26 @@
 		</stringcontrol>
 	</template>
 
+	<template name="list_editor">
+		<windowlist name="list">
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+				<left />
+				<right />
+			</anchored>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<noscroll />
+			<allowdelete />
+		</windowlist>
+	</template>
+
 	<!-- Master Index -->
 	<template name="masterindex_list">
 		<list_content_framed_groupbox_alternating>
 			<class>masterindexitem</class>
-			<allowdelete />
 			<useallmodules />
+			<allowdelete />
 			<script file="campaign/scripts/masterindex_list.lua" />
 		</list_content_framed_groupbox_alternating>
 	</template>
@@ -545,14 +470,6 @@
 			<script file="campaign/scripts/masterindexcategory_label.lua" />
 		</simplestringc>
 	</template>
-	<template name="masterindexcategory_idelete">
-		<button_idelete>
-			<anchored to="rightanchor">
-				<top />
-				<right anchor="left" relation="relative" offset="-5" />
-			</anchored>
-		</button_idelete>
-	</template>
 
 	<template name="button_storytemplate">
 		<button_masterindex_option>
@@ -643,7 +560,7 @@
 			</script>
 		</button_add_record_import_text>
 	</template>
-	
+
 	<!-- Common record view or nested record type buttons -->
 	<template name="button_masterindex_option">
 		<button_text_sm>

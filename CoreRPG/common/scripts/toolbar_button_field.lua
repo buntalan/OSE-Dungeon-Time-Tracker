@@ -5,13 +5,19 @@
 
 --luacheck: globals initbyname
 
-local _bInit = false;
 local _nodeSrc;
-local _nDefault = 0;
 
 function onInit()
 	if initbyname then
 		ToolbarManager.initButton(self, getName());
+	end
+end
+function onClose()
+	if _nodeSrc then
+		DB.removeHandler(_nodeSrc, "onChildDeleted", self.onDelete);
+		local sPath = DB.getPath(_nodeSrc, getName());
+		DB.removeHandler(sPath, "onAdd", self.onUpdate);
+		DB.removeHandler(sPath, "onUpdate", self.onUpdate);
 	end
 end
 
@@ -29,17 +35,9 @@ function init()
 	end
 
 	self.onUpdate();
-	_bInit = true;
+	self.setInitialized(true);
 end
 
-function onClose()
-	if _nodeSrc then
-		DB.removeHandler(_nodeSrc, "onChildDeleted", self.onDelete);
-		local sPath = DB.getPath(_nodeSrc, getName());
-		DB.removeHandler(sPath, "onAdd", self.onUpdate);
-		DB.removeHandler(sPath, "onUpdate", self.onUpdate);
-	end
-end
 function onDelete(_, sChild)
 	if getName() == sChild then
 		self.onUpdate();
@@ -50,19 +48,6 @@ function onDelete(_, sChild)
 		DB.addHandler(sPath, "onAdd", self.onUpdate);
 		DB.addHandler(sPath, "onUpdate", self.onUpdate);
 	end
-end
-
-function setDefault(n)
-	_nDefault = n;
-end
-function getDefault()
-	return _nDefault;
-end
-
-function setValueNoEvent(n)
-	_bInit = false;
-	setValue(n);
-	_bInit = true;
 end
 
 local _bUpdating = false;
@@ -92,7 +77,30 @@ function onValueChanged()
 	self.notify();
 end
 function notify()
-	if _bInit then
+	if self.isInitialized() then
 		ToolbarManager.onButtonValueChanged(self);
 	end
+end
+
+local _bInit = false;
+function setInitialized(bValue)
+	_bInit = bValue;
+end
+function isInitialized()
+	return _bInit;
+end
+
+local _nDefault = 0;
+function setDefault(n)
+	_nDefault = n;
+end
+function getDefault()
+	return _nDefault;
+end
+
+function setValueNoEvent(n)
+	local bValue = self.isInitialized();
+	self.setInitialized(false);
+	setValue(n);
+	self.setInitialized(bValue);
 end

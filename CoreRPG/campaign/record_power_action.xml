@@ -86,6 +86,15 @@
 			</script>
 		</button_details>
 	</template>
+	<template name="button_listitem_poweractioneditor_right">
+		<button_listitem_details_right>
+			<script>
+				function onButtonPress()
+					Interface.openWindow((editor and editor[1]) or "power_action_editor", window.getDatabaseNode());
+				end
+			</script>
+		</button_listitem_details_right>
+	</template>
 
 	<!--
 		NOTE - Requires definition of:
@@ -113,7 +122,7 @@
 			<button_poweractioneditor name="detail">
 				<anchored to="rightanchor">
 					<top />
-					<right anchor="left" relation="relative" offset="-5" />
+					<right anchor="left" relation="relative" offset="-2" postoffset="-2" />
 				</anchored>
 			</button_poweractioneditor>
 			<button_listitem_ireorder_right name="ireorder">

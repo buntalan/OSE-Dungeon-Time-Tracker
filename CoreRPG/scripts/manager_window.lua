@@ -355,6 +355,7 @@ function callSafeControlUpdate(w, sControl, bReadOnly, bForceHide)
 	c.setReadOnly(bReadOnly);
 	return true;
 end
+
 function setControlVisibleWithLabel(w, sControl, bVisible)
 	if not w or not sControl then
 		return;

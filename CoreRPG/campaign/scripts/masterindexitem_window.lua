@@ -9,7 +9,9 @@ local m_bShared = false;
 function onInit()
 	local node = getDatabaseNode();
 
-	if modified then
+	self.onCategoryChange(node);
+
+	if Session.IsHost and modified then
 		local sModule = DB.getModule(node);
 		if (sModule or "") ~= "" then
 			modified.setVisible(true);
@@ -23,12 +25,11 @@ function onInit()
 
 	DB.addHandler(node, "onObserverUpdate", self.onObserverUpdate);
 	self.onObserverUpdate(node);
-
-	self.onCategoryChange(node);
 end
 function onClose()
 	local node = getDatabaseNode();
-	if modified then
+
+	if Session.IsHost and modified then
 		local sModule = DB.getModule(node);
 		if (sModule or "") ~= "" then
 			if not DB.isReadOnly(node) then
@@ -36,6 +37,7 @@ function onClose()
 			end
 		end
 	end
+
 	DB.removeHandler(node, "onObserverUpdate", self.onObserverUpdate);
 end
 
@@ -64,19 +66,22 @@ end
 function buildMenu()
 	resetMenuItems();
 
-	if modified and not DB.isIntact(getDatabaseNode()) then
-		registerMenuItem(Interface.getString("menu_revert"), "shuffle", 8);
-	end
-	if m_bShared then
-		registerMenuItem(Interface.getString("windowunshare"), "windowunshare", 7);
-	else
-		registerMenuItem(Interface.getString("windowshare"), "windowshare", 7);
+	local node = getDatabaseNode();
+	if Session.IsHost then
+		if m_bShared then
+			registerMenuItem(Interface.getString("windowunshare"), "windowunshare", 8);
+		else
+			registerMenuItem(Interface.getString("windowshare"), "windowshare", 8);
+		end
+		if modified and not DB.isReadOnly(node) and not DB.isIntact(node) then
+			registerMenuItem(Interface.getString("menu_revert"), "shuffle", 7);
+		end
 	end
 end
 function onMenuSelection(selection)
-	if selection == 7 then
+	if selection == 8 then
 		self.toggleRecordSharing();
-	elseif selection == 8 then
+	elseif selection == 7 then
 		RecordManager.performRevertByWindow(self);
 	end
 end
@@ -86,7 +91,18 @@ function onIDChanged()
 	name.setVisible(bID);
 	nonid_name.setVisible(not bID);
 end
+function onCategoryChange()
+	if category then
+		local sCategory = DB.getCategory(getDatabaseNode());
+		category.setValue(sCategory);
+		category.setTooltipText(sCategory);
+	end
+end
 function onIntegrityChange()
+	if not Session.IsHost then
+		return;
+	end
+
 	if modified.update then
 		modified.update();
 	else
@@ -96,6 +112,7 @@ function onIntegrityChange()
 			modified.setIcon("record_intact");
 		end
 	end
+
 	self.buildMenu();
 end
 function onObserverUpdate()
@@ -106,6 +123,7 @@ function onObserverUpdate()
 
 	local nAccess, aHolderNames = UtilityManager.getNodeAccessLevel(node);
 	access.setValue(nAccess);
+
 	if Session.IsHost then
 		if nAccess == 2 then
 			m_bShared = true;
@@ -116,14 +134,8 @@ function onObserverUpdate()
 		else
 			m_bShared = false;
 		end
+
 		self.buildMenu();
-	end
-end
-function onCategoryChange()
-	if category then
-		local sCategory = DB.getCategory(getDatabaseNode());
-		category.setValue(sCategory);
-		category.setTooltipText(sCategory);
 	end
 end
 

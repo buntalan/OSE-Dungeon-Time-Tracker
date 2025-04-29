@@ -3,20 +3,13 @@
 --  attribution and copyright information.
 --
 
-local _bInit = false;
 function onInit()
-	self.updateDisplay();
-
-	local nodeActor = window.getDatabaseNode();
-	DB.addHandler(DB.getPath(window.getDatabaseNode(), "customdie"), "onUpdate", self.updateDisplay);
-
 	registerMenuItem(Interface.getString("clear"), "erase", 4);
-
-	_bInit = true;
+	DB.addHandler(DB.getPath(window.getDatabaseNode(), "customdie"), "onUpdate", self.onValueChanged);
+	self.onValueChanged();
 end
 function onClose()
-	local nodeActor = window.getDatabaseNode();
-	DB.removeHandler(DB.getPath(window.getDatabaseNode(), "customdie"), "onUpdate", self.updateDisplay);
+	DB.removeHandler(DB.getPath(window.getDatabaseNode(), "customdie"), "onUpdate", self.onValueChanged);
 end
 
 function onMenuSelection(selection)
@@ -25,12 +18,14 @@ function onMenuSelection(selection)
 	end
 end
 
-function updateDisplay()
+function onValueChanged()
 	local sDiceSkin = DB.getValue(window.getDatabaseNode(), "customdie", "");
 	local tDiceSkin = DiceSkinManager.convertStringToTable(sDiceSkin);
 	DiceSkinManager.setupCustomControl(self, tDiceSkin);
 
-	if _bInit then
+	if window.onCustomDieChanged then
+		window.onCustomDieChanged();
+	elseif window.update then
 		window.update();
 	end
 end

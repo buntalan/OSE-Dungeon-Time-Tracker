@@ -1,10 +1,12 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
+--luacheck: globals aRecords aListViews getCharListLink getStoryDisplayClass getSoundsetType
+
 -- RECORD TYPE FORMAT
--- 		["recordtype"] = { 
+-- 		["recordtype"] = {
 -- 			aDataMap = <table of strings>, (required)
 --
 --			bExport = <bool>, (optional)
@@ -32,36 +34,53 @@
 --
 -- RECORD TYPE LEGEND
 --		aDataMap = Required. Table of strings. defining the valid data paths for records of this type
---			NOTE: For bExport/nExport, that number of data paths from the beginning of the data map list will be used as the source for exporting 
+--			NOTE: For bExport/nExport, that number of data paths from the beginning of the data map list will be used as the source for exporting
 --				and the target data paths will be the same in the module. (i.e. default campaign data paths, editable).
---				The next nExport data paths in the data map list will be used as the export target data paths for read-only data paths for the 
+--				The next nExport data paths in the data map list will be used as the export target data paths for read-only data paths for the
 --				matching source data path.
 --			EX: { "item", "armor", "weapon", "reference.items", "reference.armors", "reference.weapons" } with a nExport of 3 would mean that
 --				the "item", "armor" and "weapon" data paths would be exported to the matching "item", "armor" and "weapon" data paths in the module by default.
---				If the reference data path option is selected, then "item", "armor" and "weapon" data paths would be exported to 
+--				If the reference data path option is selected, then "item", "armor" and "weapon" data paths would be exported to
 --				"reference.items", "reference.armors", and "reference.weapons", respectively.
 --
---		sListDisplayClass = Optional. String. Class to use when displaying this record in a list. If not defined, a default class will be used.
---		sRecordDisplayClass = Optional. String. Class to use when displaying this record in detail. (Defaults to record type key string) 
---		aRecordDisplayClasses = Optional. Table of strings. List of valid display classes for records of this type. Use fRecordDisplayClass to specify which one to use for a given path.
---		fRecordDisplayClass = Optional. Function. Function called when requesting to display this record in detail.
---		fGetLink = Optional. Function. Function called to determine window class and data path to use when pressing or dragging sidebar button.
+--		sListDisplayClass = Optional. String.
+--			Class to use when displaying this record in a list. If not defined, a default class will be used.
+--		sRecordDisplayClass = Optional. String.
+--			Class to use when displaying this record in detail. (Defaults to record type key string)
+--		aRecordDisplayClasses = Optional. Table of strings.
+--			List of valid display classes for records of this type. Use fRecordDisplayClass to specify which one to use for a given path.
+--		fRecordDisplayClass = Optional. Function.
+--			Function called when requesting to display this record in detail.
+--		fGetLink = Optional. Function.
+--			Function called to determine window class and data path to use when pressing or dragging sidebar button.
 --
---		aGMListButtons = Optional. Table of template names. A list of control templates created and added to the master list window for this record type in GM mode.
---		aPlayerListButtons = Optional. Table of template names. A list of control templates created and added to the master list window for this record type in Player mode.
+--		aGMListButtons = Optional. Table of template names.
+--			A list of control templates created and added to the master list window for this record type in GM mode.
+--		aPlayerListButtons = Optional. Table of template names.
+--			A list of control templates created and added to the master list window for this record type in Player mode.
 --
---		nExport = Optional. Overriden by bExport. Number indicating number of data paths which are exportable in the library export window for the record type.
+--		nExport = Optional. Overriden by bExport.
+--			Number indicating number of data paths which are exportable in the library export window for the record type.
 --			NOTE: See aDataMap for bExport/nExport are handled for target campaign data paths vs. reference data paths (editable vs. read-only)
---		sExportPath = Optional. When exporting records to a module, use this alternate data path when storing into a module, instead of the base data path for this record.
---		sExportListDisplayClass = Optional. When exporting records, the list link created for records to be accessed from the library will use this display class. (Default is reference_list)
+--		sExportPath = Optional.
+--			When exporting records to a module, use this alternate data path when storing into a module, instead of the base data path for this record.
+--		sExportListDisplayClass = Optional. (Default = reference_list)
+--			When exporting records, the list link created for records to be accessed from the library will use this display class.
 --
---		sEditMode = Optional. Valid values are "play" or "none".  If "play" specified, then both players and GMs can add/remove records of this record type. Note, players can only remove records they have created. If "none" specified, then neither player nor GM can add/remove records. If not specified, then only GM can add/remove records.
+--		sEditMode = Optional. Valid values are "play" or "none".
+--			If "play" specified, then both players and GMs can add/remove records of this record type.
+--				Note, players can only remove records they have created.
+--			If "none" specified, then neither player nor GM can add/remove records.
+--			If not specified, then only GM can add/remove records.
 --			NOTE: The character selection dialog handles this in the custom character selection window class historically, so does not use this option.
 --
 --		tOptions = Optional. Table of boolean options. (Tables will be merged with existing table on overrideRecordType(s) calls)
---			bExport = Same as nExport = 1. Indicates whether record should be exportable in the library export window for the record type.
---			bExportNoReadOnly = Similar to bExport. Indicates whether record should be exportable in the library export window for the record type, but read only option in export is ignored.
---			bExportListSkip = When exporting records, a list link is normally created for the records to be accessed from the library. This option skips creation of the list and link.
+--			bExport = Same as nExport = 1.
+--				Indicates whether record should be exportable in the library export window for the record type.
+--			bExportNoReadOnly = Similar to bExport.
+--				Indicates whether record should be exportable in the library export window for the record type, but read only option in export is ignored.
+--			bExportListSkip = When exporting records, a list link is normally created for the records to be accessed from the library.
+--				This option skips creation of the list and link.
 --			bHidden = Indicates whether record should be displayed in library, and sidebar options.
 -- 			bID = Indicates whether record is identifiable or not (currently only items and images)
 --			bNoCategories = Disables display and usage of category information in campaign lists.
@@ -69,8 +88,10 @@
 --			bNoShare = Disables share in standard window record menu. Share button shown by default.
 --			bPicture = Enables picture field in record header (can define pictures tab for editing; or will pop-up fallback window)
 --			bToken = Enables token field in record header (can define pictures tab for editing; or will pop-up fallback window)
---			bCurrency = Enables currency can be transferred to this record type. (See ItemManager for default currency paths; or use custom data registration to set different one.)
---			bInventory = Enables items can be transferred to this record type. (See ItemManager for default inventory paths; or use custom data registration to set different one.)
+--			bCurrency = Enables currency can be transferred to this record type.
+--				(See ItemManager for default currency paths; or use custom data registration to set different one.)
+--			bInventory = Enables items can be transferred to this record type.
+--				(See ItemManager for default inventory paths; or use custom data registration to set different one.)
 --
 --		aCustom = Table of custom data registered. (Tables will be merged with existing table on overrideRecordType(s) calls)
 --			Examples Used:
@@ -81,12 +102,14 @@
 --				tCurrencyEncumbranceFields = Optional. Specify alternate currency encumbrance fields from ItemManager default.
 --
 --		aCustomFilters = Optional. Table of custom filter table records.
---			Key = Label string to display for filter; 
+--			Key = Label string to display for filter;
 --			Filter table record format is:
 --				sField = Required. String. Child data node that contains data to use to build filter value list; and to apply filter to.
---				fGetValue = Optional. Function. Returns string or table of strings containing filter value(s) for the record passed as parameter to the function.
---				sType = Optional. String. Valid values are: "boolean", "number".  
---					NOTE: If no type specified, string is assumed. If empty string value returned, then the string resource (library_recordtype_filter_empty) will be used for display if available.
+--				fGetValue = Optional. Function.
+--					Returns string or table of strings containing filter value(s) for the record passed as parameter to the function.
+--				sType = Optional. String. Valid values are: "boolean", "number".
+--					NOTE: If no type specified, string is assumed.
+--						If empty string value returned, then the string resource (library_recordtype_filter_empty) will be used for display if available.
 --					NOTE 2: For boolean type, these string resources will be used for labels (library_recordtype_filter_yes, library_recordtype_filter_no).
 --
 -- FIELDS ADDED FROM STRING DATA
@@ -143,7 +166,7 @@ aRecords = {
 	},
 	["picture"] = {
 		sSidebarCategory = "library",
-		aDataMap = { "picture" }, 
+		aDataMap = { "picture" },
 		sDisplayIndex = "picturelist",
 		tOptions = {
 			bHidden = true,
@@ -152,7 +175,7 @@ aRecords = {
 			bNoShare = true,
 		},
 	},
-	
+
 	["soundset"] = {
 		sSidebarCategory = "library",
 		aDataMap = { "soundset", "reference.soundsets" },
@@ -165,7 +188,7 @@ aRecords = {
 		},
 	},
 
-	["charsheet"] = { 
+	["charsheet"] = {
 		aDataMap = { "charsheet" },
 		fGetLink = getCharListLink,
 		aCustom = {
@@ -183,18 +206,18 @@ aRecords = {
 			bToken = true,
 		},
 	},
-	["note"] = { 
+	["note"] = {
 		sEditMode = "play",
-		aDataMap = { "notes" }, 
+		aDataMap = { "notes" },
 		sListDisplayClass = "masterindexitem_note",
 		tOptions = {
 			bNoCategories = true,
 		},
 	},
 
-	["story"] = { 
+	["story"] = {
 		nExport = 2,
-		aDataMap = { "encounter", "reference.refmanualdata", "reference.encounters", }, 
+		aDataMap = { "encounter", "reference.refmanualdata", "reference.encounters", },
 		sSidebarCategory = "world",
 		sListDisplayClass = "masterindexitem_story",
 		fRecordDisplayClass = getStoryDisplayClass,
@@ -204,8 +227,8 @@ aRecords = {
 		aExportAuxSource = { "reference.refmanualindex", },
 		aExportAuxTarget = { "reference.refmanualindex", },
 	},
-	["storytemplate"] = { 
-		aDataMap = { "storytemplate", "reference.storytemplates" }, 
+	["storytemplate"] = {
+		aDataMap = { "storytemplate", "reference.storytemplates" },
 		tOptions = {
 			bExport = true,
 			bHidden = true,
@@ -225,15 +248,15 @@ aRecords = {
 			bPicture = true,
 		},
 	},
-	["quest"] = { 
-		aDataMap = { "quest", "reference.quests" }, 
+	["quest"] = {
+		aDataMap = { "quest", "reference.quests" },
 		sSidebarCategory = "world",
 		tOptions = {
 			bExport = true,
 		},
 	},
-	["image"] = { 
-		aDataMap = { "image", "reference.images" }, 
+	["image"] = {
+		aDataMap = { "image", "reference.images" },
 		sListDisplayClass = "masterindexitem_id",
 		sRecordDisplayClass = "imagewindow",
 		aGMListButtons = { "button_store_image", "button_folder_import_image_assets" },
@@ -243,8 +266,8 @@ aRecords = {
 			bID = true,
 		},
 	},
-	["npc"] = { 
-		aDataMap = { "npc", "reference.npcs" }, 
+	["npc"] = {
+		aDataMap = { "npc", "reference.npcs" },
 		sListDisplayClass = "masterindexitem_id",
 		aGMEditButtons = { "button_add_npc_import" },
 		aCustom = {
@@ -259,22 +282,25 @@ aRecords = {
 			bCustomDie = true,
 		},
 	},
-	["battle"] = { 
-		aDataMap = { "battle", "reference.battles" }, 
+	["battle"] = {
+		aDataMap = { "battle", "reference.battles" },
 		aGMListButtons = { "button_battlerandom", "button_battle_quickmap" },
+		aCustom = {
+			tWindowMenu = { ["left"] = { "battle_addtoquickmap", "battle_addtotracker", } },
+		},
 		tOptions = {
 			bExport = true,
 		},
 	},
-	["battlerandom"] = { 
-		aDataMap = { "battlerandom", "reference.battlerandoms" }, 
+	["battlerandom"] = {
+		aDataMap = { "battlerandom", "reference.battlerandoms" },
 		tOptions = {
 			bExport = true,
 			bHidden = true,
 		},
 	},
-	["item"] = { 
-		aDataMap = { "item", "reference.items" }, 
+	["item"] = {
+		aDataMap = { "item", "reference.items" },
 		sListDisplayClass = "masterindexitem_id",
 		tOptions = {
 			bExport = true,
@@ -282,10 +308,10 @@ aRecords = {
 			bPicture = true,
 		},
 	},
-	["treasureparcel"] = { 
-		aDataMap = { "treasureparcels", "reference.treasureparcels" }, 
+	["treasureparcel"] = {
+		aDataMap = { "treasureparcels", "reference.treasureparcels" },
 		aCustom = {
-			tWindowMenu = { ["left"] = { "id_all" } },
+			tWindowMenu = { ["left"] = { "id_all", "parcel_addtotracker", } },
 			tCurrencyPaths = { "coinlist" },
 			tInventoryPaths = { "itemlist" },
 			sCurrencyNameField = "description",
@@ -297,15 +323,15 @@ aRecords = {
 			bInvNoTransfer = true,
 		},
 	},
-	["table"] = { 
-		aDataMap = { "tables", "reference.tables" }, 
+	["table"] = {
+		aDataMap = { "tables", "reference.tables" },
 		aGMEditButtons = { "button_add_table_guided", "button_add_table_import_text" },
 		tOptions = {
 			bExport = true,
 		},
 	},
-	["vehicle"] = { 
-		aDataMap = { "vehicle", "reference.vehicles" }, 
+	["vehicle"] = {
+		aDataMap = { "vehicle", "reference.vehicles" },
 		aGMListButtons = { "button_vehicle_type" },
 		aCustomFilters = {
 			["Type"] = { sField = "type" },
@@ -325,7 +351,8 @@ aListViews = {
 			aColumns = {
 				{ sName = "name", sType = "string", sHeadingRes = "vehicle_grouped_label_name", nWidth=200 },
 				{ sName = "cost", sType = "string", sHeadingRes = "vehicle_grouped_label_cost", nWidth=80, bCentered=true },
-				{ sName = "speed", sType = "string", sHeadingRes = "vehicle_grouped_label_speed", sTooltipRes="vehicle_grouped_tooltip_speed", nWidth=200, bWrapped=true },
+				{ sName = "speed", sType = "string", sHeadingRes = "vehicle_grouped_label_speed",
+					sTooltipRes="vehicle_grouped_tooltip_speed", nWidth=200, bWrapped=true },
 			},
 			aFilters = {},
 			aGroups = { { sDBField = "type" } },

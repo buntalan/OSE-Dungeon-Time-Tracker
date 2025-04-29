@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -25,10 +25,20 @@
 
 	<windowclass name="vehicle_main">
 		<margins control="0,0,0,2" />
-		<script file="campaign/scripts/vehicle_main.lua" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				local tFields = { "type", "space", "reach", "cost", "weight", "speed", "notes", };
+				WindowManager.callSafeControlsSetLockMode(self, tFields, bReadOnly);
+				divider2.setVisible(WindowManager.getAnyControlVisible(self, { "type", }));
+				divider3.setVisible(WindowManager.getAnyControlVisible(self, { "notes", }));
+			end
+		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
-			
+
 			<label_column name="type_label">
 				<static textres="vehicle_label_type" />
 			</label_column>
@@ -37,14 +47,14 @@
 			</string_columnh>
 
 			<line_column name="divider2" />
-			
+
 			<label_column name="space_label">
 				<static textres="vehicle_label_size" />
 			</label_column>
 			<number_column name="space">
 				<default>1</default>
 			</number_column>
-			
+
 			<label_column_right name="reach_label">
 				<anchored to="space" />
 				<static textres="vehicle_label_reach" />
@@ -53,7 +63,7 @@
 				<anchored to="space" />
 				<default>1</default>
 			</number_column_right>
-			
+
 			<label_column name="cost_label">
 				<static textres="vehicle_label_cost" />
 			</label_column>

@@ -406,7 +406,7 @@ function helperDecodeRollFromDrag(draginfo, bFinal)
 	end
 
 	rRoll.sDesc = draginfo.getStringData();
-	if bFinal and rRoll.sDesc == "" then
+	if bFinal and (rRoll.sDesc or "") == "" then
 		rRoll.sDesc = draginfo.getDescription();
 	end
 	rRoll.nMod = draginfo.getNumberData();
@@ -501,7 +501,7 @@ function applyModifiers(rSource, rTarget, rRoll, bSkipModStack)
 	end
 
 	if bAddModStack then
-		local bDescNotEmpty = (rRoll.sDesc ~= "");
+		local bDescNotEmpty = ((rRoll.sDesc or "") ~= "");
 		local sStackDesc, nStackMod = ModifierStack.getStack(bDescNotEmpty);
 
 		if sStackDesc ~= "" then
@@ -674,7 +674,8 @@ function createActionMessage(rSource, rRoll)
 	if rRoll.bSecret then
 		rMessage.secret = true;
 		if rRoll.bTower then
-			rMessage.icon = "dicetower_icon";
+			rMessage.assets = rMessage.assets or {};
+			table.insert(rMessage.assets, ChatIdentityManager.getDiceTowerAsset());
 		end
 	elseif Session.IsHost and OptionsManager.isOption("REVL", "off") then
 		rMessage.secret = true;
@@ -741,9 +742,9 @@ function messageResult(_, rSource, rTarget, rMessageGM, rMessagePlayer)
 
 		if bInvolvesFriendlyUnit then
 			if Session.IsHost then
-				local aUsers = User.getActiveUsers();
-				if #aUsers > 0 then
-					Comm.deliverChatMessage(rMessagePlayer, aUsers);
+				local tUsers = User.getActiveUsers();
+				if #tUsers > 0 then
+					Comm.deliverChatMessage(rMessagePlayer, tUsers);
 				end
 			else
 				Comm.addChatMessage(rMessagePlayer);

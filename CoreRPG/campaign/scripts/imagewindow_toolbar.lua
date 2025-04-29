@@ -1,11 +1,9 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
 function onInit()
-	self.update();
-
 	local wTop = UtilityManager.getTopWindow(self);
 	if wTop.isPanel() then
 		ToolbarManager.addButton(self, "share", "right").sendToBack();
@@ -18,22 +16,24 @@ function onInit()
 		ToolbarManager.addButton(self, "close", "right").sendToBack();
 		rightanchor.sendToBack();
 	end
+
+	self.updateDisplay();
 end
 
 function onImageCursorModeChanged()
-	self.update();
+	self.updateDisplay();
 end
 function onImageViewModeChanged()
-	self.update();
+	self.updateDisplay();
 end
 function onImageStateChanged()
-	self.update();
+	self.updateDisplay();
 end
 function onImageTokenCountChanged()
-	self.update();
+	self.updateDisplay();
 end
 
-function update()
+function updateDisplay()
 	local cImage = WindowManager.callOuterWindowFunction(self, "getImage");
 
 	local bHasMask = cImage.hasMask();

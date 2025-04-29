@@ -1,12 +1,7 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
-
-local MIN_WIDTH = 200;
-local MIN_HEIGHT = 200;
-local SMALL_WIDTH = 500;
-local SMALL_HEIGHT = 500;
 
 local _bLastHasTokens = nil;
 
@@ -27,24 +22,11 @@ function onClose()
 	ImageManager.unregisterImage(self.getImage());
 end
 
-function getImage()
-	return image;
-end
-function isImagePanel()
-	return UtilityManager.getTopWindow(self).isPanel();
-end
-
-function onLockChanged()
-	if header and header.subwindow then
-		header.subwindow.update();
-	end
+function onLockModeChanged()
 	self.updateImageDataDisplay();
 end
-function onIDChanged()
+function onIDModeChanged()
 	WindowManager.updateTooltip(self);
-	if header and header.subwindow then
-		header.subwindow.update();
-	end
 end
 function onNameUpdated()
 	WindowManager.updateTooltip(self);
@@ -64,6 +46,13 @@ function onImageTokenCountChanged()
 	end
 end
 
+function getImage()
+	return image;
+end
+function isImagePanel()
+	return UtilityManager.getTopWindow(self).isPanel();
+end
+
 function updateImageDataDisplay()
 	imagedata.setVisible(Session.IsHost and not WindowManager.getLockedState(getDatabaseNode()));
 end
@@ -79,7 +68,6 @@ function onEndCameraDirection(sKey)
 end
 function refreshCameraDirection()
 	local cImage = self.getImage();
-	local bFlatView = (cImage.getViewMode() == "");
 
 	local nRotation = 0;
 	if tButtonDown["rotateleft"] then

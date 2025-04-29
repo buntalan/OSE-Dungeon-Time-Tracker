@@ -3,6 +3,9 @@
 -- attribution and copyright information.
 --
 
+function onInit()
+	Debug.console("masterindexitem_name - DEPRECATED - 2024-08-13");
+end
 function onHover(bHover)
 	setUnderline(bHover, -1);
 end

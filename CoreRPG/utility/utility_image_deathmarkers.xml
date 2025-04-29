@@ -60,9 +60,9 @@
 		<sheetdata>
 			<hs name="id" />
 
-			<anchor_listitem_left name="leftanchor" />
+			<anchor_listitem_left />
+			<anchor_listitem_right />
 
-			<anchor_listitem_right name="rightanchor" />
 			<combobox_listitem_right name="set">
 				<anchored width="180" />
 			</combobox_listitem_right>

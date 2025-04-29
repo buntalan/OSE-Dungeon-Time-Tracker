@@ -90,20 +90,6 @@ function getDefaultCurrency()
 	return _sDefaultCurrency;
 end
 
--- DEPRECATED - LONG (2024-05-28)
-function setCurrencyPaths(sRecordType, tPaths)
-	ItemManager.setCurrencyPaths(sRecordType, tPaths);
-end
-function getCurrencyPaths(sRecordType)
-	return ItemManager.getCurrencyPaths(sRecordType);
-end
-function setEncumbranceFields(sRecordType, tFields)
-	ItemManager.setCurrencyEncumbranceFields(sRecordType, tFields);
-end
-function getEncumbranceFields(sRecordType)
-	return ItemManager.getCurrencyEncumbranceFields(sRecordType);
-end
-
 local _tCallbacks = {};
 function registerCallback(fn)
 	UtilityManager.registerCallback(_tCallbacks, fn);
@@ -205,14 +191,6 @@ function addRecordCurrency(nodeRecord, sNewCurrency, nNewCurrency)
 	DB.setValue(nodeTarget, "amount", "number", DB.getValue(nodeTarget, "amount", 0) + nNewCurrency);
 	DB.setValue(nodeTarget, sCurrencyNameField, "string", sNewCurrency);
 end
--- DEPRECATED - LONG (2024-08-13)
-function addActorCurrency(nodeActor, sNewCurrency, nNewCurrency)
-	CurrencyManager.addRecordCurrency(nodeActor, sNewCurrency, nNewCurrency);
-end
--- DEPRECATED - LONG (2024-05-28)
-function addCharCurrency(nodeActor, sNewCurrency, nNewCurrency)
-	CurrencyManager.addRecordCurrency(nodeActor, sNewCurrency, nNewCurrency);
-end
 
 function parseCurrencyString(s, bExistsOnly)
 	-- Look for currency suffix (50gp), then currency prefix ($50)
@@ -234,4 +212,26 @@ function parseCurrencyString(s, bExistsOnly)
 	end
 
 	return nCurrency, sCurrency;
+end
+
+-- DEPRECATED - LONG (2024-05-28)
+function setCurrencyPaths(sRecordType, tPaths)
+	Debug.console("CurrencyManager.setCurrencyPaths - DEPRECATED - 2024-05-28 - Use ItemManager.setCurrencyPaths");
+	ItemManager.setCurrencyPaths(sRecordType, tPaths);
+end
+function getCurrencyPaths(sRecordType)
+	Debug.console("CurrencyManager.getCurrencyPaths - DEPRECATED - 2024-05-28 - Use ItemManager.getCurrencyPaths");
+	return ItemManager.getCurrencyPaths(sRecordType);
+end
+function setEncumbranceFields(sRecordType, tFields)
+	Debug.console("CurrencyManager.setEncumbranceFields - DEPRECATED - 2024-05-28 - Use ItemManager.setCurrencyEncumbranceFields");
+	ItemManager.setCurrencyEncumbranceFields(sRecordType, tFields);
+end
+function getEncumbranceFields(sRecordType)
+	Debug.console("CurrencyManager.getEncumbranceFields - DEPRECATED - 2024-05-28 - Use ItemManager.getCurrencyEncumbranceFields");
+	return ItemManager.getCurrencyEncumbranceFields(sRecordType);
+end
+function addCharCurrency(nodeActor, sNewCurrency, nNewCurrency)
+	Debug.console("CurrencyManager.addCharCurrency - DEPRECATED - 2024-05-28 - Use CurrencyManager.addRecordCurrency");
+	CurrencyManager.addRecordCurrency(nodeActor, sNewCurrency, nNewCurrency);
 end

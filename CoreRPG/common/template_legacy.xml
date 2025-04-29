@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
 <root>
-	<!-- LEGACY - TO BE DEPRECATED (2024-08-13) -->
+	<!-- DEPRECATED (2024-08-13) - 2025-03 (Chat Announcement) -->
 	<template name="masterindexitem_anchor_right">
-		<anchor_listitem_right_sm />
+		<anchor_listitem_right_sm>
+			<script>
+				function onInit()
+					Debug.console("masterindexitem_anchor_right - DEPRECATED - 2024-08-13");
+				end
+			</script>
+		</anchor_listitem_right_sm>
 	</template>
 	<template name="masterindexitem_link">
 		<linkcontrol_record>
 			<bounds>5,2,20,20</bounds>
+			<script>
+				function onInit()
+					Debug.console("masterindexitem_link - DEPRECATED - 2024-08-13");
+				end
+			</script>
 		</linkcontrol_record>
 	</template>
 	<template name="masterindexitem_link_id">
 		<linkcontrol_record>
 			<bounds>5,2,20,20</bounds>
+			<script>
+				function onInit()
+					Debug.console("masterindexitem_link_id - DEPRECATED - 2024-08-13");
+				end
+			</script>
 		</linkcontrol_record>
 	</template>
 	<template name="masterindexitem_idelete">
-		<button_listitem_idelete>
-			<editmode>list_iedit</editmode>
-			<script>
-				function onInit()
+		<button_masterindexitem_idelete>
+			function onInit()
+				Debug.console("masterindexitem_idelete - DEPRECATED - 2024-08-13");
+				if super and super.onInit then
 					super.onInit();
-
-					if DB.isStatic(window.getDatabaseNode()) then
-						self.setStaticDisplay();
-					end
 				end
-				function setStaticDisplay()
-					setReadOnly(true);
-					setFrame("fieldlight", 4,4,4,4);
-					setStateIcons(0, "button_toolbar_readonly");
-					setStateColor(0, UtilityManager.getControlFontColor(window, "name"));
-					setTooltipText(Interface.getString("button_toolbar_readonly"));
-				end
-			</script>
-		</button_listitem_idelete>
+			end
+		</button_masterindexitem_idelete>
 	</template>
 	<template name="masterindexitem_access">
 		<buttoncontrol>
@@ -52,6 +57,9 @@
 			<state icon="record_shared" tooltipres="tooltip_shared" />
 			<state icon="record_public" tooltipres="tooltip_public" />
 			<script>
+				function onInit()
+					Debug.console("masterindexitem_access - DEPRECATED - 2024-08-13");
+				end
 				function onValueChanged()
 					setVisible(getValue() ~= 0);
 				end
@@ -75,6 +83,11 @@
 			</anchored>
 			<icon>record_intact</icon>
 			<invisible />
+			<script>
+				function onInit()
+					Debug.console("masterindexitem_modified - DEPRECATED - 2024-08-13");
+				end
+			</script>
 		</genericcontrol>
 	</template>
 	<template name="masterindexitem_category">
@@ -82,6 +95,7 @@
 			<anchored width="-1">
 				<sizelimits><maximum width="150" /></sizelimits>
 			</anchored>
+			<!-- NOTE: Script used in non-legacy template as well -->
 			<script file="campaign/scripts/masterindexitem_category.lua" />
 		</stringc_listitem_right_noframe_static>
 	</template>
@@ -90,6 +104,11 @@
 			<anchored width="-1">
 				<sizelimits><maximum width="200" /></sizelimits>
 			</anchored>
+			<script>
+				function onInit()
+					Debug.console("masterindexitem_owner - DEPRECATED - 2024-08-13");
+				end
+			</script>
 		</stringc_listitem_right_noframe_static>
 	</template>
 	<template name="masterindexitem_name">
@@ -181,7 +200,7 @@
 			<center />
 		</label_ct>
 	</template>
-	
+
 	<template name="anchor_ctbox_host_header">
 		<genericcontrol name="headeranchor">
 			<anchored to="contentanchor" height="20">
@@ -345,15 +364,15 @@
 				function onInit()
 					widget = addBitmapWidget(activeicon[1]);
 				end
-				
+
 				function onDragStart(button, x, y, draginfo)
 					draginfo.setType("combattrackeractivation");
 					draginfo.setIcon(activeicon[1]);
 					widget.setVisible(false);
-					
+
 					return true;
 				end
-				
+
 				function onDragEnd(draginfo)
 					widget.setVisible(true);
 				end
@@ -368,7 +387,7 @@
 			<script file="ct/scripts/ct_menu.lua" />
 		</buttoncontrol>
 	</template>
-	
+
 	<template name="label_ct_host_rounds">
 		<label_ct>
 			<anchored height="20">
@@ -486,42 +505,7 @@
 		</windowlist>
 	</template>
 
-	<!-- LEGACY - OLD VERSIONS (2024-08-13) -->
-	<!--
-	<template name="token_ctentry_base">
-		<tokenfield>
-			<anchored width="25" height="25">
-				<top parent="active_spacer_top" anchor="bottom" offset="7" />
-				<left offset="33" />
-			</anchored>
-			<empty>token_empty</empty>
-			<script file="common/scripts/token_crosslink.lua" />
-		</tokenfield>
-	</template>
-	<template name="string_ct_entry_name">
-		<string_ct>
-			<anchored height="20">
-				<top parent="active_spacer_top" anchor="bottom"  relation="relative" offset="10" />
-				<left parent="token" anchor="right" offset="12" />
-				<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
-			</anchored>
-			<tabtarget next="initresult" />
-			<script file="ct/scripts/ct_name.lua" />
-		</string_ct>
-	</template>
-	<template name="string_clientct_name">
-		<stringu name="name">
-			<anchored height="20">
-				<top parent="active_spacer_top" anchor="bottom" relation="relative" offset="10" />
-				<left parent="token" anchor="right" offset="5" />
-				<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
-			</anchored>
-			<readonly />
-		</stringu>
-	</template>
-	-->
-
-	<!-- DEPRECATED - 2024-08-13 (Short Release) -->
+	<!-- DEPRECATED - 2024-08-13 (Short Release) - 2025-03 (Chat Announcement) -->
 	<template name="frame_record_content">
 		<genericcontrol name="contentframe">
 			<anchored>
@@ -532,6 +516,12 @@
 			</anchored>
 			<frame name="groupbox" offset="20,17,20,17" />
 			<disabled />
+			<script>
+				function onInit()
+					Debug.console("frame_record_content - DEPRECATED - 2024-08-13");
+					ChatManager.SystemMessage("frame_record_content - DEPRECATED - 2024-08 - Contact ruleset/extension/forge author");
+				end
+			</script>
 		</genericcontrol>
 	</template>
 	<template name="frame_record_content_tabbed">
@@ -544,17 +534,35 @@
 			</anchored>
 			<frame name="groupbox" offset="20,17,24,17" />
 			<disabled />
+			<script>
+				function onInit()
+					Debug.console("frame_record_content_tabbed - DEPRECATED - 2024-08-13");
+					ChatManager.SystemMessage("frame_record_content_tabbed - DEPRECATED - 2024-08 - Contact ruleset/extension/forge author");
+				end
+			</script>
 		</genericcontrol>
 	</template>
 
 	<!-- DEPRECATED - 2024-03-05 (Long Release) -->
 	<script name="ReferenceManualManager">
 		function addBlockFrame(s)
+			Debug.console("ReferenceManualManager - DEPRECATED - 2024-03-05");
 			StoryManager.addBlockFrame(s);
 		end
 	</script>
+	<template name="button_record_locked">
+		<buttoncontrol name="locked">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="0" />
+			</anchored>
+			<state icon="padlock_open" tooltipres="tooltip_unlock" />
+			<state icon="padlock_closed" tooltipres="tooltip_lock" />
+			<script file="common/scripts/button_record_locked.lua" />
+		</buttoncontrol>
+	</template>
 
-	<!-- DEPRECATED - 2024-03-05 (Short Release) -->
+	<!-- DEPRECATED - 2024-03-05 (Short Release) - 2025-03 (Chat Announcement) -->
 	<template name="close_recordsheet">
 		<close>
 			<anchored>
@@ -564,6 +572,7 @@
 			<script>
 				function onInit()
 					Debug.console("close_recordsheet - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("close_recordsheet - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</close>
@@ -577,6 +586,7 @@
 			<script>
 				function onInit()
 					Debug.console("close_imagebox - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("close_imagebox - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</close>
@@ -590,6 +600,7 @@
 			<script>
 				function onInit()
 					Debug.console("help_imagebox - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("help_imagebox - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</help>
@@ -604,6 +615,7 @@
 			<script>
 				function onInit()
 					Debug.console("close_imagepanel - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("close_imagepanel - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</close>
@@ -618,6 +630,7 @@
 			<script>
 				function onInit()
 					Debug.console("help_imagepanel - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("help_imagepanel - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</help>
@@ -628,6 +641,7 @@
 			<script>
 				function onInit()
 					Debug.console("button_window_sizedown_base - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_window_sizedown_base - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 				function onButtonPress()
 					ImageManager.performSizeDown(window);
@@ -638,6 +652,12 @@
 	<template name="button_window_sizedown">
 		<button_window_sizedown_base>
 			<anchored height="24" width="24" />
+			<script>
+				function onInit()
+					Debug.console("button_window_sizedown - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_window_sizedown - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
+				end
+			</script>
 		</button_window_sizedown_base>
 	</template>
 	<template name="button_window_sizeup_base">
@@ -646,6 +666,7 @@
 			<script>
 				function onInit()
 					Debug.console("button_window_sizeup_base - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_window_sizeup_base - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 				function onButtonPress()
 					ImageManager.performSizeUp(window);
@@ -656,6 +677,12 @@
 	<template name="button_window_sizeup">
 		<button_window_sizeup_base>
 			<anchored height="24" width="24" />
+			<script>
+				function onInit()
+					Debug.console("button_window_sizeup - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_window_sizeup - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
+				end
+			</script>
 		</button_window_sizeup_base>
 	</template>
 	<template name="button_imagewindow_sizeup">
@@ -664,6 +691,7 @@
 			<script>
 				function onInit()
 					Debug.console("button_imagewindow_sizeup - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_imagewindow_sizeup - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_window_sizeup>
@@ -675,6 +703,7 @@
 			<script>
 				function onInit()
 					Debug.console("button_imagebackpanel_sizedown - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_imagebackpanel_sizedown - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_window_sizedown>
@@ -686,6 +715,7 @@
 			<script>
 				function onInit()
 					Debug.console("button_imagebackpanel_sizeup - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_imagebackpanel_sizeup - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_window_sizeup>
@@ -697,6 +727,7 @@
 			<script>
 				function onInit()
 					Debug.console("button_imagefullpanel_sizedown - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_imagefullpanel_sizedown - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_window_sizedown>
@@ -710,6 +741,7 @@
 			<script>
 				function onInit()
 					Debug.console("close_storybox - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("close_storybox - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</close>
@@ -723,6 +755,7 @@
 			<script>
 				function onInit()
 					Debug.console("story_page_top - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("story_page_top - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_content_page_top>
@@ -736,6 +769,7 @@
 			<script>
 				function onInit()
 					Debug.console("story_page_prev - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("story_page_prev - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_content_page_prev>
@@ -749,6 +783,7 @@
 			<script>
 				function onInit()
 					Debug.console("story_page_next - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("story_page_next - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_content_page_next>
@@ -766,6 +801,7 @@
 			<script>
 				function onInit()
 					Debug.console("frame_story_content - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("frame_story_content - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</genericcontrol>
@@ -776,6 +812,7 @@
 			<script>
 				function onInit()
 					Debug.console("frame_record - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("frame_record - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</genericcontrol>
@@ -789,20 +826,10 @@
 			<script>
 				function onInit()
 					Debug.console("button_record_activateid - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_record_activateid - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_activateid>
-	</template>
-	<template name="button_record_locked">
-		<buttoncontrol name="locked">
-			<anchored to="rightanchor" width="20" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="0" />
-			</anchored>
-			<state icon="padlock_open" tooltipres="tooltip_unlock" />
-			<state icon="padlock_closed" tooltipres="tooltip_lock" />
-			<script file="common/scripts/button_record_locked.lua" />
-		</buttoncontrol>
 	</template>
 	<template name="icon_record_locked">
 		<genericcontrol name="hardlocked">
@@ -818,6 +845,7 @@
 					local bShow = (not node or DB.isReadOnly(node));
 					setVisible(bShow);
 					Debug.console("icon_record_locked - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("icon_record_locked - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</genericcontrol>
@@ -834,22 +862,20 @@
 			<script>
 				function onInit()
 					Debug.console("sub_record_header - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("sub_record_header - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</subwindow>
 	</template>
 	<template name="anchor_record_header_right">
-		<genericcontrol name="rightanchor">
-			<anchored height="0" width="0">
-				<top offset="10" />
-				<right />
-			</anchored>
+		<anchor_listitem_right_lg>
 			<script>
 				function onInit()
 					Debug.console("anchor_record_header_right - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("anchor_record_header_right - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
-		</genericcontrol>
+		</anchor_listitem_right_lg>
 	</template>
 	<template name="anchor_record_image_header_right">
 		<genericcontrol name="rightanchor">
@@ -860,6 +886,7 @@
 			<script>
 				function onInit()
 					Debug.console("anchor_record_image_header_right - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("anchor_record_image_header_right - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</genericcontrol>
@@ -870,6 +897,7 @@
 			<script>
 				function onInit()
 					Debug.console("link_record_header - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("link_record_header - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</linkcontrol_record>
@@ -883,6 +911,7 @@
 				function onInit()
 					setVisible(not isEmpty());
 					Debug.console("label_recordtype - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("label_recordtype - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</label>
@@ -894,6 +923,7 @@
 			<script>
 				function onInit()
 					Debug.console("spacer_recordtype - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("spacer_recordtype - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</genericcontrol>
@@ -913,6 +943,7 @@
 			<script>
 				function onInit()
 					Debug.console("string_record_name - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("string_record_name - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</stringfield>
@@ -922,6 +953,7 @@
 			<script>
 				function onInit()
 					Debug.console("string_record_name_id - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("string_record_name_id - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 				function onValueChanged()
 					if window.onNameUpdated then
@@ -942,6 +974,7 @@
 			<script>
 				function onInit()
 					Debug.console("string_record_name_image - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("string_record_name_image - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</string_record_name_id>
@@ -952,6 +985,7 @@
 			<script>
 				function onInit()
 					Debug.console("string_record_name_npc - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("string_record_name_npc - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</string_record_name_id>
@@ -963,6 +997,7 @@
 			<script>
 				function onInit()
 					Debug.console("string_record_name_story - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("string_record_name_story - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</string_record_name>
@@ -976,6 +1011,7 @@
 			<script>
 				function onInit()
 					Debug.console("string_record_name_ref - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("string_record_name_ref - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</string_record_name>
@@ -995,6 +1031,7 @@
 						super.onInit();
 					end
 					Debug.console("button_ichat - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_ichat - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 				function onButtonPress()
 					RecordShareManager.onShareButtonPressed(window);
@@ -1017,6 +1054,7 @@
 			<script>
 				function onInit()
 					Debug.console("button_folder_sm - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_folder_sm - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 				function onButtonPress()
 					if folder then
@@ -1038,21 +1076,22 @@
 			<script>
 				function onInit()
 					Debug.console("button_folder_image - DEPRECATED - 2024-03-05");
+					ChatManager.SystemMessage("button_folder_image - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 				end
 			</script>
 		</button_folder_sm>
 	</template>
 	<template name="list_utility">
 		<list_utility_base>
-			<allowdelete />
 			<useallmodules />
+			<allowdelete />
 			<sortby><control>label</control></sortby>
 			<childfocus>label</childfocus>
 			<script file="common/scripts/list_utility.lua" />
 		</list_utility_base>
 	</template>
 
-	<!-- DEPRECATED - 2023-12-12 (Long Release); No announcement yet (save for charsheet rewrite) -->
+	<!-- DEPRECATED - 2023-12-12 (Long Release) - 2025-03 (Chat Announcement) -->
 	<template name="anchor_title_charsheet">
 		<genericcontrol>
 			<anchored height="0">
@@ -1061,6 +1100,12 @@
 				<right parent="" anchor="right" offset="-30" />
 			</anchored>
 			<disabled />
+			<script>
+				function onInit()
+					Debug.console("anchor_title_charsheet - DEPRECATED - 2023-12 - Use new character layout templates");
+					ChatManager.SystemMessage("anchor_title_charsheet - DEPRECATED - 2023-12 - Contact ruleset/extension/forge author");
+				end
+			</script>
 		</genericcontrol>
 	</template>
 	<template name="token_record_header">
@@ -1071,6 +1116,10 @@
 			</anchored>
 			<empty>token_empty</empty>
 			<script>
+				function onInit()
+					Debug.console("token_record_header - DEPRECATED - 2023-12 - Use new header implementation");
+					ChatManager.SystemMessage("token_record_header - DEPRECATED - 2023-12 - Contact ruleset/extension/forge author");
+				end
 				function onDragStart(button, x, y, draginfo)
 					draginfo.setType("token");
 					draginfo.setTokenData(getValue());
@@ -1090,6 +1139,10 @@
 		<tokenfield>
 			<empty>token_empty</empty>
 			<script>
+				function onInit()
+					Debug.console("token_char - DEPRECATED - 2023-12 - Use new header implementation");
+					ChatManager.SystemMessage("token_char - DEPRECATED - 2023-12 - Contact ruleset/extension/forge author");
+				end
 				function onDragStart(button, x, y, draginfo)
 					return RecordAssetManager.handlePictureDragStart(window.getDatabaseNode(), draginfo);
 				end
@@ -1111,6 +1164,8 @@
 							setIcon("portrait_" .. nodeCharName .. "_charlist", true);
 						end
 					end
+					Debug.console("portrait_char - DEPRECATED - 2023-12 - Use new header implementation");
+					ChatManager.SystemMessage("portrait_char - DEPRECATED - 2023-12 - Contact ruleset/extension/forge author");
 				end
 				function onDragStart(button, x, y, draginfo)
 					return RecordAssetManager.handlePictureDragStart(window.getDatabaseNode(), draginfo);
@@ -1137,639 +1192,379 @@
 		</genericcontrol>
 	</template>
 
-	<!-- DEPRECATED - 2023-12-12 (Short Release) - 2024-05-28 (Chat Notice) -->
-	<template name="anchor_title_partysheet">
-		<genericcontrol>
-			<anchored height="0">
-				<top parent="title" anchor="bottom" offset="0" />
-				<left parent="" anchor="left" offset="20" />
-				<right parent="" anchor="right" offset="-30" />
-			</anchored>
-			<disabled />
+	<!-- DEPRECATED (2024-08) -->
+	<template name="subwindow_record">
+		<subwindow>
+			<anchored to="contentframe" position="over" />
 			<script>
 				function onInit()
-					Debug.console("anchor_title_partysheet - DEPRECATED - 2023-08-29 - Use anchor_content_partysheet_top/anchor_content_partysheet_bottom templates");
-					ChatManager.SystemMessage("anchor_title_partysheet - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+					Debug.console("subwindow_record - DEPRECATED - 2024-08 - Use new record window and layout implementation");
 				end
 			</script>
-		</genericcontrol>
+		</subwindow>
 	</template>
-	<template name="close_utilitybox">
-		<close>
-			<anchored>
-				<top offset="0" />
-				<right offset="0" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("close_utilitybox - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template");
-					ChatManager.SystemMessage("close_utilitybox - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</close>
-	</template>
-	<template name="help_utilitybox">
-		<help>
-			<anchored>
-				<top offset="0" />
-				<right offset="-24" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("help_utilitybox - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template and window.helplinkres tag");
-					ChatManager.SystemMessage("help_utilitybox - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help>
-	</template>
-	<template name="close_tokenbag">
-		<close>
-			<anchored>
-				<top offset="0" />
-				<right offset="0" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("close_tokenbag - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template");
-					ChatManager.SystemMessage("close_tokenbag - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</close>
-	</template>
-	<template name="help_tokenbag">
-		<help>
-			<anchored>
-				<top offset="0" />
-				<right offset="-24" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("help_tokenbag - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template and window.helplinkres tag");
-					ChatManager.SystemMessage("help_tokenbag - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help>
-	</template>
-	<template name="close_referencelist">
-		<close>
-			<anchored>
-				<top offset="6" />
-				<right offset="-6" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("close_referencelist - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template");
-					ChatManager.SystemMessage("close_referencelist - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</close>
-	</template>
-	<template name="help_referencelist">
-		<help>
-			<anchored>
-				<top offset="6" />
-				<right offset="-30" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("help_referencelist - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template and window.helplinkres tag");
-					ChatManager.SystemMessage("help_referencelist - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help>
-	</template>
-	<template name="close_charselect">
-		<close>
-			<anchored>
-				<top offset="1" />
-				<right offset="-1" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("close_charselect - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template");
-					ChatManager.SystemMessage("close_charselect - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</close>
-	</template>
-	<template name="help_charselect">
-		<help>
-			<anchored>
-				<top offset="1" />
-				<right offset="-25" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("help_charselect - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template and window.helplinkres tag");
-					ChatManager.SystemMessage("help_charselect - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help>
-	</template>
-	<template name="close_partysheet">
-		<close>
-			<anchored>
-				<top offset="2" />
-				<right offset="-2" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("close_partysheet - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template");
-					ChatManager.SystemMessage("close_partysheet - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</close>
-	</template>
-	<template name="help_partysheet">
-		<help>
-			<anchored>
-				<top offset="2" />
-				<right offset="-26" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("help_partysheet - DEPRECATED - 2023-12-12 - Use windowmenubar_(frame) template and window.helplinkres tag");
-					ChatManager.SystemMessage("help_partysheet - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help>
-	</template>
-	<template name="helper_ps">
-		<help_partysheet>
-			<urlres>help_tool_ps</urlres>
-			<script>
-				function onInit()
-					Debug.console("helper_ps - DEPRECATED - 2023-12-12 - Use window.helplinkres tag");
-					ChatManager.SystemMessage("helper_ps - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help_partysheet>
-	</template>
-	<template name="helper_image">
-		<help_imagebox>
-			<urlres>help_record_image</urlres>
-			<script>
-				function onInit()
-					Debug.console("helper_image - DEPRECATED - 2023-12-12 - Use window.helplinkres tag");
-					ChatManager.SystemMessage("helper_image - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help_imagebox>
-	</template>
-	<template name="list_psmain_helper">
-		<windowlist>
-			<script file="ps/scripts/ps_list.lua" />
-		</windowlist>
-	</template>
-	<template name="frame_ps">
-		<genericcontrol>
-			<frame name="groupbox" />
-			<disabled />
-			<script>
-				function onInit()
-					Debug.console("frame_ps - DEPRECATED - 2023-12-12 - Use standard content_framed_groupbox templates");
-					ChatManager.SystemMessage("frame_ps - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</genericcontrol>
-	</template>
-	<template name="label_ps">
-		<label>
-			<font>sheetlabel_ps</font>
-			<script>
-				function onInit()
-					Debug.console("label_ps - DEPRECATED - 2023-12-12 - Use standard label template in groupbox frame");
-					ChatManager.SystemMessage("label_ps - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</label>
-	</template>
-	<template name="portrait_ps_base">
-		<genericcontrol>
-			<icon>charlist_base</icon>
-			<script>
-				function onInit()
-					Debug.console("portrait_ps_base - DEPRECATED - 2023-12-12 - No longer needed");
-					ChatManager.SystemMessage("portrait_ps_base - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</genericcontrol>
-	</template>
-	<font name="sheetlabel_ps">
-		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Bold.ttf" name="Noto Sans Bold" size="16" />
-		<color value="#000000" />
-	</font>
-	<font name="list-empty-ps">
-		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Italic.ttf" name="Noto Sans Italic" size="16" />
-		<color value="#000000" />
-	</font>
-	<font name="utility_label">
-		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Bold.ttf" name="Noto Sans Bold" size="18" />
-		<color value="#FFFFFF" />
-	</font>
-
-	<!-- 2023-08-29 - (Short Release)- 2024-03-05 (Chat Notification) -->
-	<template name="helper_charselect">
-		<help_charselect>
-			<urlres>help_library_charselect</urlres>
-			<script>
-				function onInit()
-					Debug.console("helper_charselect - DEPRECATED - 2023-08-29 - Use window.helplinkres tag");
-					ChatManager.SystemMessage("helper_charselect - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</help_charselect>
-	</template>
-	<template name="anchor_title_charselect">
-		<genericcontrol>
-			<anchored height="0">
-				<top parent="title" anchor="bottom" offset="0" />
-				<left parent="" anchor="left" offset="30" />
-				<right parent="" anchor="right" offset="-30" />
-			</anchored>
-			<disabled />
-			<script>
-				function onInit()
-					Debug.console("anchor_title_charselect - DEPRECATED - 2023-08-29 - Use anchor_content_charselect_top and anchor_content_charselect_bottom templates instead");
-					ChatManager.SystemMessage("anchor_title_charselect - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</genericcontrol>
-	</template>
-	<template name="button_iadd_campaign">
-		<button_iadd name="list_iadd">
-			<anchored to="rightanchor">
-				<top />
-				<right anchor="left" relation="relative" offset="-5" />
-			</anchored>
-			<script>
-				function onInit()
-					if super and super.onInit then
-						super.onInit();
-					end
-					Debug.console("button_iadd_campaign - DEPRECATED - 2023-08-29 - Use button_iadd_list_content_controls instead");
-					ChatManager.SystemMessage("button_iadd_campaign - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</button_iadd>
-	</template>
-	<template name="button_iedit_campaign">
-		<button_iedit name="list_iedit">
-			<anchored to="rightanchor">
-				<top />
-				<right anchor="left" relation="relative" offset="-5" />
-			</anchored>
-			<edittarget>list</edittarget>
-			<script>
-				function onInit()
-					if super and super.onInit then
-						super.onInit();
-					end
-					Debug.console("button_iedit_campaign - DEPRECATED - 2023-08-29 - Use button_iedit_list_content_controls instead");
-					ChatManager.SystemMessage("button_iedit_campaign - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</button_iedit>
-	</template>
-	<template name="anchor_reftitle">
-		<genericcontrol>
-			<anchored height="0">
-				<top parent="reftitle" anchor="bottom" offset="3" />
-				<left parent="" anchor="left" offset="35" />
-				<right parent="" anchor="right" offset="-40" />
-			</anchored>
-			<disabled />
-			<script>
-				function onInit()
-					Debug.console("anchor_reftitle - DEPRECATED - 2023-08-29 - Use anchor_content_referencelist_top and anchor_content_referencelist_bottom templates instead");
-					ChatManager.SystemMessage("anchor_reftitle - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</genericcontrol>
-	</template>
-	<template name="header_reftablegroup">
-		<genericcontrol name="headeranchor">
-			<anchored to="contentanchor" height="20" width="0">
-				<top anchor="bottom" relation="relative" offset="0" />
-				<left offset="30" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("header_reftablegroup - DEPRECATED - 2023-08-29 - Use anchor_list_content_label_left and anchor_list_content_label_right templates instead");
-					ChatManager.SystemMessage("header_reftablegroup - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</genericcontrol>
-	</template>
-	<template name="label_reftable">
-		<stringcontrol>
-			<anchored to="headeranchor" width="60">
-				<left anchor="right" relation="relative" />
-				<top />
-			</anchored>
-			<font>reference-header</font>
-			<multilinespacing>20</multilinespacing>
-			<readonly />
-			<script>
-				function onInit()
-					Debug.console("label_reftable - DEPRECATED - 2023-08-29 - Use label_list_content_right and label_list_content_noframe templates instead");
-					ChatManager.SystemMessage("label_reftable - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</stringcontrol>
-	</template>
-	<template name="filter_ref">
-		<filter>
-			<anchored height="20">
-				<left parent="contentanchor" offset="20" />
-				<right parent="contentanchor" />
-				<bottom offset="-25" />
-			</anchored>
-			<script>
-				function onInit()
-					Debug.console("filter_ref - DEPRECATED - 2023-08-29 - Use filter_content_bottom template instead");
-					ChatManager.SystemMessage("filter_ref - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</filter>
-	</template>
-	<template name="list_ref">
-		<windowlist>
-			<anchored to="contentanchor">
-				<top anchor="bottom" relation="relative" offset="20" />
-				<left />
-				<right />
-				<bottom parent="" offset="-65" />
-			</anchored>
-			<frame name="groupbox" offset="15,15,20,15" />
-			<child></child>
-			<child><backcolor>1A40301E</backcolor></child>
-			<filter control="filter" />
-			<filteron control="name" />
-			<script>
-				function onInit()
-					Debug.console("list_ref - DEPRECATED - 2023-08-29 - Use list_content_framed_groupbox_alternating_filtered template instead");
-					ChatManager.SystemMessage("list_ref - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</windowlist>
-	</template>
-	<template name="list_reftablegroup">
-		<windowlist>
-			<anchored to="contentanchor">
-				<top anchor="bottom" relation="relative" offset="10" />
-				<left />
-				<right />
-				<bottom parent="" offset="-70" />
-			</anchored>
-			<frame name="groupbox" offset="15,15,20,15" />
-			<readonly />
-			<script>
-				function onInit()
-					Debug.console("list_reftablegroup - DEPRECATED - 2023-08-29 - Use list_content_framed_groupbox or list_content_noscroll_alternating_top template instead");
-					ChatManager.SystemMessage("list_reftablegroup - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</windowlist>
-	</template>
-	<template name="scrollbar_reftablegroup">
+	<template name="scrollbar_record">
 		<scrollbar>
-			<anchored to="grouplist" position="right" offset="-5,-5" />
-			<target>grouplist</target>
+			<anchored to="contentframe" />
 			<script>
 				function onInit()
-					Debug.console("scrollbar_reftablegroup - DEPRECATED - 2023-08-29 - Use scrollbar_content_grouplist template instead");
-					ChatManager.SystemMessage("scrollbar_reftablegroup - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+					Debug.console("scrollbar_record - DEPRECATED - 2024-08 - Use new record window and layout implementation");
 				end
 			</script>
 		</scrollbar>
 	</template>
-	<template name="list_reftablegroupitems">
-		<windowlist>
-			<anchored>
-				<top parent="topanchor" anchor="bottom" relation="relative" offset="2" />
-				<left />
+	<template name="ft_record">
+		<simpleft>
+			<script>
+				function onInit()
+					Debug.console("ft_record - DEPRECATED - 2024-08 - Use new record window and layout implementation");
+				end
+			</script>
+		</simpleft>
+	</template>
+
+	<!-- DEPRECATED (2024-08) -->
+	<template name="close_base">
+		<buttoncontrol name="button_close">
+			<icon normal="button_close" pressed="button_close_down" hover="button_close_hover" />
+			<script>
+				function onInit()
+					Debug.console("close_base - DEPRECATED - 2024-08 - Use new window menu implementation");
+				end
+				function onButtonPress()
+					local wTop = UtilityManager.getTopWindow(window);
+					local sClass = wTop.getClass();
+					if StringManager.contains({ "imagebackpanel", "imagemaxpanel", "imagefullpanel", }, sClass) then
+						ImageManager.closePanel();
+					else
+						wTop.close();
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="close">
+		<close_base>
+			<anchored height="24" width="24">
+				<top />
 				<right />
 			</anchored>
-			<noscroll />
-			<child></child>
-			<child><backcolor>1A40301E</backcolor></child>
-			<readonly />
-			<script file="ref/scripts/ref_list.lua" />
 			<script>
 				function onInit()
-					super.onInit();
-					Debug.console("list_reftablegroupitems - DEPRECATED - 2023-08-29 - Use list_content_noscroll_alternating_top template instead");
-					ChatManager.SystemMessage("list_reftablegroupitems - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+					Debug.console("close - DEPRECATED - 2024-08 - Use new window menu implementation");
 				end
 			</script>
-		</windowlist>
+		</close_base>
 	</template>
-	<template name="filter_reftable">
-		<filter>
-			<anchored height="20">
-				<left parent="contentanchor" offset="85" />
-				<right parent="contentanchor" />
-				<bottom offset="-25" />
+	<template name="help_base">
+		<buttoncontrol name="button_help">
+			<icon normal="button_help" pressed="button_help_down" hover="button_help_hover" />
+			<script>
+				function onInit()
+					Debug.console("help_base - DEPRECATED - 2024-08 - Use new window menu implementation");
+				end
+				function onButtonPress()
+					local sURL = nil;
+					if urlres then
+						sURL = Interface.getString(urlres[1]);
+					elseif url then
+						sURL = url[1];
+					else
+						local wTop = UtilityManager.getTopWindow(window);
+						if wTop.helplinkres then
+							sURL = Interface.getString(wTop.helplinkres[1]);
+						elseif wTop.helplink then
+							sURL = wTop.helplink[1];
+						end
+					end
+					UtilityManager.sendToHelpLink(sURL);
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="help">
+		<help_base>
+			<anchored height="24" width="24">
+				<top />
+				<right offset="-24" />
 			</anchored>
-			<target>grouplist,list</target>
-			<script file="common/scripts/filter_grouped.lua" />
 			<script>
 				function onInit()
-					super.onInit();
-					Debug.console("filter_reftable - DEPRECATED - 2023-08-29 - Use filter_content_grouped_bottom template instead");
-					ChatManager.SystemMessage("filter_reftable - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+					Debug.console("help - DEPRECATED - 2024-08 - Use new window menu implementation");
 				end
 			</script>
-		</filter>
+		</help_base>
 	</template>
-	<template name="button_reftable_expand">
-		<button_expand>
+	<template name="close_charsheet">
+		<close>
 			<anchored>
-				<left parent="contentanchor" />
-				<bottom offset="-25" />
+				<top offset="12" />
+				<right offset="-12" />
 			</anchored>
 			<script>
 				function onInit()
-					super.onInit();
-					Debug.console("button_reftable_expand - DEPRECATED - 2023-08-29 - Use button_content_grouped_expand template instead");
-					ChatManager.SystemMessage("button_reftable_expand - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+					Debug.console("close_charsheet - DEPRECATED - 2024-08 - Use new window menu implementation");
 				end
 			</script>
-		</button_expand>
+		</close>
 	</template>
-	<template name="button_reftable_collapse">
-		<button_collapse>
+	<template name="sub_charsheet_overview">
+		<subwindow>
+			<anchored position="insidetopleft" offset="25,20">
+				<right offset="-25" />
+			</anchored>
+			<activate />
+			<fastinit />
+			<class>charsheet_overview</class>
+			<script>
+				function onInit()
+					Debug.console("sub_charsheet_overview - DEPRECATED - 2024-08 - Use new record window and layout implementation");
+				end
+			</script>
+		</subwindow>
+	</template>
+	<template name="sub_charsheet">
+		<subwindow>
 			<anchored>
-				<left parent="contentanchor" offset="30" />
-				<bottom offset="-25" />
+				<left offset="15" />
+				<top parent="overview" anchor="bottom" offset="0" />
+				<right offset="-15" />
+				<bottom offset="-20" />
 			</anchored>
 			<script>
 				function onInit()
-					super.onInit();
-					Debug.console("button_reftable_collapse - DEPRECATED - 2023-08-29 - Use button_content_grouped_collapse template instead");
-					ChatManager.SystemMessage("button_reftable_collapse - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+					Debug.console("sub_charsheet - DEPRECATED - 2024-08 - Use new record window and layout implementation");
 				end
 			</script>
-		</button_collapse>
+		</subwindow>
 	</template>
-	<template name="frame_groupdesc">
+	<template name="close_charsheethelper">
+		<close>
+			<anchored>
+				<top offset="1" />
+				<right offset="0" />
+			</anchored>
+			<script>
+				function onInit()
+					Debug.console("close_charsheethelper - DEPRECATED - 2024-08 - Use new window menu implementation");
+				end
+			</script>
+		</close>
+	</template>
+	<template name="anchor_title_charsheethelper">
 		<genericcontrol>
-			<anchored height="25">
-				<top parent="topanchor" anchor="bottom" />
-				<left offset="10" />
-				<right />
+			<anchored height="0">
+				<top parent="title" anchor="bottom" offset="0" />
+				<left parent="" anchor="left" offset="20" />
+				<right parent="" anchor="right" offset="-20" />
 			</anchored>
-			<frame name="headerref" offset="10,0,0,0" />
+			<disabled />
 			<script>
 				function onInit()
-					Debug.console("frame_groupdesc - DEPRECATED - 2023-08-29 - Use header_content_groupdesc template instead");
-					ChatManager.SystemMessage("frame_groupdesc - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-				function onClickDown(button, x, y)
-					return true;
-				end
-				function onClickRelease(button, x, y)
-					window.description.onClickRelease(button, x, y);
-					return true;
+					Debug.console("anchor_title_charsheethelper - DEPRECATED - 2024-08 - Use new record window and layout implementation");
 				end
 			</script>
 		</genericcontrol>
 	</template>
-	<template name="string_groupdesc">
-		<stringfield>
-			<anchored height="20">
-				<top parent="topanchor" anchor="bottom" relation="relative" offset="5" />
-				<left offset="15" />
+
+	<!-- TO BE DEPRECATED (2025-03) (Long Release) -->
+	<template name="masterindexcategory_idelete">
+		<button_idelete>
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
 			</anchored>
-			<font>reference-groupdesc</font>
-			<static />
-			<script file="ref/scripts/ref_groupdesc.lua" />
+		</button_idelete>
+	</template>
+	<template name="button_masterindexitem_idelete">
+		<button_listitem_idelete>
+			<editmode>list_iedit</editmode>
 			<script>
 				function onInit()
 					super.onInit();
-					Debug.console("string_groupdesc - DEPRECATED - 2023-08-29 - Use header_content_groupdesc template instead");
-					ChatManager.SystemMessage("string_groupdesc - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+
+					if DB.isStatic(window.getDatabaseNode()) then
+						self.setStaticDisplay();
+					end
+				end
+				function setStaticDisplay()
+					setReadOnly(true);
+					setFrame("fieldlight", 4,4,4,4);
+					setStateIcons(0, "button_toolbar_readonly");
+					setStateColor(0, UtilityManager.getControlFontColor(window, "name"));
+					setTooltipText(Interface.getString("button_toolbar_readonly"));
 				end
 			</script>
-		</stringfield>
+		</button_listitem_idelete>
 	</template>
-	<template name="string_groupsubdesc">
-		<stringfield>
-			<anchored to="description" position="right" offset="20,0" />
-			<font>reference-groupdesc</font>
-			<static />
-			<script>
-				function onInit()
-					Debug.console("string_groupsubdesc - DEPRECATED - 2023-08-29 - Handled by header_content_groupdesc template");
-					ChatManager.SystemMessage("string_groupsubdesc - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-				function onClickDown(button, x, y)
-					return true;
-				end
-				function onClickRelease(button, x, y)
-					window.description.onClickRelease(button, x, y);
-					return true;
-				end
-			</script>
-		</stringfield>
-	</template>
-	<template name="ft_reftablefooter">
-		<basicft>
-			<anchored>
-				<top parent="list" anchor="bottom" relation="relative" />
-				<left offset="25" />
-				<right offset="-25" />
-			</anchored>
-			<readonly />
-			<script>
-				function onInit()
-					setVisible(not isEmpty());
-					Debug.console("ft_reftablefooter - DEPRECATED - 2023-08-29 - Handled by ref_listgroup.lua");
-					ChatManager.SystemMessage("ft_reftablefooter - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</basicft>
-	</template>
-	<template name="string_reftable">
-		<simplestring>
-			<anchored to="reftableanchor" width="60">
-				<left anchor="right" relation="relative" />
-				<top />
-			</anchored>
-			<multilinespacing>20</multilinespacing>
+
+	<template name="number_charinv">
+		<basicnumber>
 			<nodrag />
-			<nodragselect />
-			<readonly />
-			<script>
-				function onInit()
-					Debug.console("string_reftable - DEPRECATED - 2023-08-29 - Use string_listitem_left_noframe_static or string_listitem_left_noframe_static_linked template instead");
-					ChatManager.SystemMessage("string_reftable - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</simplestring>
-	</template>
-	<template name="number_reftable">
-		<number_text_noframe_static>
-			<anchored to="reftableanchor" width="60" height="20">
-				<left anchor="right" relation="relative" />
-				<top />
-			</anchored>
 			<hideonvalue>0</hideonvalue>
-			<nodrag />
+			<min>0</min>
+		</basicnumber>
+	</template>
+	<template name="string_charinvname">
+		<string_textlistitem>
+			<nodrop />
+			<script file="campaign/scripts/char_invname.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="string_charinvloc">
+		<string_textlistitem>
+			<nodrop />
+			<delaykeyupdate merge="delete" />
+			<script file="campaign/scripts/char_invloc.lua" />
+		</string_textlistitem>
+	</template>
+
+ 	<template name="anchor_listitem_left_encounter">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" height="30" width="0" />
+		</genericcontrol>
+	</template>
+	<template name="token_listitem_encounter">
+		<token_listitem_left name="token">
 			<script>
-				function onInit()
-					Debug.console("number_reftable - DEPRECATED - 2023-08-29 - Use number_text_listitem_left_noframe_static template instead");
-					ChatManager.SystemMessage("number_reftable - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
+				function onValueChanged()
+					if window.synchTokenView then window.synchTokenView(); end
 				end
 			</script>
-		</number_text_noframe_static>
+		</token_listitem_left>
 	</template>
-	<template name="stringc_reftable">
-		<simplestringc>
-			<anchored to="reftableanchor" width="60">
-				<left anchor="right" relation="relative" />
-				<top />
+	<template name="string_listitem_name_encounter">
+		<string_listitem_center_underline name="name" />
+	</template>
+	<template name="number_listitem_count_encounter">
+		<number_listitem_left name="count">
+			<anchored width="25" />
+			<default>1</default>
+			<min>1</min>
+			<script>
+				function onValueChanged()
+					window.synchToCount();
+				end
+			</script>
+		</number_listitem_left>
+	</template>
+	<template name="string_listitem_expr_encounterrandom">
+		<string_listitem_left name="expr">
+			<anchored width="60" />
+			<empty textres="battlerandom_empty_expr" />
+			<center />
+		</string_listitem_left>
+	</template>
+
+	<template name="number_parcel">
+		<number_dropadd>
+			<anchored width="25" height="20">
+				<top parent="rightanchor" />
+				<left offset="5" />
 			</anchored>
+		</number_dropadd>
+	</template>
+	<template name="string_parcel">
+		<string_textlistitem>
+			<anchored>
+				<left offset="40" />
+				<top parent="rightanchor" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<frame />
 			<multilinespacing>20</multilinespacing>
-			<nodrag />
-			<nodragselect />
+		</string_textlistitem>
+	</template>
+	<template name="button_parcel_id_all">
+		<buttoncontrol>
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<frame name="fieldlight" offset="7,7,7,7" />
+			<icon normal="record_identified" />
+			<tooltip textres="parcel_tooltip_id_all" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+					for _,nodeItem in ipairs(DB.getChildList(window.getDatabaseNode(), "itemlist")) do
+						DB.setValue(nodeItem, "isidentified", "number", 1);
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="string_textlistitem">
+		<stringu>
+			<delaykeyupdate />
+			<script file="common/scripts/list_textitem.lua" />
+		</stringu>
+	</template>
+	<template name="anchor_listitem_column_right">
+		<anchor_listitem_right_sm />
+	</template>
+	<template name="link_listitem_column">
+		<linkcontrol_record name="shortcut">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+		</linkcontrol_record>
+	</template>
+	<template name="button_listitem_column_delete">
+		<button_idelete name="idelete">
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" offset="-5" />
+			</anchored>
+		</button_idelete>
+	</template>
+	<template name="string_listitem_column_name">
+		<stringfield name="name">
+			<anchored position="insidetopleft" offset="5,2">
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<font>sheetlabel</font>
+			<multilinespacing>20</multilinespacing>
+		</stringfield>
+	</template>
+	<template name="string_listitem_right_text">
+		<string_textlistitem>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<delaykeyupdate />
+		</string_textlistitem>
+	</template>
+	<template name="string_listitem_center_text">
+		<string_textlistitem>
+			<anchored to="rightanchor" height="20">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+			<delaykeyupdate />
+		</string_textlistitem>
+	</template>
+
+	<template name="linkfield_statich">
+		<linkfield>
+			<invisible />
 			<readonly />
 			<script>
 				function onInit()
-					Debug.console("stringc_reftable - DEPRECATED - 2023-08-29 - Use stringc_listitem_left_noframe_static instead");
-					ChatManager.SystemMessage("stringc_reftable - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</simplestringc>
-	</template>
-	<template name="stringc_reftable_linked">
-		<stringc_reftable>
-			<script>
-				function onInit()
-					Debug.console("stringc_reftable_linked - DEPRECATED - 2023-08-29 - Use stringc_listitem_left_noframe_static_inherit instead");
-					setValue(DB.getValue(window.link.getTargetDatabaseNode(), getName(), ""));
-					ChatManager.SystemMessage("stringc_reftable_linked - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-				end
-			</script>
-		</stringc_reftable>
-	</template>
-	<template name="number_ref_weightwithsuffix">
-		<hn>
-			<script>
-				function onInit()
-					Debug.console("number_ref_weightwithsuffix - DEPRECATED - 2023-08-29 - Use stringc_listitem_left_noframe_static and custom window onInit instead");
-					ChatManager.SystemMessage("number_ref_weightwithsuffix - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-					onValueChanged();
+					self.onValueChanged();
 				end
 				function onValueChanged()
-					local nDecimal = 3;
-					local nValue = math.floor((getValue() * 10^nDecimal) + 0.5) / (10^nDecimal);
-					
-					local sValue = "" .. nValue .. " " .. Interface.getString("ref_label_weightsuffix");
-					window.weightwithsuffix.setValue(sValue);
+					setVisible(not isEmpty());
 				end
 			</script>
-		</hn>
+		</linkfield>
+	</template>
+
+	<template name="button_charweaponcarried">
+		<button_listitem_carried_left />
 	</template>
 </root>

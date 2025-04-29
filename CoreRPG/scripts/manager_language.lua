@@ -13,8 +13,6 @@ CAMPAIGN_LANGUAGE_FONT_NAME = "font";
 CHAR_LANGUAGE_LIST = "languagelist";
 CHAR_LANGUAGE_LIST_NAME = "name";
 
-local sActiveIdentity = "";
-
 function onInit()
 	LanguageManager.initSpecialCases();
 end
@@ -47,55 +45,42 @@ end
 --	LANGUAGE DATA HANDLING
 --
 
-aCampaignLang = {};
-aCampaignLangLower = {};
+local _tCampaignLang = {};
+local _tCampaignLangLower = {};
 
+function getCampaignLanguageMap()
+	return _tCampaignLang;
+end
 function isCampaignLanguage(s)
-	if not s then
+	if (s or "") == "" then
 		return false;
 	end
-	return (LanguageManager.aCampaignLangLower[s:lower()] ~= nil);
-end
-function getCampaignLanguageMap()
-	return LanguageManager.aCampaignLang;
-end
-function getCampaignLanguageMapLower()
-	return LanguageManager.aCampaignLangLower;
+	return (_tCampaignLangLower[s:lower()] ~= nil);
 end
 function getCampaignLanguageFont(s)
-	if not s then
+	if (s or "") == "" then
 		return false;
 	end
-	return LanguageManager.aCampaignLangLower[s:lower()] or "";
+	return _tCampaignLangLower[s:lower()] or "";
 end
+function refreshCampaignLanguages()
+	-- Rebuild the campaign language dictionary for fast lookup
+	_tCampaignLang = {};
+	_tCampaignLangLower = {};
+	for _,v in ipairs(DB.getChildList(LanguageManager.CAMPAIGN_LANGUAGE_LIST)) do
+		local sLang = DB.getValue(v, LanguageManager.CAMPAIGN_LANGUAGE_LIST_NAME, "")
+		sLang = StringManager.trim(sLang)
+		if (sLang or "") ~= "" then
+			local sFont = DB.getValue(v, LanguageManager.CAMPAIGN_LANGUAGE_FONT_NAME, "");
+			sFont = StringManager.trim(sFont);
 
-aLanguageSpeaksAll = {};
-aLanguagesUnderstandsAll = {};
-aLanguagesTongues = {};
+			_tCampaignLang[sLang] = sFont;
+			_tCampaignLangLower[sLang:lower()] = sFont;
+		end
+	end
 
-function initSpecialCases()
-	LanguageManager.aLanguageSpeaksAll[Interface.getString("lang_val_speaksall"):lower()] = true;
-	LanguageManager.aLanguagesUnderstandsAll[Interface.getString("lang_val_understandsall"):lower()] = true;
-	LanguageManager.aLanguagesUnderstandsAll[Interface.getString("lang_val_comprehendlanguages"):lower()] = true;
-	LanguageManager.aLanguagesTongues[Interface.getString("lang_val_tongues"):lower()] = true;
-end
-function isCampaignSpeaksAllTag(s)
-	if not s then
-		return false;
-	end
-	return (LanguageManager.aLanguageSpeaksAll[s:lower()] ~= nil);
-end
-function isCampaignUnderstandsAllTag(s)
-	if not s then
-		return false;
-	end
-	return (LanguageManager.aLanguagesUnderstandsAll[s:lower()] ~= nil);
-end
-function isCampaignTonguesTag(s)
-	if not s then
-		return false;
-	end
-	return (LanguageManager.aLanguagesTongues[s:lower()] ~= nil);
+	-- Refresh the chat window, since the campaign languages have changed
+	LanguageManager.refreshChatLanguages();
 end
 
 function populateCampaignLanguages()
@@ -114,25 +99,6 @@ function addCampaignLanguageHandlers()
 	DB.addHandler(LanguageManager.CAMPAIGN_LANGUAGE_LIST .. ".*." .. LanguageManager.CAMPAIGN_LANGUAGE_LIST_NAME, "onUpdate", LanguageManager.refreshCampaignLanguages);
 	DB.addHandler(LanguageManager.CAMPAIGN_LANGUAGE_LIST .. ".*." .. LanguageManager.CAMPAIGN_LANGUAGE_FONT_NAME, "onUpdate", LanguageManager.refreshCampaignLanguages);
 end
-function refreshCampaignLanguages()
-	-- Rebuild the campaign language dictionary for fast lookup
-	LanguageManager.aCampaignLang = {};
-	LanguageManager.aCampaignLangLower = {};
-	for _,v in ipairs(DB.getChildList(LanguageManager.CAMPAIGN_LANGUAGE_LIST)) do
-		local sLang = DB.getValue(v, LanguageManager.CAMPAIGN_LANGUAGE_LIST_NAME, "")
-		sLang = StringManager.trim(sLang)
-		if (sLang or "") ~= "" then
-			local sFont = DB.getValue(v, LanguageManager.CAMPAIGN_LANGUAGE_FONT_NAME, "");
-			sFont = StringManager.trim(sFont);
-
-			LanguageManager.aCampaignLang[sLang] = sFont;
-			LanguageManager.aCampaignLangLower[sLang:lower()] = sFont;
-		end
-	end
-
-	-- Refresh the chat window, since the campaign languages have changed
-	LanguageManager.refreshChatLanguages();
-end
 
 --
 --	CHARACTER ACTIVATION HANDLING
@@ -140,24 +106,29 @@ end
 
 function onIdentityActivation(sIdentity, sUser, bActive)
 	if Session.UserName == sUser and not bActive then
-		if sActiveIdentity == sIdentity then
+		if LanguageManager.getSpeakerIdentity() == sIdentity then
 			LanguageManager.setSpeakerIdentity("");
 		end
 	end
 end
 function onIdentityStateChange(sIdentity, sUser, sState, bState)
-	if Session.UserName == sUser and sState == 'current' and bState then
+	if (Session.UserName == sUser) and (sState == "current") and bState then
 		LanguageManager.setSpeakerIdentity(sIdentity);
 	end
 end
+
+local _sActiveIdentity = "";
+function getSpeakerIdentity()
+	return _sActiveIdentity or "";
+end
 function setSpeakerIdentity(sIdentity)
-	if (sActiveIdentity or "") == (sIdentity or "") then
+	if (_sActiveIdentity or "") == (sIdentity or "") then
 		return;
 	end
 
-	if (sActiveIdentity or "") ~= "" then
-		DB.removeHandler(DB.getPath("charsheet", sActiveIdentity, LanguageManager.CHAR_LANGUAGE_LIST), "onChildDeleted", LanguageManager.refreshChatLanguages);
-		DB.removeHandler(DB.getPath("charsheet", sActiveIdentity, LanguageManager.CHAR_LANGUAGE_LIST, "*", LanguageManager.CHAR_LANGUAGE_LIST_NAME), "onUpdate", LanguageManager.refreshChatLanguages);
+	if (_sActiveIdentity or "") ~= "" then
+		DB.removeHandler(DB.getPath("charsheet", _sActiveIdentity, LanguageManager.CHAR_LANGUAGE_LIST), "onChildDeleted", LanguageManager.refreshChatLanguages);
+		DB.removeHandler(DB.getPath("charsheet", _sActiveIdentity, LanguageManager.CHAR_LANGUAGE_LIST, "*", LanguageManager.CHAR_LANGUAGE_LIST_NAME), "onUpdate", LanguageManager.refreshChatLanguages);
 	end
 
 	if (sIdentity or "") ~= "" then
@@ -165,7 +136,7 @@ function setSpeakerIdentity(sIdentity)
 		DB.addHandler(DB.getPath("charsheet", sIdentity, LanguageManager.CHAR_LANGUAGE_LIST, "*", LanguageManager.CHAR_LANGUAGE_LIST_NAME), "onUpdate", LanguageManager.refreshChatLanguages);
 	end
 
-	sActiveIdentity = sIdentity or "";
+	_sActiveIdentity = sIdentity or "";
 
 	LanguageManager.refreshChatLanguages();
 end
@@ -209,23 +180,23 @@ function refreshChatLanguages()
 	end
 
 	-- Determine which languages are valid for the active identity/user
-	local aSpokenLang = LanguageManager.getKnownLanguages(sActiveIdentity, Session.IsHost);
-	local aSorted = {};
-	for kLang,_ in pairs(aSpokenLang) do
-		table.insert(aSorted, kLang);
+	local tSpokenLang = LanguageManager.getKnownLanguages(LanguageManager.getSpeakerIdentity(), Session.IsHost);
+	local tSorted = {};
+	for kLang,_ in pairs(tSpokenLang) do
+		table.insert(tSorted, kLang);
 	end
-	table.sort(aSorted);
+	table.sort(tSorted);
 
 	-- If the current chat window language selection is not in the list, then clear the chat window language field
 	local sChatWindowLanguage = w.language.getValue();
-	if not StringManager.contains(aSorted, sChatWindowLanguage) then
+	if not StringManager.contains(tSorted, sChatWindowLanguage) then
 		w.language.setValue("");
 	end
 
 	-- Set the current language value options in the drop down control
 	w.language.clear();
 	w.language.add("");
-	w.language.addItems(aSorted);
+	w.language.addItems(tSorted);
 end
 function setCurrentLanguage(sLang)
 	if (sLang or "") == "" then
@@ -249,51 +220,84 @@ function setCurrentLanguage(sLang)
 end
 
 function getKnownLanguages(sIdentity, bHost)
-	local aSpokenLang = {};
-	local aUnderstoodLang = {};
-	local bSpeaksAll = false;
-	local bUnderstandsAll = false;
+	local tData = {
+		bSpeaksAll = false,
+		bUnderstandsAll = false,
+		tSpokenLang = {},
+		tUnderstoodLang = {},
+	};
 
 	if bHost then
-		bSpeaksAll = true;
-		bUnderstandsAll = true;
+		tData.bSpeaksAll = true;
+		tData.bUnderstandsAll = true;
 	else
 		local nodeChar = DB.findNode("charsheet." .. sIdentity);
-		if nodeChar then
-			for _,v in ipairs(DB.getChildList(nodeChar, LanguageManager.CHAR_LANGUAGE_LIST)) do
-				local sLang = DB.getValue(v, LanguageManager.CHAR_LANGUAGE_LIST_NAME, "");
-				sLang = StringManager.trim(sLang);
-				if (sLang or "") ~= "" then
-					if LanguageManager.isCampaignTonguesTag(sLang) then
-						bSpeaksAll = true;
-						bUnderstandsAll = true;
-					elseif LanguageManager.isCampaignSpeaksAllTag(sLang) then
-						bSpeaksAll = true;
-					elseif LanguageManager.isCampaignUnderstandsAllTag(sLang) then
-						bUnderstandsAll = true;
-					elseif LanguageManager.isCampaignLanguage(sLang) then
-						aSpokenLang[sLang] = 100;
-						aUnderstoodLang[sLang] = 100;
-					end
-				end
-			end
+		LanguageManager.getPCKnownLanguagesData(nodeChar, tData);
+		LanguageManager.getPCKnownLanguagesEffects(nodeChar, tData);
+	end
+
+	if tData.bSpeaksAll then
+		tData.tSpokenLang = {};
+		for sLang,_ in pairs(LanguageManager.getCampaignLanguageMap()) do
+			tData.tSpokenLang[sLang] = 100;
+		end
+	end
+	if tData.bUnderstandsAll then
+		tData.tUnderstoodLang = {};
+		for sLang,_ in pairs(LanguageManager.getCampaignLanguageMap()) do
+			tData.tUnderstoodLang[sLang] = 100;
 		end
 	end
 
-	if bSpeaksAll then
-		aSpokenLang = {}
-		for kLang,_ in pairs(LanguageManager.getCampaignLanguageMap()) do
-			aSpokenLang[kLang] = 100;
+	return tData.tSpokenLang, tData.tUnderstoodLang
+end
+function getPCKnownLanguagesData(nodeChar, tData)
+	if not nodeChar or not tData then
+		return;
+	end
+	for _,nodeLang in ipairs(DB.getChildList(nodeChar, LanguageManager.CHAR_LANGUAGE_LIST)) do
+		local sLang = StringManager.trim(DB.getValue(nodeLang, LanguageManager.CHAR_LANGUAGE_LIST_NAME, ""));
+		if LanguageManager.isCampaignLanguage(sLang) then
+			tData.tSpokenLang[sLang] = 100;
+			tData.tUnderstoodLang[sLang] = 100;
 		end
 	end
-	if bUnderstandsAll then
-		aUnderstoodLang = {}
-		for kLang,_ in pairs(LanguageManager.getCampaignLanguageMap()) do
-			aUnderstoodLang[kLang] = 100;
-		end
+end
+function getPCKnownLanguagesEffects(nodeChar, tData)
+	if not nodeChar or not tData then
+		return;
 	end
+	local rActor = ActorManager.resolveActor(nodeChar);
 
-	return aSpokenLang, aUnderstoodLang
+	local tEffects = EffectManager.getEffectsByType(rActor, "LANG");
+	for _,vEffect in ipairs(tEffects) do
+		local sLang = vEffect.remainder and table.concat(vEffect.remainder, " ") or "";
+		if sLang == "all" then
+			tData.bSpeaksAll = true;
+			tData.bUnderstandsAll = true;
+		elseif LanguageManager.isCampaignLanguage(sLang) then
+			tData.tSpokenLang[sLang] = 100;
+			tData.tUnderstoodLang[sLang] = 100;
+		end
+	end
+	local tEffects = EffectManager.getEffectsByType(rActor, "LANGS");
+	for _,vEffect in ipairs(tEffects) do
+		local sLang = vEffect.remainder and table.concat(vEffect.remainder, " ") or "";
+		if sLang == "all" then
+			tData.bSpeaksAll = true;
+		elseif LanguageManager.isCampaignLanguage(sLang) then
+			tData.tSpokenLang[sLang] = 100;
+		end
+	end
+	local tEffects = EffectManager.getEffectsByType(rActor, "LANGU");
+	for _,vEffect in ipairs(tEffects) do
+		local sLang = vEffect.remainder and table.concat(vEffect.remainder, " ") or "";
+		if sLang == "all" then
+			tData.bUnderstandsAll = true;
+		elseif LanguageManager.isCampaignLanguage(sLang) then
+			tData.tUnderstoodLang[sLang] = 100;
+		end
+	end
 end
 
 function handleLangChat(msgOOB)
@@ -309,31 +313,31 @@ function handleLangChat(msgOOB)
 	end
 
 	-- Deliver customized message to each player
-	local aGMUnderstood = {};
+	local tGMUnderstood = {};
 	for _,vUser in ipairs(User.getActiveUsers()) do
-		local aPlayerUnderstood = {};
+		local tPlayerUnderstood = {};
 		for _,vIdentity in ipairs(User.getActiveIdentities(vUser)) do
 			local sCharName = DB.getValue("charsheet." .. vIdentity .. ".name", "");
-			local _,aUnderstoodLang = LanguageManager.getKnownLanguages(vIdentity);
-			if aUnderstoodLang[sLang] and aUnderstoodLang[sLang] > 0 then
-				if aUnderstoodLang[sLang] >= 100 then
-					table.insert(aGMUnderstood, { sName = sCharName, nPercent = 100 });
-					table.insert(aPlayerUnderstood, { sName = sCharName, nPercent = 100 });
+			local _,tUnderstoodLang = LanguageManager.getKnownLanguages(vIdentity);
+			if tUnderstoodLang[sLang] and tUnderstoodLang[sLang] > 0 then
+				if tUnderstoodLang[sLang] >= 100 then
+					table.insert(tGMUnderstood, { sName = sCharName, nPercent = 100 });
+					table.insert(tPlayerUnderstood, { sName = sCharName, nPercent = 100 });
 				else
-					table.insert(aGMUnderstood, { sName = sCharName, nPercent = aUnderstoodLang[sLang] });
-					table.insert(aPlayerUnderstood, { sName = sCharName, nPercent = aUnderstoodLang[sLang] });
+					table.insert(tGMUnderstood, { sName = sCharName, nPercent = tUnderstoodLang[sLang] });
+					table.insert(tPlayerUnderstood, { sName = sCharName, nPercent = tUnderstoodLang[sLang] });
 				end
 			else
-				table.insert(aGMUnderstood, { sName = sCharName, nPercent = 0 });
-				table.insert(aPlayerUnderstood, { sName = sCharName, nPercent = 0 });
+				table.insert(tGMUnderstood, { sName = sCharName, nPercent = 0 });
+				table.insert(tPlayerUnderstood, { sName = sCharName, nPercent = 0 });
 			end
 		end
 
-		LanguageManager.deliverLanguageMessagesToUser(vUser, msgOOB, sLang, aPlayerUnderstood);
+		LanguageManager.deliverLanguageMessagesToUser(vUser, msgOOB, sLang, tPlayerUnderstood);
 	end
 
 	-- Deliver translated message to GM
-	LanguageManager.deliverLanguageMessagesToUser("", msgOOB, sLang, aGMUnderstood);
+	LanguageManager.deliverLanguageMessagesToUser("", msgOOB, sLang, tGMUnderstood);
 end
 
 function deliverLanguageMessagesToUser(sUser, msg, sLang, aUnderstood)
@@ -433,18 +437,18 @@ function deliverLanguageMessagesToUser(sUser, msg, sLang, aUnderstood)
 
 	-- Show users who understood at least partially understood message
 	if bDisplayUsers then
-		local aPCKnownLanguage = {};
+		local tPCKnownLanguage = {};
 		for _,vChar in pairs(aUnderstood) do
 			if vChar.nPercent > 0 then
 				if vChar.nPercent >= 100 then
-					table.insert(aPCKnownLanguage, vChar.sName);
+					table.insert(tPCKnownLanguage, vChar.sName);
 				else
-					table.insert(aPCKnownLanguage, vChar.sName .. " (" .. vChar.nPercent .. "%)");
+					table.insert(tPCKnownLanguage, vChar.sName .. " (" .. vChar.nPercent .. "%)");
 				end
 			end
 		end
 		local msgUnderstood = {font = "systemfont"};
-		msgUnderstood.text = string.format("[%s: %s]", Interface.getString("message_chathandlelang_understood"), table.concat(aPCKnownLanguage, ", "));
+		msgUnderstood.text = string.format("[%s: %s]", Interface.getString("message_chathandlelang_understood"), table.concat(tPCKnownLanguage, ", "));
 		Comm.deliverChatMessage(msgUnderstood, sUser);
 	end
 end
@@ -460,18 +464,18 @@ function convertStringToGibberish(sInput, sLang, nUnderstood)
 
 	local sOutput = "";
 
-	local aWords = StringManager.split(sInput, " ");
+	local tWords = StringManager.split(sInput, " ");
 
 	-- Initialize random functions
 	math.randomseed(os.time() - os.clock() * 1000);
 	math.random();
 
-	local aUnderstoodWords = {};
-	for _,vWord in ipairs(aWords) do
+	local tUnderstoodWords = {};
+	for _,vWord in ipairs(tWords) do
 		local vWordSansPunctuation = vWord:gsub("^[^%w]*", "");
 		vWordSansPunctuation = vWordSansPunctuation:gsub("[^%w]*$", "");
 
-		if not aUnderstoodWords[vWordSansPunctuation] then
+		if not tUnderstoodWords[vWordSansPunctuation] then
 			if nUnderstood > 0 then
 				local bUnderstood = false;
 				local nRandom = math.random(100);
@@ -480,12 +484,12 @@ function convertStringToGibberish(sInput, sLang, nUnderstood)
 				end
 
 				if bUnderstood then
-					aUnderstoodWords[vWordSansPunctuation] = 1;
+					tUnderstoodWords[vWordSansPunctuation] = 1;
 				else
-					aUnderstoodWords[vWordSansPunctuation] = 0;
+					tUnderstoodWords[vWordSansPunctuation] = 0;
 				end
 			else
-				aUnderstoodWords[vWordSansPunctuation] = 0;
+				tUnderstoodWords[vWordSansPunctuation] = 0;
 			end
 		end
 	end
@@ -493,14 +497,14 @@ function convertStringToGibberish(sInput, sLang, nUnderstood)
 	local nAsciiCode;
 	local nRandom;
 
-	for _,vWord in ipairs(aWords) do
+	for _,vWord in ipairs(tWords) do
 		local vPrePunctuation = vWord:match("^[^%w]*");
 		local vPostPunctuation = vWord:match("[^%w]*$");
 
 		local vWordSansPunctuation = vWord:gsub("^[^%w]*", "");
 		vWordSansPunctuation = vWordSansPunctuation:gsub("[^%w]*$", "");
 
-		if aUnderstoodWords[vWordSansPunctuation] == 1 then
+		if tUnderstoodWords[vWordSansPunctuation] == 1 then
 			sOutput = sOutput .. " " .. vWord;
 		else
 			-- Set random seed based off the current word and the language name
@@ -555,4 +559,37 @@ function calcRandomSeedFromString(sText, sLang)
 
 	-- Pull the first random number to prevent corner cases
 	math.random(10);
+end
+
+--
+-- DEPRECATED (2025-03)
+--
+
+aLanguageSpeaksAll = {};
+aLanguagesUnderstandsAll = {};
+aLanguagesTongues = {};
+
+function initSpecialCases()
+	LanguageManager.aLanguageSpeaksAll[Interface.getString("lang_val_speaksall"):lower()] = true;
+	LanguageManager.aLanguagesUnderstandsAll[Interface.getString("lang_val_understandsall"):lower()] = true;
+	LanguageManager.aLanguagesUnderstandsAll[Interface.getString("lang_val_comprehendlanguages"):lower()] = true;
+	LanguageManager.aLanguagesTongues[Interface.getString("lang_val_tongues"):lower()] = true;
+end
+function isCampaignSpeaksAllTag(s)
+	if not s then
+		return false;
+	end
+	return (LanguageManager.aLanguageSpeaksAll[s:lower()] ~= nil);
+end
+function isCampaignUnderstandsAllTag(s)
+	if not s then
+		return false;
+	end
+	return (LanguageManager.aLanguagesUnderstandsAll[s:lower()] ~= nil);
+end
+function isCampaignTonguesTag(s)
+	if not s then
+		return false;
+	end
+	return (LanguageManager.aLanguagesTongues[s:lower()] ~= nil);
 end

@@ -193,10 +193,6 @@ function setupEditTools()
 	list_iadd.setVisible(bAllowEdit);
 
 	list.setReadOnly(not bAllowEdit);
-	list.resetMenuItems();
-	if not list.isReadOnly() and bAllowEdit then
-		list.registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-	end
 end
 
 local _tEditControls = {};
@@ -687,10 +683,6 @@ end
 --	LIST HANDLING
 --
 
-function addEntry()
-	list_iadd.onButtonPress();
-end
-
 function refreshDisplayList(bResetScroll)
 	ListManager.refreshDisplayList(self, bResetScroll);
 end
@@ -736,4 +728,9 @@ function isFilteredRecord(v)
 		end
 	end
 	return true;
+end
+
+-- DEPRECATED (2025-03)
+function addEntry()
+	list_iadd.onButtonPress();
 end

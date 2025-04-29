@@ -23,8 +23,8 @@
 		<sheetdata>
 			<windowmenubar_imagebox name="menubar" />
 
-			<anchor_content_imagebox_top name="contentanchor" />
-			<anchor_content_imagebox_bottom name="bottomanchor" />
+			<anchor_content_imagebox_top />
+			<anchor_content_imagebox_bottom />
 
 			<!-- NOTE: Legacy override short term for layout -->
 			<sub_content_framed_groupbox_top name="header">
@@ -45,7 +45,10 @@
 			<imagedata_content name="imagedata" source="image" />
 			<image_content name="image" />
 
+			<anchor_image_controls_right />
+			<anchor_image_controls_bottom />
 			<sub_image_camera_controls name="sub_camera_controls" />
+			<sub_image_view_tokenmove name="sub_view_tokenmove" />
 			<sub_image_hover_token_detail name="sub_hover_token_detail" />
 			<sub_image_view_token_detail name="sub_view_token_detail" />
 			<list_viewers name="list_viewers" />
@@ -58,8 +61,8 @@
 		<frame>imagepanel</frame>
 		<script file="campaign/scripts/imagewindow.lua" />
 		<sheetdata>
-			<anchor_content_imagepanel_top name="contentanchor" />
-			<anchor_content_imagepanel_bottom name="bottomanchor" />
+			<anchor_content_imagepanel_top />
+			<anchor_content_imagepanel_bottom />
 
 			<sub_content_framed_groupbox_narrow_top name="toolbar">
 				<class>imagewindow_toolbar</class>
@@ -70,7 +73,10 @@
 			<imagedata_content name="imagedata" source="image" />
 			<image_content name="image" />
 
+			<anchor_image_controls_right />
+			<anchor_image_controls_bottom />
 			<sub_image_camera_controls name="sub_camera_controls" />
+			<sub_image_view_tokenmove name="sub_view_tokenmove" />
 			<sub_image_hover_token_detail name="sub_hover_token_detail" />
 			<sub_image_view_token_detail name="sub_view_token_detail" />
 		</sheetdata>
@@ -110,76 +116,54 @@
 	</windowclass>
 
 	<windowclass name="image_hover_token_detail">
-		<margins control="0,0,0,10" />
+		<margins control="0,0,0,5" />
 		<sheetdata>
-			<genericcontrol name="display">
-				<anchored position="insidetopleft" offset="10,15" width="100" height="100" />
-				<script>
-					local _bNotify = false;
-					function onClose()
-						if _bNotify then
-							ActorDisplayManager.removeDisplayControl(self);
-							_bNotify = false;
-						end
-					end
-					function notifyActorDisplayManagerOnClose()
-						_bNotify = true;
-					end
-				</script>
-			</genericcontrol>
+			<display_actor name="display">
+				<anchored position="insidetopleft" offset="15,15" />
+			</display_actor>
 		</sheetdata>
 	</windowclass>
 	<windowclass name="image_view_token_detail">
-		<margins control="0,0,0,10" />
+		<margins control="0,0,15,5" />
+		<script>
+			function onInit()
+				self.onImageStateChanged();
+			end
+			function onImageStateChanged()
+				local cImage = ImageManager.getImageControlFromWindow(self);
+				if not cImage then
+					return;
+				end
+				local bShow = Session.IsHost or not cImage.getTokenLockState();
+				button_accept.setVisible(bShow)
+			end
+		</script>
 		<sheetdata>
-			<genericcontrol name="display">
-				<anchored position="insidetopleft" offset="10,15" width="100" height="100" />
-				<script>
-					local _bNotify = false;
-					function onClose()
-						if _bNotify then
-							ActorDisplayManager.removeDisplayControl(self);
-							_bNotify = false;
-						end
-					end
-					function notifyActorDisplayManagerOnClose()
-						_bNotify = true;
-					end
-					function onClickDown(button, x, y)
-						if button == 1 then
-							return true;
-						end
-					end
-					function onClickRelease(button, x, y)
-						if button == 1 then
-							ActorDisplayManager.onImageViewTokenClick(UtilityManager.getTopWindow(window));
-						end
-					end
-				</script>
-			</genericcontrol>
-			<button_icon name="button_accept">
-				<anchored position="insidetopleft" offset="115,20" />
-				<tintable />
-				<icon normal="button_toolbar_accept" />
+			<display_actor name="display">
+				<anchored position="insidetopleft" offset="15,15" />
+			</display_actor>
+			<button_tokenmove_accept name="button_accept">
+				<anchored to="display">
+					<bottom offset="-5" />
+					<right anchor="center" offset="-35" />
+				</anchored>
 				<script>
 					function onButtonPress()
-						ActorDisplayManager.acceptImageViewTokenMove(UtilityManager.getTopWindow(window));
+						TokenMoveManager.onViewTokenAcceptButtonPressed(window);
 					end
 				</script>
-			</button_icon>
-			<numberc_listitem_static_base name="distance">
-				<anchored to="button_accept" position="belowleft" offset="0,5" width="20" />
-			</numberc_listitem_static_base>
-			<button_icon name="button_cancel">
-				<anchored position="insidetopleft" offset="115,90" />
-				<tintable />
-				<icon normal="button_toolbar_cancel" />
+			</button_tokenmove_accept>
+			<button_tokenmove_cancel name="button_cancel">
+				<anchored to="display">
+					<bottom offset="-5" />
+					<left anchor="center" offset="35" />
+				</anchored>
 				<script>
 					function onButtonPress()
-						ActorDisplayManager.cancelImageViewTokenMove(UtilityManager.getTopWindow(window));
+						TokenMoveManager.onViewTokenCancelButtonPressed(window);
 					end
 				</script>
-			</button_icon>
+			</button_tokenmove_cancel>
 		</sheetdata>
 	</windowclass>
 	<windowclass name="image_camera_controls">
@@ -206,46 +190,219 @@
 		</script>
 		<sheetdata>
 			<button_image_camera_move name="button_rotate_left">
-				<anchored offset="7,7" />
+				<anchored offset="12,7" />
 				<icon normal="button_toolbar_rotate_left" />
 				<direction>rotateleft</direction>
 			</button_image_camera_move>
 			<button_image_camera_move name="button_forward">
-				<anchored offset="37,7" />
+				<anchored offset="42,7" />
 				<icon normal="button_toolbar_arrow_n" />
 				<direction>forward</direction>
 			</button_image_camera_move>
 			<button_image_camera_move name="button_rotate_right">
-				<anchored offset="67,7" />
+				<anchored offset="72,7" />
 				<icon normal="button_toolbar_rotate_right" />
 				<direction>rotateright</direction>
 			</button_image_camera_move>
 			<button_image_camera_move name="button_left">
-				<anchored offset="7,37" />
+				<anchored offset="12,37" />
 				<icon normal="button_toolbar_arrow_w" />
 				<direction>left</direction>
 			</button_image_camera_move>
 			<button_image_camera_move name="button_back">
-				<anchored offset="37,37" />
+				<anchored offset="42,37" />
 				<icon normal="button_toolbar_arrow_s" />
 				<direction>back</direction>
 			</button_image_camera_move>
 			<button_image_camera_move name="button_right">
-				<anchored offset="67,37" />
+				<anchored offset="72,37" />
 				<icon normal="button_toolbar_arrow_e" />
 				<direction>right</direction>
 			</button_image_camera_move>
 
 			<button_image_camera_move name="button_up">
-				<anchored offset="102,7" />
+				<anchored offset="108,7" />
 				<icon normal="button_toolbar_layer_up" />
 				<direction>up</direction>
 			</button_image_camera_move>
 			<button_image_camera_move name="button_down">
-				<anchored offset="102,37" />
+				<anchored offset="108,37" />
 				<icon normal="button_toolbar_layer_down" />
 				<direction>down</direction>
 			</button_image_camera_move>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="image_tokenmove">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_top name="area_buttons">
+				<anchored>
+					<right offset="-10" />
+				</anchored>
+				<frame name="image_token_detail" />
+				<class>image_tokemove_controls</class>
+			</sub_content_top>
+
+			<list_content name="list">
+				<anchored>
+					<right offset="-10" />
+				</anchored>
+				<class>image_tokemove_display</class>
+			</list_content>
+			<scrollbar_content_list />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="image_tokemove_controls">
+		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				self.onImageStateChanged();
+			end
+			function onImageStateChanged()
+				local cImage = ImageManager.getImageControlFromWindow(self);
+				if not cImage then
+					return;
+				end
+				local bShow = Session.IsHost or not cImage.getTokenLockState();
+				base_accept.setVisible(bShow)
+				button_accept.setVisible(bShow);
+				label_accept.setVisible(bShow);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<spacer_content_top />
+
+			<area_content_top name="base_accept">
+				<anchored height="30">
+					<left offset="5" />
+					<right offset="-5" />
+				</anchored>
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						window.button_accept.onButtonPress();
+					end
+					function onDragStart(...)
+						return window.button_accept.onDragStart(...);
+					end
+				</script>
+			</area_content_top>
+			<button_tokenmove_accept name="button_accept">
+				<anchored to="base_accept" position="insidetopleft" offset="5,5" />
+				<tooltip textres="image_tooltip_tokenmove_acceptall" />
+				<script>
+					function onButtonPress()
+						TokenMoveManager.onAcceptAllButtonPressed(window);
+					end
+					function onDragStart(_, _, _, draginfo)
+						draginfo.setType("tokenmoveacceptall");
+						draginfo.setIcon("button_tokenmove_accept");
+						return true;
+					end
+				</script>
+			</button_tokenmove_accept>
+			<label name="label_accept">
+				<anchored to="button_accept" position="righthigh" offset="10,0">
+					<right parent="" offset="-15" />
+				</anchored>
+				<frame name="tooltipbox" margins="2,2,2,2" />
+				<font>tooltipbox</font>
+				<static textres="image_label_tokenmove_acceptall" />
+				<center />
+				<disabled />
+			</label>
+
+			<area_content_top name="base_cancel">
+				<anchored height="30">
+					<left offset="5" />
+					<right offset="-5" />
+				</anchored>
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						window.button_cancel.onButtonPress();
+					end
+					function onDragStart(...)
+						return window.button_cancel.onDragStart(...);
+					end
+				</script>
+			</area_content_top>
+			<button_tokenmove_cancel name="button_cancel">
+				<anchored to="base_cancel" position="insidetopleft" offset="5,5" />
+				<tooltip textres="image_tooltip_tokenmove_cancelall" />
+				<script>
+					function onButtonPress()
+						TokenMoveManager.onCancelAllButtonPressed(window);
+					end
+					function onDragStart(_, _, _, draginfo)
+						draginfo.setType("tokenmovecancelall");
+						draginfo.setIcon("button_tokenmove_cancel");
+						return true;
+					end
+				</script>
+			</button_tokenmove_cancel>
+			<label name="label_cancel">
+				<anchored to="button_cancel" position="righthigh" offset="10,0">
+					<right parent="" offset="-15" />
+				</anchored>
+				<frame name="tooltipbox" margins="2,2,2,2" />
+				<font>tooltipbox</font>
+				<static textres="image_label_tokenmove_cancelall" />
+				<center />
+				<disabled />
+			</label>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="image_tokemove_display">
+		<margins control="0,0,5,5" />
+		<frame name="image_token_detail" />
+		<script>
+			function onInit()
+				self.onImageStateChanged();
+			end
+			function onImageStateChanged()
+				local cImage = ImageManager.getImageControlFromWindow(self);
+				if not cImage then
+					return;
+				end
+				local bShow = Session.IsHost or not cImage.getTokenLockState();
+				button_accept.setVisible(bShow)
+			end
+		</script>
+		<sheetdata>
+			<display_actor name="display">
+				<anchored position="insidetopleft" offset="15,15" />
+			</display_actor>
+ 			<button_tokenmove_accept name="button_accept">
+				<anchored to="display">
+					<bottom offset="-5" />
+					<right anchor="center" offset="-35" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						TokenMoveManager.onAcceptButtonPressed(window);
+					end
+				</script>
+			</button_tokenmove_accept>
+			<button_tokenmove_cancel name="button_cancel">
+				<anchored to="display">
+					<bottom offset="-5" />
+					<left anchor="center" offset="35" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						TokenMoveManager.onCancelButtonPressed(window);
+					end
+				</script>
+			</button_tokenmove_cancel>
 		</sheetdata>
 	</windowclass>
 

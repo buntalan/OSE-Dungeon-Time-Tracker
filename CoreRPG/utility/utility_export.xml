@@ -233,6 +233,17 @@
 	<windowclass name="export_recordtype">
 		<script file="utility/scripts/export_recordtype.lua" />
 		<sheetdata>
+			<genericcontrol name="base">
+				<anchored position="insidetop" height="20" />
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						window.select.setValue((window.select.getValue() == 1) and 0 or 1);
+					end
+				</script>
+			</genericcontrol>
 			<button_checkbox name="select">
 				<anchored position="insidetopleft" width="20" height="20" />
 				<script>
@@ -243,6 +254,7 @@
 			</button_checkbox>
 			<label name="label">
 				<anchored to="select" position="righthigh" offset="5,0" />
+				<disabled />
 			</label>
 
 			<windowlist name="entries">

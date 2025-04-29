@@ -6,13 +6,10 @@
 local _sDefaultAsset = "images/decals/swk_decal.png@SmiteWorks Assets";
 
 function onInit()
-	local nMajor, nMinor = Interface.getVersion();
-	if (nMajor >= 4) and (nMinor >= 6) then
-		OptionsManager.registerOptionData({
-			sKey = "DECALPOS", sGroupRes = "option_header_game",
-			tCustom = { labelsres = "option_val_decalfill|option_val_decalfit", values = "fill|fit", baselabelres = "option_val_decalcenter", baseval = "center", default = "center", },
-		});
-	end
+	OptionsManager.registerOptionData({
+		sKey = "DECALPOS", sGroupRes = "option_header_game",
+		tCustom = { labelsres = "option_val_decalfill|option_val_decalfit", values = "fill|fit", baselabelres = "option_val_decalcenter", baseval = "center", default = "center", },
+	});
 end
 
 function onTabletopInit()
@@ -27,11 +24,8 @@ function onTabletopInit()
 	DB.addHandler("options.DDCL-custom", "onAdd", DecalManager.update);
 	DB.addHandler("options.DDCL-custom", "onUpdate", DecalManager.update);
 
-	local nMajor, nMinor = Interface.getVersion();
-	if (nMajor >= 4) and (nMinor >= 6) then
-		DecalManager.onOptionUpdate();
-		OptionsManager.registerCallback("DECALPOS", DecalManager.onOptionUpdate);
-	end
+	DecalManager.onOptionUpdate();
+	OptionsManager.registerCallback("DECALPOS", DecalManager.onOptionUpdate);
 end
 
 function onOptionUpdate()

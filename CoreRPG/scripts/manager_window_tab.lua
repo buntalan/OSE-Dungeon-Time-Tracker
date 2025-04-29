@@ -163,7 +163,20 @@ function populateTabs(w)
 			bAdd = false;
 		end
 		if bAdd then
-			table.insert(tVisualTabs, v);
+			local kInsertAt = nil;
+			if (v.sInsertBefore or "") ~= "" then
+				for kVisual, vVisual in ipairs(tVisualTabs) do
+					if (vVisual.sName or "") == v.sInsertBefore then
+						kInsertAt = kVisual;
+						break;
+					end
+				end
+			end
+			if kInsertAt then
+				table.insert(tVisualTabs, kInsertAt, v);
+			else
+				table.insert(tVisualTabs, v);
+			end
 		end
 	end
 	for _,v in ipairs(self.getTabsData(w)) do

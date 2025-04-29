@@ -1,12 +1,15 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
+--luacheck: globals name_emptyres nonid_name_emptyres
+
 function onInit()
 	self.initRecordTypeControls();
-	self.update();
+	self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
 end
+
 function initRecordTypeControls()
 	if link then
 		link.setValue(UtilityManager.getTopWindow(self).getClass());
@@ -59,43 +62,42 @@ function initRecordTypeControls()
 	end
 end
 
-function onIDChanged()
-	self.update();
+function onLockModeChanged()
+	self.onStateChanged();
 end
-
-function update()
-	local nodeRecord = getDatabaseNode();
-	local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
-
-	name.setReadOnly(bReadOnly);
-	if nonid_name then
-		local sRecordType = WindowManager.getRecordType(self);
-		local bID = RecordDataManager.getIDState(sRecordType, nodeRecord);
-		nonid_name.setReadOnly(bReadOnly);
-		name.setVisible(bID);
-		nonid_name.setVisible(not bID);
-	end
-	if picture then
-		picture.setReadOnly(bReadOnly);
-		picture.setVisible(not bReadOnly or (DB.getValue(nodeRecord, "picture", "") ~= ""));
-	end
-	if token then
-		token.setReadOnly(bReadOnly);
-		token.setVisible(not bReadOnly or (DB.getValue(nodeRecord, "token", "") ~= ""));
-	end
-	if Session.IsHost and sub_nonid_edit then
-		local bEmpty = (DB.getValue(nodeRecord, "nonid_name", "") == "");
-		sub_nonid_edit.setVisible(not bReadOnly or not bEmpty);
-		WindowManager.callSafeControlUpdate(self, "sub_nonid_edit", bReadOnly);		
-	end
-
+function onIDModeChanged()
+	self.onStateChanged();
+end
+function onCustomDieChanged()
 	if customdie then
-		local bShowCustomDie = (DB.getValue(nodeRecord, "customdie", "") ~= "");
+		local bShowCustomDie = (DB.getValue(getDatabaseNode(), "customdie", "") ~= "");
 		customdie.setVisible(bShowCustomDie);
 	end
 end
 
-function onDrop(x, y, draginfo)
+function onStateChanged()
+	local nodeRecord = getDatabaseNode();
+	local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+
+	local bID = RecordDataManager.getIDState(WindowManager.getRecordType(self), nodeRecord);
+	WindowManager.callSafeControlsSetLockMode(self, { "name", "nonid_name", "picture", "token", }, bReadOnly);
+	if nonid_name then
+		name.setVisible(bID);
+		nonid_name.setVisible(not bID);
+	end
+	if picture then
+		picture.setVisible(not bReadOnly or (DB.getValue(nodeRecord, "picture", "") ~= ""));
+	end
+	if token then
+		token.setVisible(not bReadOnly or (DB.getValue(nodeRecord, "token", "") ~= ""));
+	end
+	if Session.IsHost then
+		local bShowEdit = not bReadOnly or (DB.getValue(nodeRecord, "nonid_name", "") ~= "");
+		WindowManager.callSafeControlsSetVisible(self, { "sub_nonid_edit", }, bShowEdit);
+	end
+end
+
+function onDrop(_, _, draginfo)
 	if not draginfo.isType("diceskin") then
 		return false;
 	end
@@ -109,4 +111,8 @@ function onDrop(x, y, draginfo)
 
 	DB.setValue(getDatabaseNode(), "customdie", "string", draginfo.getStringData());
 	return true;
+end
+
+-- DEPRECATED (2025-03)
+function update()
 end

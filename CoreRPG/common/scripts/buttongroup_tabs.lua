@@ -461,23 +461,7 @@ function replaceTabClassByName(sName, sClass)
 	end
 end
 
---
---	Legacy Functions
---
-
--- DEPRECATED - Cypher
-function getTab(n)
-	local tData = self.getTabData(n);
-	if not tData then
-		return nil, nil;
-	end
-	local sText = tData.sText or Interface.getString(tData.sTextRes or tData.sTabRes);
-	if _bHorizontal or (sText ~= "") then
-		return tData.sName, sText;
-	end
-	return tData.sName, tData.sIcon or tData.sTabRes;
-end
--- DEPRECATED - CPR
+-- DEPRECATED (CPR)
 function setTab(n, sSub, sDisplay)
 	self.deactivateTabEntry(n);
 	if sSub and sDisplay then
@@ -491,8 +475,4 @@ function setTab(n, sSub, sDisplay)
 	else
 		self.removeTabByIndex(n);
 	end
-end
--- DEPRECATED- 2024-12-10 (REMOVED - BRP, SW)
-function addTab(sSub, sDisplay)
-	self.addTabData({ sName = sSub, sTabRes = sDisplay, });
 end

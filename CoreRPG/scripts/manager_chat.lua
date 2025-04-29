@@ -234,49 +234,14 @@ end
 --
 
 function createBaseMessage(rSource, sUser)
-	-- Set up the basic message components
-	local msg = {font = "systemfont", text = "", secret = false};
-
-	-- Add portrait
-	if Session.IsHost then
-		msg.icon = "portrait_gm_token";
-	else
-		if ActorManager.isPC(rSource) then
-			local nodeActor = ActorManager.getCreatureNode(rSource);
-			if nodeActor then
-				msg.icon = "portrait_" .. DB.getName(nodeActor) .. "_chat";
-			end
-		else
-			local sIdentity = User.getCurrentIdentity();
-			if sIdentity then
-				msg.icon = "portrait_" .. sIdentity .. "_chat";
-			end
-		end
-	end
-
-	-- If actor specified
-	if rSource then
-		msg.sender = ActorManager.getDisplayName(rSource);
-
-	-- Otherwise, use provided user name
-	elseif sUser then
-		msg.sender = sUser;
-
-	-- Otherwise, use the current identity or user name
-	else
-		if Session.IsHost then
-			msg.sender = GmIdentityManager.getCurrent()
-		else
-			msg.sender = User.getIdentityLabel();
-		end
-
-		if not msg.sender or msg.sender == "" then
-			msg.sender = User.getUsername();
-		end
-	end
-
-	-- RESULTS
-	return msg;
+	return {
+		font = "systemfont",
+		text = "",
+		sender = ChatIdentityManager.getSenderDisplayName(rSource, sUser),
+		assets = {
+			ChatIdentityManager.getActorAsset(rSource),
+		},
+	};
 end
 
 function Message(msgtxt, broadcast, rActor)
@@ -392,11 +357,12 @@ function processWhisperHelper(sRecipient, sMessage)
 	end
 
 	-- Send the whisper
-	local msgOOB = {};
-	msgOOB.type = ChatManager.OOB_MSGTYPE_WHISPER;
-	msgOOB.sender = sSender;
-	msgOOB.receiver = sRecipientID;
-	msgOOB.text = sMessage;
+	local msgOOB = {
+		type = ChatManager.OOB_MSGTYPE_WHISPER,
+		sender = sSender,
+		receiver = sRecipientID,
+		text = sMessage,
+	};
 
 	if Session.IsHost then
 		Comm.deliverOOBMessage(msgOOB, { sUser, "" });
@@ -405,19 +371,21 @@ function processWhisperHelper(sRecipient, sMessage)
 	end
 
 	-- Show what the user whispered
-	local msg = { font = "whisperfont", sender = "", mode="whisper", icon = { "indicator_whisper" } };
+	local msg = {
+		mode = "whisper",
+		font = "whisperfont",
+		sender = "",
+		assets = {
+			ChatIdentityManager.getDefaultAsset(),
+			{ type = "icon", name = "indicator_whisper", },
+		},
+		text = sMessage,
+	};
 
-	if Session.IsHost then
-		table.insert(msg.icon, "portrait_gm_token");
-	else
-		if #(User.getOwnedIdentities()) > 1 then
-			msg.sender = User.getIdentityLabel(sSender);
-		end
-		table.insert(msg.icon, "portrait_" .. msgOOB.sender .. "_chat");
+	if not Session.IsHost and (#(User.getOwnedIdentities()) > 1) then
+		msg.sender = User.getIdentityLabel(sSender);
 	end
-
 	msg.sender = msg.sender .. " -> " .. sRecipient;
-	msg.text = sMessage;
 
 	Comm.addChatMessage(msg);
 end
@@ -470,13 +438,17 @@ function handleWhisper(msgOOB)
 	end
 
 	-- Build the message to display
-	local msg = { font = "whisperfont", text = "", mode = "whisper", icon = { "indicator_whisper" } };
+	local msg = {
+		mode = "whisper",
+		font = "whisperfont",
+		text = "",
+		assets = {
+			ChatIdentityManager.getIdentityAsset(msgOOB.sender),
+			{ type = "icon", name = "indicator_whisper", },
+		},
+	};
+
 	msg.sender = sSender;
-	if msgOOB.sender == "" then
-		table.insert(msg.icon, "portrait_gm_token");
-	else
-		table.insert(msg.icon, "portrait_" .. msgOOB.sender .. "_chat");
-	end
 	if Session.IsHost then
 		if msgOOB.receiver ~= "" then
 			msg.sender = msg.sender .. " -> " .. sReceiver;
@@ -486,6 +458,7 @@ function handleWhisper(msgOOB)
 			msg.sender = msg.sender .. " -> " .. sReceiver;
 		end
 	end
+
 	msg.text = msg.text .. msgOOB.text;
 
 	-- Show whisper message

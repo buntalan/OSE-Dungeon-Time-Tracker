@@ -81,7 +81,7 @@
 				</anchored>
 				<class>options_button</class>
 				<sortby><control>label</control></sortby>
-				<columns width="150" fillwidth="true" />
+				<columns width="150" fillwidth="true" dynamic="true" />
 				<empty font="list-empty" textres="options_empty_list" />
 			</list_content_framed_groupbox_bottom>
 			<scrollbar_content_base>

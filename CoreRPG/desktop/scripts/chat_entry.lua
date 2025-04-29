@@ -10,6 +10,11 @@ function onDeliverMessage(msg, mode)
 	return msg;
 end
 
+function onGainFocus()
+	if not Session.IsHost then
+		LanguageManager.refreshChatLanguages();
+	end
+end
 function onTab()
 	ChatManager.doUserAutoComplete(self);
 	return true;

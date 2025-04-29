@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -50,20 +50,18 @@
 		</genericcontrol>
 	</template>
 	<template name="anchor_content_record_header_left">
-		<genericcontrol name="leftanchor">
-			<anchored to="contentanchor" height="0" width="0">
-				<top relation="current" offset="5" />
-				<left />
+		<anchor_listitem_left_relative>
+			<anchored>
+				<top offset="5" />
 			</anchored>
-		</genericcontrol>
+		</anchor_listitem_left_relative>
 	</template>
 	<template name="anchor_content_record_header_right">
-		<genericcontrol name="rightanchor">
-			<anchored to="contentanchor" height="0" width="0">
-				<top relation="current" offset="5" />
-				<right />
+		<anchor_listitem_right_relative>
+			<anchored>
+				<top offset="5" />
 			</anchored>
-		</genericcontrol>
+		</anchor_listitem_right_relative>
 	</template>
 
 	<template name="icon_record_header_base">
@@ -82,11 +80,8 @@
 				function onInit()
 					self.updateDisplay();
 				end
-				function getRecordType()
-					return WindowManager.getRecordType(window);
-				end
 				function updateDisplay()
-					local sRecordType = self.getRecordType();
+					local sRecordType = WindowManager.getRecordType(window);
 					if sRecordType ~= "" then
 						local sIcon = "sidebar_icon_recordtype_" .. sRecordType;
 						if Interface.isIcon(sIcon) then
@@ -127,7 +122,7 @@
 		</string_content_base>
 	</template>
 	<template name="string_record_header_name_nonid">
-		<string_record_header_name insertbefore="name" />
+		<string_record_header_name />
 	</template>
 	<template name="string_record_header_name_image">
 		<string_record_header_name>
@@ -139,7 +134,7 @@
 		</string_record_header_name>
 	</template>
 	<template name="string_record_header_name_nonid_image">
-		<string_record_header_name_image insertbefore="name" />
+		<string_record_header_name_image />
 	</template>
 	<template name="string_record_header_name_story">
 		<string_record_header_name>
@@ -180,6 +175,24 @@
 				<left offset="30" />
 			</anchored>
 		</area_content_top>
+	</template>
+	<template name="string_record_header_labeled_right">
+		<string_labeled>
+			<anchored to="rightanchor" width="120" height="30">
+				<top offset="5" />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<font>recordsheet_header</font>
+		</string_labeled>
+	</template>
+	<template name="number_record_header_labeled_right">
+		<number_labeled>
+			<anchored to="rightanchor" width="50" height="30">
+				<top offset="5" />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<font>recordsheet_header</font>
+		</number_labeled>
 	</template>
 
 	<template name="linkc_record_header">
@@ -249,17 +262,16 @@
 		<margins control="0,0,0,2" />
 		<script>
 			function onInit()
-				self.update();
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
 			end
-			function update()
-				local nodeRecord = getDatabaseNode();
-				local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
-				nonid_name.setReadOnly(bReadOnly);
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "nonid_name", }, bReadOnly);
 			end
 		</script>
 		<sheetdata>
 			<anchor_listitem_left_sm />
 			<anchor_listitem_right_sm />
+
 			<icon_record_header_nonid name="nonid_icon" />
 			<string_record_header_nonid_name_edit name="nonid_name" />
 		</sheetdata>

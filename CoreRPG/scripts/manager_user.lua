@@ -19,6 +19,9 @@ function onTabletopInit()
 	Interface.addKeyedEventHandler("onHotkeyActivated", "diceskin", UserManager.onDiceSkinHotKeyActivate);
 	ChatManager.registerDropCallback("diceskin", UserManager.onDiceSkinChatDrop);
 end
+function onTabletopClose()
+	UserManager.saveIdentityState();
+end
 
 function onUserIdentityStateChange(sIdentity, sUser, sKey, sValue)
 	if (sUser == Session.UserName) and (sKey == "current") then
@@ -60,7 +63,65 @@ end
 --	CHARACTER ID MANAGEMENT
 --
 
--- NOTE: Only works for players
+function loadIdentityState()
+	if Session.IsHost then
+		return;
+	end
+
+	local bCharFound = false;
+	if CampaignRegistry then
+		for _,sCharID in ipairs(CampaignRegistry.identitystate or {}) do
+			bCharFound = true;
+			UserManager.requestIdentity(sCharID);
+		end
+	end
+
+	if not bCharFound then
+		Interface.openWindow("charselect_client", "");
+	end
+end
+function saveIdentityState()
+	if Session.IsHost then
+		return;
+	end
+
+	if not CampaignRegistry then
+		return;
+	end
+
+	CampaignRegistry.identitystate = {};
+	for _,sCharID in ipairs(User.getActiveIdentities()) do
+		table.insert(CampaignRegistry.identitystate, sCharID);
+	end
+end
+
+-- tData = {
+-- 	nodeLocal = ...,
+-- 	fnResponse = ...,
+-- }
+function requestIdentity(sCharID, tData)
+	if Session.IsHost then
+		return;
+	end
+
+	User.requestIdentity(sCharID, nil, nil, tData and tData.nodeLocal, tData and tData.fnResponse or UserManager.defaultIdentityRequestResponse);
+end
+function defaultIdentityRequestResponse()
+	-- Do Nothing
+end
+function releaseIdentityPath(sPath)
+	UserManager.releaseIdentity(CharacterListManager.convertPathToIdentity(sPath));
+end
+function releaseIdentity(sCharID)
+	if Session.IsHost then
+		return;
+	end
+	if (sCharID or "") == "" then
+		return;
+	end
+
+	User.releaseIdentity(sCharID);
+end
 function activatePlayerID(sCharID)
 	if Session.IsHost then
 		return;

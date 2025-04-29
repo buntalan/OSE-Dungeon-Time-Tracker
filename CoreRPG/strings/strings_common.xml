@@ -54,10 +54,19 @@
 	<string name="header_playernotes">PLAYER NOTES</string>
 
 	<!-- Actions -->
+	<string name="action_ability_tag">ABILITY</string>
 	<string name="action_attack_tag">ATTACK</string>
+	<string name="action_cast_tag">CAST</string>
+	<string name="action_check_tag">CHECK</string>
+	<string name="action_cm_tag">CM</string>
 	<string name="action_damage_tag">DAMAGE</string>
-	<string name="action_heal_tag">HEAL</string>
 	<string name="action_effect_tag">EFFECT</string>
+	<string name="action_grapple_tag">GRAPPLE</string>
+	<string name="action_heal_tag">HEAL</string>
+	<string name="action_init_tag">INIT</string>
+	<string name="action_save_tag">SAVE</string>
+	<string name="action_savevs_tag">SAVE VS</string>
+	<string name="action_skill_tag">SKILL</string>
 
 	<!-- Common Lighting/Vision Settings -->
 	<string name="lighting_none">None</string>
@@ -218,10 +227,6 @@
 	<string name="message_record_share_unknown">Unknown window type shared</string>
 
 	<!-- Languages -->
-	<string name="lang_val_speaksall">Speaks all</string>
-	<string name="lang_val_understandsall">Understands all</string>
-	<string name="lang_val_comprehendlanguages">Comprehend languages</string>
-	<string name="lang_val_tongues">Tongues</string>
 	<string name="message_chatsetlang_unavailable">Chat language is not available to current identity.</string>
 	<string name="error_chathandlelang_unavailable">[ERROR] Received non-campaign chat language [Language = %s, Message = %s]</string>
 	<string name="message_chathandlelang_understood">understood by</string>
@@ -307,16 +312,12 @@
 	<!-- Built-in FG menus - chatwindow -->
 	<!--
 	<string name="chatclipboard">Copy Text To Clipboard</string>
-	<string name="chattotalnone">Reset</string>
-	<string name="chattotalsum">Display sum</string>
-	<string name="chattotalhalf">Halve value</string>
-	<string name="chattotaldouble">Double value</string>
-	<string name="chattotalnegate">Negate value</string>
-	<string name="chatclear">Clear</string>
-	<string name="chatprompt">Prompt Icon</string>
-	<string name="chathalt">Halt Icon</string>
-	<string name="chatlogon">Start Chat Log</string>
-	<string name="chatlogoff">Stop Chat Log</string>
+	<string name="chattotal">Total</string>
+	<string name="chattotalnone">Hide</string>
+	<string name="chattotalsum">Standard Value</string>
+	<string name="chattotalhalf">Half Value</string>
+	<string name="chattotaldouble">Double Value</string>
+	<string name="chattotalnegate">Negate Value</string>
 	-->
 
 	<!-- Built-in FG menus - diecontrol -->
@@ -434,7 +435,7 @@
 	<string name="windowminimize">Minimize</string>
 	<string name="windowrestore">Restore</string>
 	<string name="windowsizereset">Reset Position</string>
-	<string name="windowclosemenu">Close or Lock</string>
+	<string name="windowclosemenu">Window</string>
 	<string name="windowcloseremote">Close For All</string>
 	<string name="windowclose">Close Window</string>
 	<string name="windowdelete">Delete Record</string>
@@ -446,4 +447,10 @@
 	<string name="listinsert">Create Item</string>
 	<string name="listdelete">Delete Item</string>
 	-->
+
+	<!-- DEPRECATED (2025-03) -->
+	<string name="lang_val_speaksall">Speaks all</string>
+	<string name="lang_val_understandsall">Understands all</string>
+	<string name="lang_val_comprehendlanguages">Comprehend languages</string>
+	<string name="lang_val_tongues">Tongues</string>
 </root>

@@ -63,9 +63,12 @@
 
 	<windowclass name="select_dialog_entry">
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
-			<anchor_listitem_right_sm name="rightanchor" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
 
+			<linkc_listitem_left name="shortcut">
+				<invisible />
+			</linkc_listitem_left>
 			<buttonc_listitem_checkbox_left name="selected">
 				<script>
 					function onValueChanged()
@@ -73,10 +76,6 @@
 					end
 				</script>
 			</buttonc_listitem_checkbox_left>
-
-			<linkc_listitem_right name="shortcut">
-				<invisible />
-			</linkc_listitem_right>
 
 			<label_listitem_center name="text">
 				<font>sheetlabel</font>

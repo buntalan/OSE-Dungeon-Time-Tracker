@@ -62,6 +62,12 @@
 			<readonly />
 		</simplestringc>
 	</template>
+	<template name="stringc_listitem_underline_base">
+		<stringcu>
+			<nodrag />
+			<delaykeyupdate />
+		</stringcu>
+	</template>
 
 	<!-- List Item (Right) -->
 	<template name="string_listitem_right">
@@ -71,15 +77,6 @@
 				<right relation="relative" offset="-10" postoffset="-10" />
 			</anchored>
 		</string_listitem_base>
-	</template>
-	<template name="string_listitem_right_text">
-		<string_textlistitem>
-			<anchored to="rightanchor" width="80" height="20">
-				<top />
-				<right relation="relative" offset="-5" postoffset="-5" />
-			</anchored>
-			<delaykeyupdate />
-		</string_textlistitem>
 	</template>
 	<template name="string_listitem_right_static">
 		<string_listitem_static_base>
@@ -122,10 +119,21 @@
 			<multilinespacing>20</multilinespacing>
 		</stringc_listitem_noframe_static_base>
 	</template>
+	<template name="string_listitem_right_underline">
+		<string_listitem_underline_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+		</string_listitem_underline_base>
+	</template>
 	<template name="label_listitem_right">
-		<stringc_listitem_right_noframe_static>
-			<font>sheetlabel</font>
-		</stringc_listitem_right_noframe_static>
+		<label>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</label>
 	</template>
 
 	<!-- List Item (Left) -->
@@ -199,9 +207,12 @@
 		</string_listitem_underline_static_base>
 	</template>
 	<template name="label_listitem_left">
-		<stringc_listitem_left_noframe_static>
-			<font>sheetlabel</font>
-		</stringc_listitem_left_noframe_static>
+		<label>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</label>
 	</template>
 
 	<!-- List Item (Center) -->
@@ -215,15 +226,10 @@
 			<multilinespacing>20</multilinespacing>
 		</string_listitem_base>
 	</template>
-	<template name="string_listitem_center_text">
-		<string_textlistitem>
-			<anchored to="rightanchor" height="20">
-				<top />
-				<left parent="leftanchor" relation="current" offset="5" />
-				<right relation="current" offset="-5" />
-			</anchored>
-			<delaykeyupdate />
-		</string_textlistitem>
+	<template name="string_listitem_center_bold">
+		<string_listitem_center>
+			<font>sheetlabel</font>
+		</string_listitem_center>
 	</template>
 	<template name="string_listitem_center_underline">
 		<string_listitem_underline_base>
@@ -232,6 +238,16 @@
 				<left parent="leftanchor" relation="current" offset="5" />
 				<right relation="current" offset="-5" />
 			</anchored>
+		</string_listitem_underline_base>
+	</template>
+	<template name="string_listitem_center_underline_multiline">
+		<string_listitem_underline_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
 		</string_listitem_underline_base>
 	</template>
 	<template name="string_listitem_center_static">
@@ -302,9 +318,22 @@
 			</script>
 		</stringc_listitem_center_noframe_static>
 	</template>
+	<template name="stringc_listitem_center_underline">
+		<stringc_listitem_underline_base>
+			<anchored to="rightanchor" height="20">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+		</stringc_listitem_underline_base>
+	</template>
 	<template name="label_listitem_center">
-		<stringc_listitem_center_noframe_static>
-			<font>sheetlabel</font>
-		</stringc_listitem_center_noframe_static>
+		<label>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="2" />
+				<right relation="current" offset="-2" />
+			</anchored>
+		</label>
 	</template>
 </root>

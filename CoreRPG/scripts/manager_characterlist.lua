@@ -1,5 +1,5 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
@@ -30,9 +30,8 @@ CHARLIST_STATE_WIDGET_X = 23;
 CHARLIST_STATE_WIDGET_Y = 22;
 
 OOB_MSGTYPE_SETAFK = "setafk";
-OOB_MSGTYPE_RELEASE = "charsheet_release";
 
--- Structure for desktop list 
+-- Structure for desktop list
 --{
 --	sUser = ..., (user/identity)
 --	sPath = ..., (party/identity)
@@ -45,7 +44,6 @@ function onInit()
 	CharacterListManager.addStandardDropSupport();
 	CharacterListManager.addStandardAFKSupport();
 	OptionsManager.registerCallback("CLSH", CharacterListManager.onOptionChanged);
-	OOBManager.registerOOBMsgHandler(CharacterListManager.OOB_MSGTYPE_RELEASE, CharacterListManager.handleReleaseIdentity);
 end
 function onTabletopInit()
 	CharacterListManager.refreshParty();
@@ -205,7 +203,6 @@ function refreshDisplayList()
 	-- Build new list of actors/users
 	local tNewDisplayPaths = {};
 	local tNewDisplayActiveUsers = {};
-	local tActivatedIdentities = CharacterListManager.getActivatedIdentities();
 	for k,v in pairs(CharacterListManager.getActivatedIdentities()) do
 		tNewDisplayPaths[k] = v;
 		tNewDisplayActiveUsers[v.sUser] = true;
@@ -224,7 +221,7 @@ function refreshDisplayList()
 			CharacterListManager.createEntry(w, v);
 		end
 	end
-	for k,v in pairs(tCurrDisplayPaths) do
+	for k,_ in pairs(tCurrDisplayPaths) do
 		local c = CharacterListManager.getDisplayControlByPath(k);
 		if c then
 			if not tNewDisplayPaths[k] then
@@ -267,7 +264,7 @@ function createEntry(w, tData)
 
 	c.initData(tData);
 end
-function destroyEntry(w, c)
+function destroyEntry(_, c)
 	if not c then
 		return;
 	end
@@ -385,7 +382,7 @@ function getUserState(sUser)
 	if (sUser or "") == "" then
 		return nil;
 	end
-	
+
 	local t = _tActiveUsers[sUser];
 	if not t then
 		return nil;
@@ -422,13 +419,13 @@ function setActivatedIdentity(sIdentity, sUser, bActivated)
 	if not Session.IsHost then
 		if not bActivated then
 			local w = Interface.findWindow("charsheet", sPath);
-			if w then 
-				w.close(); 
+			if w then
+				w.close();
 			end
 		end
 	end
 end
-function setActivatedIdentityData(sIdentity, sUser, sState, vState)
+function setActivatedIdentityData(sIdentity, _, sState, vState)
 	if (sIdentity or "") == "" then
 		return;
 	end
@@ -457,22 +454,6 @@ function setActivatedIdentityData(sIdentity, sUser, sState, vState)
 	end
 end
 
-function releaseIdentity(sPath)
-	if (sPath or "") == "" then
-		return;
-	end
-	local msgOOB = {};
-	msgOOB.type = CharacterListManager.OOB_MSGTYPE_RELEASE;
-	msgOOB.sPath = sPath;
-	Comm.deliverOOBMessage(msgOOB);
-end
-function handleReleaseIdentity(msgOOB)
-	if (msgOOB.sPath or "") == "" then
-		return;
-	end
-	DB.setOwner(msgOOB.sPath, nil);
-end
-
 --
 --	PARTY DATA HANDLING
 --
@@ -482,7 +463,8 @@ function addPartyHandlers()
 	DB.addHandler(PartyManager.PS_LIST .. ".*.link", "onUpdate", CharacterListManager.refreshParty);
 	DB.addHandler(PartyManager.PS_LIST .. ".*.name", "onUpdate", CharacterListManager.refreshParty);
 end
-function refreshParty(node)
+
+function refreshParty()
 	CharacterListManager.rebuildPartyIdentities();
 	CharacterListManager.refreshDisplayList();
 end
@@ -532,7 +514,7 @@ function onNumberDrop(tData, draginfo)
 		msg.dice = {};
 		msg.diemodifier = draginfo.getNumberData();
 		msg.secret = false;
-		
+
 		Comm.deliverChatMessage(msg, tData.sUser);
 		return true
 	end
@@ -542,9 +524,7 @@ function onStringDrop(tData, draginfo)
 	return true;
 end
 function onShortcutDrop(tData, draginfo)
-	local sClass, sRecord = draginfo.getShortcutData();
 	if Session.IsHost then
-		local bProcessed = false;
 		if Input.isAltPressed() then
 			if CharacterListManager.processShortcutDrop(tData, draginfo) then
 				return true;
@@ -575,7 +555,7 @@ end
 --	STANDARD FEATURES
 --
 
-function processAFK(sCommand, sParams)
+function processAFK()
 	CharacterListManager.toggleAFK();
 end
 function toggleAFK()
@@ -585,7 +565,7 @@ function toggleAFK()
 	else
 		CharacterListManager.setUserState(sUser, "afk");
 	end
-	
+
 	local msgOOB = {};
 	msgOOB.type = CharacterListManager.OOB_MSGTYPE_SETAFK;
 	msgOOB.user = sUser;
@@ -598,7 +578,7 @@ function toggleAFK()
 	Comm.deliverOOBMessage(msgOOB);
 end
 function handleAFK(msgOOB)
-	local sStateName;	
+	local sStateName;
 	if msgOOB.nState == "0" then
 		sStateName = "active";
 	else
@@ -618,57 +598,7 @@ function messageAFK(sUser)
 	Comm.addChatMessage(msg);
 end
 
---
---	DEPRECATED FUNCTIONS
---
-
--- DEPRECATED - 2022-12-12 (Short Release) - 2024-05-28 (Chat Notice)
-
-local _tLegacyCharEntryDecorators = {};
-function addDecorator(sName, fn)
-	Debug.console("CharacterListManager.addDecorator - DEPRECATED - 2023-12-12 - Use CharacterListManager.setDecorator");
-	ChatManager.SystemMessage("CharacterListManager.addDecorator - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-	_tLegacyCharEntryDecorators[sName] = fn;
-end
-function removeDecorator(sName)
-	Debug.console("CharacterListManager.removeDecorator - DEPRECATED - 2023-12-12 - Use CharacterListManager.setDecorator");
-	ChatManager.SystemMessage("CharacterListManager.removeDecorator - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-	_tLegacyCharEntryDecorators[sName] = nil;
-end
-function getLegacyDecorators()
-	return _tLegacyCharEntryDecorators;
-end
-function getAllEntries()
-	Debug.console("CharacterListManager.getAllEntries - DEPRECATED - 2023-12-12 - Use User.getActiveUsers/User.getActiveIdentities");
-	ChatManager.SystemMessage("CharacterListManager.getAllEntries - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-	local tResults = {};
-	for _,v in ipairs(CharacterListManager.getDisplayList()) do
-		local tChar = v.getData();
-		if tChar then
-			local sCharIdentity = CharacterListManager.convertPathToIdentity(tChar.sPath);
-			if sCharIdentity then
-				tResults[sCharIdentity] = v;
-			end
-		end
-	end
-	return tResults;
-end
-function getEntry(sIdentity)
-	Debug.console("CharacterListManager.getEntry - DEPRECATED - 2023-12-12 - Use CharacterListManager.getDisplayControlByPath");
-	ChatManager.SystemMessage("CharacterListManager.getEntry - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-	for _,v in ipairs(CharacterListManager.getDisplayList()) do
-		local t = v.getData();
-		if t then
-			local sCharIdentity = CharacterListManager.convertPathToIdentity(t.sPath);
-			if sCharIdentity then
-				return v;
-			end
-		end
-	end
-	return nil;
-end
-function getEntryCount()
-	Debug.console("CharacterListManager.getEntryCount - DEPRECATED - 2023-12-12 - Use CharacterListManager.getDisplayListCount");
-	ChatManager.SystemMessage("CharacterListManager.getEntryCount - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-	return CharacterListManager.getDisplayListCount();
+-- DEPRECATED (2025-03) (Short Release) -->
+function releaseIdentity(sPath)
+	UserManager.releaseIdentityPath(sPath);
 end

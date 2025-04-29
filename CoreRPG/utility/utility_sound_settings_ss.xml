@@ -246,9 +246,8 @@
 		<sheetdata>
 			<hs name="soundid" />
 
-			<anchor_listitem_left_sm name="leftanchor" />
-
-			<anchor_listitem_right_sm name="rightanchor" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
 
 			<spacer_listitem_sound_actions name="spacer_actions" />
 			<button_listitem_sound_play name="button_play" />

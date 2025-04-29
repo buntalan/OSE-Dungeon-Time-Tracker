@@ -6,13 +6,9 @@
 -->
 
 <root>
-	<!-- LEGACY - TO BE DEPRECATED (2024-08-13) -->
+	<!-- TO BE DEPRECATED (2024-08-13) -->
 	<icon name="button_menu" file="graphics/buttons/button_menu.png" />
 	<icon name="button_menu_down" file="graphics/buttons/button_menu_down.png" />
-
-	<!-- Legacy - DEPRECATED - 2024-03-05 -->
-	<icon name="button_expand" file="graphics/buttons/button_expand.png" />
-	<icon name="button_collapse" file="graphics/buttons/button_collapse.png" />
 
 	<!-- Toolbar Buttons (tintable) -->
 	<icon name="button_toolbar_accept" file="graphics/buttons/button_toolbar_accept.png" />
@@ -201,6 +197,10 @@
 	<icon name="button_toggle_self" file="graphics/buttons/button_toggle_self.png" />
 
 	<!-- Misc -->
+	<icon name="button_tokenmove_accept" file="graphics/buttons/button_tokenmove_accept.png" />
+	<icon name="button_tokenmove_cancel" file="graphics/buttons/button_tokenmove_cancel.png" />
+
+	<!-- Legacy -->
 	<icon name="button_speak" file="graphics/buttons/button_speak.png" />
 	<icon name="button_speak_down" file="graphics/buttons/button_speak_down.png" />
 	<icon name="button_minisheet" file="graphics/buttons/button_minisheet.png" />

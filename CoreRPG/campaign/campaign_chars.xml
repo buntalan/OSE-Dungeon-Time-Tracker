@@ -48,11 +48,11 @@
 			<list_content name="list">
 				<datasource>.</datasource>
 				<class>charselect_host_entry</class>
-				<allowdelete />
 				<columns width="300" fillwidth="true" dynamic="true" />
 				<sortby><control>name</control></sortby>
 				<filter><control>filter</control></filter>
 				<filteron><control>name</control></filteron>
+				<allowdelete />
 				<script>
 					function onDrop(x, y, draginfo)
 						if StringManager.contains({ "shortcut", "token" }, draginfo.getType()) then
@@ -164,10 +164,11 @@
 			<button_iadd_list_content_controls name="list_iadd">
 				<visible />
 				<script>
+					local _bRequested = false;
 					function onButtonPress()
-						if not bRequested then
-							User.requestIdentity(nil, nil, nil, nil, requestResponse);
-							bRequested = true;
+						if not _bRequested then
+							UserManager.requestIdentity(nil, { fnResponse = self.requestResponse, });
+							_bRequested = true;
 						end
 					end
 					function requestResponse(result, identity)

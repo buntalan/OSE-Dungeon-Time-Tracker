@@ -27,7 +27,7 @@
 		<color value="#FFFFFF" />
 	</font>
 
-	<!-- LEGACY - TO BE DEPRECATED (2024-08-13) -->
+	<!-- TO BE DEPRECATED (2024-08-13) -->
 	<icon name="tab_inventory" file="graphics/tabs/tab_inventory.png" />
 	<icon name="tab_main" file="graphics/tabs/tab_main.png" />
 	<icon name="tab_notes" file="graphics/tabs/tab_notes.png" />

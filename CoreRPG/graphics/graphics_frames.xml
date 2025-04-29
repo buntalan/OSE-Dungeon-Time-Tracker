@@ -62,6 +62,16 @@
 		<offset>10,10,10,10</offset>
 	</framedef>
 
+	<!-- Distance -->
+		<framedef name="distance">
+			<bitmap file="graphics/frames/distance.png" />
+			<offset>8,8,8,8</offset>
+		</framedef>
+		<framedef name="distance_overlay">
+			<bitmap file="graphics/frames/distance_overlay.png" />
+			<offset>8,8,8,8</offset>
+		</framedef>
+
 	<!-- Windows -->
 	<framedef name="windowtitle">
 		<bitmap file="graphics/frames/windowtitle.png" />

@@ -57,6 +57,12 @@ function onShareClicked()
 		close();
 	end
 end
+function onShareByNameClicked()
+	if (_sAssetType or "") ~= "" then
+		PictureManager.createPictureItem(_sAssetName, UtilityManager.getAssetBaseFileName(_sAssetName));
+		close();
+	end
+end
 function onImportClicked()
 	if (_sAssetType or "") ~= "" then
 		CampaignDataManager.createImageRecordFromAsset(_sAssetName, true);

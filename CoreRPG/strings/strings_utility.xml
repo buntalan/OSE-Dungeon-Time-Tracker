@@ -605,7 +605,8 @@
 
 	<string name="asset_preview_window_title">Preview</string>
 	<string name="asset_preview_import">Create Map Record</string>
-	<string name="asset_preview_share">Share With Players</string>
+	<string name="asset_preview_share">Share</string>
+	<string name="asset_preview_share_by_name">Share By Name</string>
 	<string name="asset_preview_decal">Set Background Decal</string>
 
 	<string name="asset_initind_displayorder">2D Display Order</string>

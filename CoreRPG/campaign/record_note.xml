@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -27,18 +27,6 @@
 				<anchored to="owner_label" position="righthigh" offset="5,0" height="20" />
 				<readonly />
 			</simplestringc>
-			<buttonc_checkbox name="ispublic">
-				<anchored to="area_details" position="insidetopright" offset="30,0" width="20" height="20" />
-				<script>
-					function onValueChanged()
-						window.onPublicChanged();
-					end
-				</script>
-			</buttonc_checkbox>
-			<label name="ispublic_label">
-				<anchored to="ispublic" position="lefthigh" offset="5,0" height="20" />
-				<static textres="note_label_public" />
-			</label>
 		</sheetdata>
 	</windowclass>
 </root>

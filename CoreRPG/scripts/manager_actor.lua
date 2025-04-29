@@ -74,6 +74,8 @@ function resolveActor(v)
 		end
 	elseif sVarType == "databasenode" then
 		nodeActor = v;
+	elseif sVarType == "tokeninstance" then
+		nodeActor = CombatManager.getCTFromToken(v);
 	end
 	if not nodeActor then
 		return nil;
@@ -250,46 +252,6 @@ function getDisplayName(v)
 end
 
 --
--- LAYERED RESOLUTION
---
-
-function getTypeAndNodeName(v)
-	local sType, nodeCreature = ActorManager.getTypeAndNode(v);
-	if nodeCreature then
-		return sType, DB.getPath(nodeCreature);
-	end
-	return sType, nil;
-end
-
-function getTypeAndNode(v)
-	local rActor = ActorManager.resolveActor(v);
-	if not rActor then
-		return nil, nil;
-	end
-
-	if ActorManager.isPC(rActor) then
-		local nodeCreature = ActorManager.getCreatureNode(rActor);
-		if nodeCreature and DB.isOwner(nodeCreature) then
-			return "pc", nodeCreature;
-		end
-	end
-
-	local nodeCT = ActorManager.getCTNode(rActor);
-	if nodeCT then
-		return "ct", nodeCT;
-	end
-
-	if not ActorManager.isPC(rActor) then
-		local nodeNPC = ActorManager.getCreatureNode(rActor);
-		if nodeNPC then
-			return rActor.sType, nodeNPC;
-		end
-	end
-
-	return nil, nil;
-end
-
---
 -- EFFECT RESOLUTION
 --
 
@@ -351,4 +313,44 @@ function getEffects(v)
 		end
 	end
 	return tAllEffects;
+end
+
+--
+-- LEGACY
+--
+
+function getTypeAndNode(v)
+	Debug.console("ActorManager.getTypeAndNode/getTypeAndNodeName - DEPRECATED - 2025-04-22 - Use ActorManager.isPC/isRecordType/getCreatureNode/getCTNode");
+	local rActor = ActorManager.resolveActor(v);
+	if not rActor then
+		return nil, nil;
+	end
+
+	if ActorManager.isPC(rActor) then
+		local nodeCreature = ActorManager.getCreatureNode(rActor);
+		if nodeCreature and DB.isOwner(nodeCreature) then
+			return "pc", nodeCreature;
+		end
+	end
+
+	local nodeCT = ActorManager.getCTNode(rActor);
+	if nodeCT then
+		return "ct", nodeCT;
+	end
+
+	if not ActorManager.isPC(rActor) then
+		local nodeNPC = ActorManager.getCreatureNode(rActor);
+		if nodeNPC then
+			return rActor.sType, nodeNPC;
+		end
+	end
+
+	return nil, nil;
+end
+function getTypeAndNodeName(v)
+	local sType, nodeCreature = ActorManager.getTypeAndNode(v);
+	if nodeCreature then
+		return sType, DB.getPath(nodeCreature);
+	end
+	return sType, nil;
 end

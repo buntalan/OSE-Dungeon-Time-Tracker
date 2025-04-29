@@ -12,8 +12,24 @@ function onTabletopInit()
 	ImageManager.registerDBHandlers();
 end
 
+--
+--	EVENTS
+--
+
 function onWindowOpened(w)
 	ImageManager.checkImageSharing(w);
+end
+
+function onImageInit(cImage)
+	if Session.IsHost then
+		cImage.setTokenOrientationMode(false);
+	end
+	TokenManager.onImageInit(cImage);
+	TokenMoveManager.onImageInit(cImage);
+end
+function onImageClose(cImage)
+	TokenManager.onImageClose(cImage);
+	TokenMoveManager.onImageClose(cImage);
 end
 
 function registerDBHandlers()
@@ -27,11 +43,43 @@ function onImageRecordDeleted(nodeImageRecord)
 	ImageManager.checkImagePanelDeletion(nodeImageRecord);
 end
 
+--
+--	RESOLVERS
+--
+
 function isImageWindow(w)
 	if not w then
 		return false;
 	end
 	return StringManager.contains({ "imagewindow", "imagebackpanel", "imagemaxpanel", "imagefullpanel" }, UtilityManager.getTopWindow(w).getClass());
+end
+function getImageControlFromWindow(w)
+	local wTop = UtilityManager.getTopWindow(w);
+	if not wTop then
+		return nil;
+	end
+	local sDisplayClass = wTop.getClass();
+	if sDisplayClass == "imagewindow" then
+		return wTop.image;
+	elseif StringManager.contains({ "imagewindow", "imagebackpanel", "imagemaxpanel", "imagefullpanel" }, sDisplayClass) then
+		return wTop.sub.subwindow.image;
+	end
+	return nil;
+end
+function getActiveImageFromToken(tokenMap)
+	if not tokenMap then
+		return nil;
+	end
+	local nodeImage = tokenMap.getContainerNode();
+	if not nodeImage then
+		return nil;
+	end
+	for _, cImage in ipairs(ImageManager.getActiveImages()) do
+		if cImage.getDatabaseNode() == nodeImage then
+			return cImage;
+		end
+	end
+	return nil;
 end
 
 --
@@ -637,6 +685,7 @@ function registerImage(cImage)
 	ImageManager.onImageInit(cImage);
 end
 function unregisterImage(cImage)
+	ImageManager.onImageClose(cImage);
 	for k, v in ipairs(_tImages) do
 		if v == cImage then
 			table.remove(_tImages, k);
@@ -707,15 +756,6 @@ function onImageTokenDrop(cImage, x, y, draginfo)
 end
 
 -- Event handlers
-
-function onImageInit(cImage)
-	for _,vToken in ipairs(cImage.getTokens()) do
-		TokenManager.updateAttributesFromToken(vToken);
-	end
-	if Session.IsHost then
-		cImage.setTokenOrientationMode(false);
-	end
-end
 
 function onImageTargetSelect(cImage, tTargets)
 	local aSelected = cImage.getSelectedTokens();

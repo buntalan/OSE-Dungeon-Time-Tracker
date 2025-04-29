@@ -13,7 +13,7 @@ end
 function onDataLoaded()
 	WindowSaveManager.loadWindowState();
 	Desktop.handleMOTDOnStartup();
-	Desktop.handleCharSelectionOnStartup();
+	UserManager.loadIdentityState();
 	Desktop.handleUserSetupOnStartup();
 end
 
@@ -29,6 +29,23 @@ function registerPublicNodes()
 		DB.setPublic(DB.createNode("effects"), true);
 		DB.setPublic(DB.createNode("picture"), true);
 	end
+end
+
+function handleMOTDOnStartup()
+	if Session.IsHost then
+		return;
+	end
+	local sMOTD = StringManager.trim(DB.getText("motd.text", ""));
+	if sMOTD ~= "" then
+		Interface.openWindow("motd", "motd");
+	end
+end
+function handleUserSetupOnStartup()
+	if CampaignRegistry and CampaignRegistry.setup then
+		return;
+	end
+
+	Interface.openWindow("setup", "");
 end
 
 aDataModuleSet =
@@ -52,48 +69,6 @@ function addDataModuleSet(sMode, tData)
 		return;
 	end
 	table.insert(Desktop.aDataModuleSet[sMode], tData);
-end
-
-function handleMOTDOnStartup()
-	if Session.IsHost then
-		return;
-	end
-	local sMOTD = StringManager.trim(DB.getText("motd.text", ""));
-	if sMOTD ~= "" then
-		Interface.openWindow("motd", "motd");
-	end
-end
-
-function handleCharSelectionOnStartup()
-	if Session.IsHost then
-		return;
-	end
-
-	local bCharFound = false;
-	local tMappings = RecordDataManager.getDataPaths("charsheet");
-	for _,sMapping in ipairs(tMappings) do
-		for _,node in ipairs(DB.getChildList(sMapping)) do
-			if DB.getOwner(node) == Session.UserName then
-				bCharFound = true;
-				User.requestIdentity(DB.getName(node), nil, nil, nil, Desktop.helperCharSelectionResponseOnStartup);
-			end
-		end
-	end
-
-	if not bCharFound then
-		Interface.openWindow("charselect_client", "");
-	end
-end
-function helperCharSelectionResponseOnStartup()
-	-- Do Nothing
-end
-
-function handleUserSetupOnStartup()
-	if CampaignRegistry and CampaignRegistry.setup then
-		return;
-	end
-
-	Interface.openWindow("setup", "");
 end
 
 aCoreDesktopStack =

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -68,15 +68,15 @@
 					end
 				</script>
 			</hn>
-			
+
 			<anchor_column name="columnanchor" />
-			
+
 			<string_column_full name="description">
 				<empty textres="table_emptydesc" />
 			</string_column_full>
 
 			<line_column name="divider" />
-			
+
 			<genericcontrol name="tabletoplabelanchor">
 				<anchored height="10" width="0">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
@@ -106,7 +106,7 @@
 				</anchored>
 				<static textres="table_label_output" />
 			</label_tabletop>
-			
+
 			<genericcontrol name="leftanchor">
 				<anchored height="20" width="0">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="8" />
@@ -122,7 +122,6 @@
 					function onDragStart(button, x, y, draginfo)
 						return window.actionRoll(draginfo);
 					end
-					
 					function onButtonPress()
 						return window.actionRoll();
 					end
@@ -146,7 +145,6 @@
 					function onDragStart(button, x, y, draginfo)
 						return window.actionRoll(draginfo);
 					end
-					
 					function onDoubleClick()
 						return window.actionRoll();
 					end
@@ -162,7 +160,6 @@
 					function onDragStart(button, x, y, draginfo)
 						return window.actionRoll(draginfo);
 					end
-					
 					function onDoubleClick()
 						return window.actionRoll();
 					end
@@ -181,14 +178,11 @@
 				</parameters>
 			</button_stringcycler>
 
-			<button_iedit name="table_iedit">
+			<button_iadd name="table_iadd_row">
 				<anchored>
 					<top parent="leftanchor" />
 					<right offset="-10" />
 				</anchored>
-			</button_iedit>
-			<button_iadd name="table_iadd_row">
-				<anchored to="table_iedit" position="lefthigh" offset="2,0" />
 				<tooltip textres="table_tooltip_rowadd" />
 				<invisible />
 				<script>
@@ -221,7 +215,7 @@
 			</button_icon_sm>
 
 			<line_column name="divider2" />
-			
+
 			<subwindow name="tablecolumnheaders">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
@@ -232,7 +226,7 @@
 				<fastinit />
 				<activate />
 			</subwindow>
-			
+
 			<windowlist name="tablerows">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
@@ -271,7 +265,7 @@
 			</label>
 		</sheetdata>
 	</windowclass>
-	
+
 	<template name="string_tableresult">
 		<stringfield>
 			<stateframe>
@@ -280,8 +274,6 @@
 			<font>sheettext</font>
 			<multilinespacing>20</multilinespacing>
 			<empty> -- </empty>
-			<nohighlight />
-			<script file="common/scripts/list_textitem.lua" />
 		</stringfield>
 	</template>
 	<template name="link_tableresult">
@@ -293,44 +285,42 @@
 	</template>
 	<windowclass name="table_row">
 		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "fromrange", "torange", "idelete", }, bReadOnly);
+			end
+		</script>
 		<sheetdata>
-			<basicnumber name="fromrange">
-				<bounds>5,2,20,20</bounds>
-				<hideonvalue>0</hideonvalue>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete" />
+			<number_listitem_left name="fromrange">
+				<anchored width="20" />
 				<delaykeyupdate />
 				<nodrag />
-			</basicnumber>
+			</number_listitem_left>
 			<label name="dash">
-				<bounds>30,2,5,20</bounds>
+				<anchored to="leftanchor">
+					<top />
+					<left relation="relative" offset="0" postoffset="0" />
+				</anchored>
 				<static>-</static>
-				<center />
 			</label>
-			<basicnumber name="torange">
-				<bounds>40,2,20,20</bounds>
-				<hideonvalue>0</hideonvalue>
+			<number_listitem_left name="torange">
+				<anchored width="20" />
 				<delaykeyupdate />
 				<nodrag />
-			</basicnumber>
-			
-			<genericcontrol name="rightanchor">
-				<anchored height="0" width="0">
-					<top />
-					<right />
-				</anchored>
-			</genericcontrol>
-			<button_idelete name="idelete">
-				<anchored>
-					<top offset="2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<editmode>table_iedit</editmode>
-			</button_idelete>
+			</number_listitem_left>
 
 			<windowlist name="results">
-				<anchored>
+				<anchored to="rightanchor">
 					<top />
-					<left offset="70" />
-					<right parent="rightanchor" anchor="left" offset="-25" />
+					<left parent="leftanchor" relation="current" offset="5" />
+					<right relation="current" offset="-5" />
 				</anchored>
 				<class>table_result</class>
 				<datasource>.results</datasource>
@@ -352,12 +342,15 @@
 			function onInit()
 				registerMenuItem(Interface.getString("table_menu_linkdelete"), "erase", 8);
 				self.updateDisplay();
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "result", }, bReadOnly);
 			end
 			function updateDisplay()
 				local bLink = not resultlink.isEmpty();
 				resultlink.setVisible(bLink);
 			end
-			
 			function onMenuSelection(selection)
 				if selection == 8 then
 					resultlink.setValue();
@@ -416,7 +409,6 @@
 							return true;
 						end
 					end
-					
 					function onDrop(x, y, draginfo)
 						if draginfo.getType() ~= "string" then
 							return window.onDrop(x, y, draginfo);
@@ -437,7 +429,7 @@
 		<sheetdata>
 			<windowtitlebar_utilitybox name="title" />
 			<windowmenubar_utilitybox name="menubar" />
-			
+
 			<anchor_content_utilitybox_top />
 			<anchor_content_utilitybox_bottom />
 

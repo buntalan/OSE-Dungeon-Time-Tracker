@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
 <root>
-	<!-- LEGACY - TO BE DEPRECATED (2024-08-13) -->
-	<string name="ct_tooltip_menu">Click for CT menu</string>
-
 	<!-- STANDARD -->
 	<string name="ct_window_title">Combat Tracker</string>
-	
+
 	<string name="ct_emptylist">Drop PC, NPC or encounter links to add entries.</string>
-	
+
 	<string name="ct_label_name">Name</string>
 	<string name="ct_label_init">Init</string>
 	<string name="ct_label_hptemp">Tmp</string>
@@ -78,7 +75,7 @@
 	<string name="ct_menu_targeting">Targeting</string>
 	<string name="ct_menu_targetingfriend">Target all allies</string>
 	<string name="ct_menu_targetingnonfriend">Target all non-allies</string>
-	
+
 	<string name="ct_error_effectdroptargetnotinct">[ERROR] Effect dropped on target which is not listed in the combat tracker.</string>
 	<string name="ct_error_effectdecodefail">[ERROR] Unable to decode effect details.</string>
 	<string name="ct_error_addnpcfail">[ERROR] Unable to create NPC record.</string>
@@ -91,7 +88,7 @@
 	<string name="ct_error_targetingpcmissingfromct">[ERROR] Active PC not listed in combat tracker.</string>
 	<string name="ct_error_openpclinkedtokenwithoutaccess">[ERROR] Unable to open linked character record, because your user does not own that record.</string>
 	<string name="ct_error_openotherlinkedtokenwithoutaccess">[ERROR] Unable to open linked actor record, because your user does not have access.</string>
-	
+
 	<string name="ct_tooltip_effectdur">Duration</string>
 	<string name="ct_tooltip_effectinit">Initiative to adjust on</string>
 

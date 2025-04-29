@@ -9,7 +9,7 @@ function onInit()
 end
 
 function onButtonPress()
-	Interface.openRadialMenu();
+	Interface.openContextMenu();
 end
 
 function addMenuChoices()

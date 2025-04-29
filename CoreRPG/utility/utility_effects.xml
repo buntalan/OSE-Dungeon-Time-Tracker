@@ -21,7 +21,7 @@
 	</template>
 
 	<template name="string_effect">
-		<string_listitem_center_text name="label">
+		<string_listitem_center_underline name="label">
 			<tabtarget next="duration" />
 			<script>
 				function onDragStart(button, x, y, draginfo)
@@ -31,7 +31,7 @@
 					return window.action();
 				end
 			</script>
-		</string_listitem_center_text>
+		</string_listitem_center_underline>
 	</template>
 	<template name="button_effect_activate">
 		<buttonc_listitem_left>
@@ -165,7 +165,7 @@
 				<static textres="effect_header_lights" />
 			</header_content_framed_headersimple>
 			<list_content_noscroll_top name="lights_list">
-				<columns width="120" fillwidth="true" />
+				<columns width="120" fillwidth="true" dynamic="true" />
 				<readonly />
 				<class>effect_preset_item</class>
 			</list_content_noscroll_top>
@@ -174,7 +174,7 @@
 				<static textres="effect_header_conditions" />
 			</header_content_framed_headersimple>
 			<list_content_noscroll_top name="conditions_list">
-				<columns width="120" fillwidth="true" />
+				<columns width="120" fillwidth="true" dynamic="true" />
 				<readonly />
 				<class>effect_preset_item</class>
 			</list_content_noscroll_top>
@@ -222,10 +222,10 @@
 
 			<list_content name="list">
 				<class>effectsmall</class>
-				<allowdelete />
 				<sortby><control>label</control></sortby>
 				<child merge="resetandadd"></child>
 				<child merge="add"><backcolor>1A40301E</backcolor></child>
+				<allowdelete />
 				<script file="utility/scripts/effectlist_custom.lua" />
 			</list_content>
 			<scrollbar_content_list />

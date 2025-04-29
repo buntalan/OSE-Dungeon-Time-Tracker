@@ -1,7 +1,9 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
+
+--luacheck: globals source sources hasSources
 
 function onInit()
 	if super and super.onInit then
@@ -38,8 +40,8 @@ function cleanupSources()
 	end
 end
 
-sources = {};
 hasSources = false;
+sources = {};
 local _tOps = {};
 function hasSource()
 	return hasSources;
@@ -100,7 +102,7 @@ function sourceUpdate(nodeUpdated)
 		self.onSourceUpdate();
 	end
 end
-function onSourceUpdate(source)
+function onSourceUpdate()
 	setValue(self.calculateSources());
 end
 function calculateSources()
@@ -128,6 +130,6 @@ function calculateSources()
 
 	return n;
 end
-function onSourceValue(nodeSource, sSourceName)
+function onSourceValue(nodeSource)
 	return DB.getValue(nodeSource);
 end

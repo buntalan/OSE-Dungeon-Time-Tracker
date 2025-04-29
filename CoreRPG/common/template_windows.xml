@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -32,7 +32,7 @@
 			</normal>
 		</scrollbarcontrol>
 	</template>
-	
+
 	<!-- DESKTOP PANELS -->
 
 	<!-- Frame: chatbox -->
@@ -64,7 +64,7 @@
 			<disabled />
 		</genericcontrol>
 	</template>
-	
+
 	<!-- Frame: imagepanel -->
 	<template name="anchor_content_imagepanel_top">
 		<genericcontrol name="contentanchor">
@@ -568,55 +568,5 @@
 				<bottom offset="0" />
 			</anchored>
 		</resize>
-	</template>
-
-	<!-- LEGACY - TO BE DEPRECATED (COMING SOON) -->
-	<!-- Frame: charsheet -->
-	<template name="close_charsheet">
-		<close>
-			<anchored>
-				<top offset="12" />
-				<right offset="-12" />
-			</anchored>
-		</close>
-	</template>
-	<template name="sub_charsheet_overview">
-		<subwindow>
-			<anchored position="insidetopleft" offset="25,20">
-				<right offset="-25" />
-			</anchored>
-			<activate />
-			<fastinit />
-			<class>charsheet_overview</class>
-		</subwindow>
-	</template>
-	<template name="sub_charsheet">
-		<subwindow>
-			<anchored>
-				<left offset="15" />
-				<top parent="overview" anchor="bottom" offset="0" />
-				<right offset="-15" />
-				<bottom offset="-20" />
-			</anchored>
-		</subwindow>
-	</template>
-	<!-- LEGACY - TO BE DEPRECATED (COMING SOON) -->
-	<template name="close_charsheethelper">
-		<close>
-			<anchored>
-				<top offset="1" />
-				<right offset="0" />
-			</anchored>
-		</close>
-	</template>
-	<template name="anchor_title_charsheethelper">
-		<genericcontrol>
-			<anchored height="0">
-				<top parent="title" anchor="bottom" offset="0" />
-				<left parent="" anchor="left" offset="20" />
-				<right parent="" anchor="right" offset="-20" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
 	</template>
 </root>

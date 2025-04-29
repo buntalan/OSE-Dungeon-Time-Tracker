@@ -36,13 +36,13 @@ end
 
 function onButtonPress()
 	if not bToggle then
-		self.applyTo(window[aTargetPath[1]], 1);
+		self.applyTop();
 	end
 end
 
 function onValueChanged()
 	if bToggle then
-		self.applyTo(window[aTargetPath[1]], 1);
+		self.applyTop();
 	end
 end
 
@@ -57,6 +57,9 @@ function toggle()
 	end
 end
 
+function applyTop()
+	self.applyTo(window[aTargetPath[1]], 1);
+end
 function applyTo(vTarget, nIndex)
 	if nIndex > nLevel then
 		if bToggle then

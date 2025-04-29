@@ -14,19 +14,11 @@
 
 	<!-- Can also use ARGB format for colors if you want to change transparency -->
 	<menusettings>
-		<radial>
-			<hubicon>menuhub</hubicon>
-			<backicon>menuback</backicon>
-			<background>menubackground</background>
-			<hubcolor>FFFFFF</hubcolor>
-			<backgroundcolor>FFFFFF</backgroundcolor>
-			<iconcolor>DEC790</iconcolor>
-		</radial>
 		<context>
-			<topframe name="context_top" hover="context_top_hover" offset="10,10,10,10"/>
-			<middleframe name="context_middle" hover="context_middle_hover" offset="10,10,10,10"/>
-			<bottomframe name="context_bottom" hover="context_bottom_hover" offset="10,10,10,10"/>
-			<singleframe name="context_single" hover="context_single_hover" offset="10,10,10,10"/>
+			<topframe name="context_top" hover="context_top_hover" offset="8,8,8,8" />
+			<middleframe name="context_middle" hover="context_middle_hover" offset="8,8,8,8" />
+			<bottomframe name="context_bottom" hover="context_bottom_hover" offset="8,8,8,8" />
+			<singleframe name="context_single" hover="context_single_hover" offset="8,8,8,8" />
 			<font name="context_font" />
 			<spacing>10</spacing>
 			<submenu icon="context_more" />
@@ -67,13 +59,24 @@
 
 	<tooltip>
 		<frame name="tooltipbox" margins="8,4,8,4" wrapwidth="300" />
-		<radial name="tooltipbox" margins="8,4,8,4" />
 		<font name="tooltipbox" />
 	</tooltip>
 
 	<imagesettings>
 		<shortcut icon="image_pin" iconpublic="image_pin_public" hotspot="2,21" />
-		<distancefont file="graphics/fonts/Noto_Sans/NotoSans-Bold.ttf" />
+		<distance>
+			<frame name="distance" overlay="distance_overlay" offset="10,10,10,10" />
+			<fonts value="distance_value" suffix="distance_suffix" incr="distance_incr" />
+			<spacing>6</spacing>
+			<confirm icon="token_move_confirm" />
+			<cancel icon="token_move_cancel" />
+			<arrow icon="distance_arrow" />
+		</distance>
+		<token>
+			<target_arrow icon="token_target_arrow" />
+			<target_self icon="token_selftarget_arrow" color="FFFF00" />
+			<facing_arrow icon="token_facing_arrow"  color="FFFF00" />
+		</token>
 		<textfont file="graphics/fonts/BebasNeue-Regular.ttf" />
 		<textfont file="graphics/fonts/Lugrasimo-Regular.ttf" />
 		<textfont file="graphics/fonts/Noto_Sans/NotoSans-Regular.ttf" />

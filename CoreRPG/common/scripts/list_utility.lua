@@ -5,6 +5,7 @@
 
 function onInit()
 	Debug.console("list_utility - DEPRECATED - 2024-03-05");
+	ChatManager.SystemMessage("list_utility - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
 	super.onInit();
 	if not isReadOnly() and DB.isOwner(getDatabaseNode()) then
 		registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);

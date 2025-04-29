@@ -7,6 +7,7 @@ local _nodeSrc = nil;
 local _nDefault = 0;
 
 function onInit()
+	Debug.console("button_record_locked - DEPRECATED - 2024-03-05");
 	if super and super.onInit then
 		super.onInit();
 	end

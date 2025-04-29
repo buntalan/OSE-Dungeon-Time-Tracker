@@ -381,4 +381,29 @@
 	<icon name="diceskin_icon_319" file="graphics/dice/diceskin_icon_deathmetal_fx_converted.webm" />
 	<icon name="diceskin_icon_320" file="graphics/dice/diceskin_icon_deeplurker_fx_converted.webm" />
 	<icon name="diceskin_icon_321" file="graphics/dice/diceskin_icon_avian_fx_converted.webm" />
+
+	<icon name="diceskin_icon_322" file="graphics/dice/diceskin_icon_fantasy_heroes_barbarian_converted.webm" />
+	<icon name="diceskin_icon_323" file="graphics/dice/diceskin_icon_fantasy_heroes_bard_converted.webm" />
+	<icon name="diceskin_icon_324" file="graphics/dice/diceskin_icon_fantasy_heroes_cleric_converted.webm" />
+	<icon name="diceskin_icon_325" file="graphics/dice/diceskin_icon_fantasy_heroes_druid_converted.webm" />
+	<icon name="diceskin_icon_326" file="graphics/dice/diceskin_icon_fantasy_heroes_fighter_converted.webm" />
+	<icon name="diceskin_icon_327" file="graphics/dice/diceskin_icon_fantasy_heroes_monk_converted.webm" />
+	<icon name="diceskin_icon_328" file="graphics/dice/diceskin_icon_fantasy_heroes_paladin_converted.webm" />
+	<icon name="diceskin_icon_329" file="graphics/dice/diceskin_icon_fantasy_heroes_ranger_converted.webm" />
+	<icon name="diceskin_icon_330" file="graphics/dice/diceskin_icon_fantasy_heroes_rogue_converted.webm" />
+	<icon name="diceskin_icon_331" file="graphics/dice/diceskin_icon_fantasy_heroes_sorcerer_converted.webm" />
+	<icon name="diceskin_icon_332" file="graphics/dice/diceskin_icon_fantasy_heroes_warlock_converted.webm" />
+	<icon name="diceskin_icon_333" file="graphics/dice/diceskin_icon_fantasy_heroes_wizard_converted.webm" />
+	<icon name="diceskin_icon_334" file="graphics/dice/diceskin_icon_fantasy_heroes_barbarian_fx_converted.webm" />
+	<icon name="diceskin_icon_335" file="graphics/dice/diceskin_icon_fantasy_heroes_bard_fx_converted.webm" />
+	<icon name="diceskin_icon_336" file="graphics/dice/diceskin_icon_fantasy_heroes_cleric_fx_converted.webm" />
+	<icon name="diceskin_icon_337" file="graphics/dice/diceskin_icon_fantasy_heroes_druid_fx_converted.webm" />
+	<icon name="diceskin_icon_338" file="graphics/dice/diceskin_icon_fantasy_heroes_fighter_fx_converted.webm" />
+	<icon name="diceskin_icon_339" file="graphics/dice/diceskin_icon_fantasy_heroes_monk_fx_converted.webm" />
+	<icon name="diceskin_icon_340" file="graphics/dice/diceskin_icon_fantasy_heroes_paladin_fx_converted.webm" />
+	<icon name="diceskin_icon_341" file="graphics/dice/diceskin_icon_fantasy_heroes_ranger_fx_converted.webm" />
+	<icon name="diceskin_icon_342" file="graphics/dice/diceskin_icon_fantasy_heroes_rogue_fx_converted.webm" />
+	<icon name="diceskin_icon_343" file="graphics/dice/diceskin_icon_fantasy_heroes_sorcerer_fx_converted.webm" />
+	<icon name="diceskin_icon_344" file="graphics/dice/diceskin_icon_fantasy_heroes_warlock_fx_converted.webm" />
+	<icon name="diceskin_icon_345" file="graphics/dice/diceskin_icon_fantasy_heroes_wizard_fx_converted.webm" />
 </root>

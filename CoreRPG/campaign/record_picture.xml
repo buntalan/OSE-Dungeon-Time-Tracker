@@ -47,8 +47,8 @@
 
 			<list_content name="list">
 				<class>picturelist_item</class>
-				<allowdelete />
 				<columns width="120" fillwidth="true" dynamic="true" />
+				<allowdelete />
 				<script>
 					function onListChanged()
 						WindowManager.callOuterWindowFunction(window, "onListChanged");
@@ -73,8 +73,8 @@
 			end
 		</script>
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
-			<anchor_listitem_right_sm name="rightanchor" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
 
 			<tokenfield name="picture">
 				<anchored width="100" height="100">

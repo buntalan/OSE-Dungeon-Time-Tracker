@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -74,27 +74,29 @@
 		<script file="campaign/scripts/masterindexcategory_window.lua" />
 		<sheetdata>
 			<hsc name="category" />
-			
-			<masterindexitem_anchor_right name="rightanchor" />
-			<masterindexcategory_idelete name="idelete" />
+
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete" />
 			<masterindexcategory_label name="category_label" />
 		</sheetdata>
 	</windowclass>
-	
+
 	<windowclass name="masterindexitem">
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/masterindexitem_window.lua" />
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
-			<anchor_listitem_right_sm name="rightanchor" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
 
+			<button_masterindexitem_idelete_left name="idelete" />
 			<linkc_listitem_left name="link" />
 
-			<button_masterindexitem_idelete name="idelete" />
 			<button_masterindexitem_access name="access" />
 			<button_masterindexitem_modified name="modified" />
 			<stringc_masterindexitem_category name="category" />
-			
+
 			<string_listitem_center_noframe_static_linked name="name" />
 		</sheetdata>
 	</windowclass>
@@ -103,17 +105,17 @@
 		<script file="campaign/scripts/masterindexitem_window.lua" />
 		<sheetdata>
 			<hidden_record_isidentified name="isidentified" />
-			
-			<anchor_listitem_left_sm name="leftanchor" />
-			<anchor_listitem_right_sm name="rightanchor" />
 
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_masterindexitem_idelete_left name="idelete" />
 			<linkc_listitem_left name="link" />
 
-			<button_masterindexitem_idelete name="idelete" />
 			<button_masterindexitem_access name="access" />
 			<button_masterindexitem_modified name="modified" />
 			<stringc_masterindexitem_category name="category" />
-			
+
 			<string_listitem_center_noframe_static_linked name="name" />
 			<string_listitem_center_noframe_static_linked name="nonid_name" />
 		</sheetdata>
@@ -122,15 +124,15 @@
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/masterindexitem_window.lua" />
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
-			<anchor_listitem_right_sm name="rightanchor" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
 
+			<button_masterindexitem_idelete_left name="idelete" />
 			<linkc_listitem_left name="link" />
 
-			<button_masterindexitem_idelete name="idelete" />
 			<button_masterindexitem_access name="access" />
 			<stringc_masterindexitem_owner name="owner" />
-			
+
 			<string_listitem_center_noframe_static_linked name="name" />
 		</sheetdata>
 	</windowclass>

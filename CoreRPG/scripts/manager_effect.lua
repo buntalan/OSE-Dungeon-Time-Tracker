@@ -341,21 +341,6 @@ function notifyApply(rEffect, vTargets)
 	end
 end
 
-function handleExpireEffect(msgOOB)
-	local nodeEffect = DB.findNode(msgOOB.sEffectNode);
-	if not nodeEffect then
-		ChatManager.SystemMessage(Interface.getString("ct_error_effectdeletefail") .. " (" .. msgOOB.sEffectNode .. ")");
-		return;
-	end
-	local nodeActor = DB.getChild(nodeEffect, "...");
-	if not nodeActor then
-		ChatManager.SystemMessage(Interface.getString("ct_error_effectmissingactor") .. " (" .. msgOOB.sEffectNode .. ")");
-		return;
-	end
-
-	EffectManager.expireEffect(nodeActor, nodeEffect, tonumber(msgOOB.nExpireClause) or 0);
-end
-
 function notifyExpire(varEffect, nMatch, bImmediate)
 	if type(varEffect) == "databasenode" then
 		varEffect = DB.getPath(varEffect);
@@ -375,15 +360,19 @@ function notifyExpire(varEffect, nMatch, bImmediate)
 
 	Comm.deliverOOBMessage(msgOOB, "");
 end
-
-function handleRemoveEffect(msgOOB)
-	local nodeCT = DB.findNode(msgOOB.sTargetNode);
-	if not nodeCT then
-		ChatManager.SystemMessage(Interface.getString("ct_error_effectremovefail") .. " (" .. msgOOB.sTargetNode .. ")");
+function handleExpireEffect(msgOOB)
+	local nodeEffect = DB.findNode(msgOOB.sEffectNode);
+	if not nodeEffect then
+		ChatManager.SystemMessage(Interface.getString("ct_error_effectdeletefail") .. " (" .. msgOOB.sEffectNode .. ")");
+		return;
+	end
+	local nodeActor = DB.getChild(nodeEffect, "...");
+	if not nodeActor then
+		ChatManager.SystemMessage(Interface.getString("ct_error_effectmissingactor") .. " (" .. msgOOB.sEffectNode .. ")");
 		return;
 	end
 
-	EffectManager.removeEffect(nodeCT, msgOOB.sPattern or "");
+	EffectManager.expireEffect(nodeActor, nodeEffect, tonumber(msgOOB.nExpireClause) or 0);
 end
 
 function notifyRemove(vTargets, sPattern)
@@ -403,8 +392,20 @@ function notifyRemove(vTargets, sPattern)
 		Comm.deliverOOBMessage(msgOOB, "");
 	end
 end
+function handleRemoveEffect(msgOOB)
+	local nodeCT = DB.findNode(msgOOB.sTargetNode);
+	if not nodeCT then
+		ChatManager.SystemMessage(Interface.getString("ct_error_effectremovefail") .. " (" .. msgOOB.sTargetNode .. ")");
+		return;
+	end
+
+	EffectManager.removeEffect(nodeCT, msgOOB.sPattern or "");
+end
 
 function setEffect(nodeEffect, rEffect)
+	if not nodeEffect or not rEffect then
+		return nil;
+	end
 	for k, v in pairs(aEffectVarMap) do
 		if v.sDBField then
 			if not rEffect[k] then
@@ -419,6 +420,9 @@ function setEffect(nodeEffect, rEffect)
 end
 
 function getEffect(nodeEffect)
+	if not nodeEffect then
+		return nil;
+	end
 	local rEffect = {};
 	for k, v in pairs(aEffectVarMap) do
 		if v.sDBField then
@@ -433,6 +437,9 @@ function getEffect(nodeEffect)
 end
 
 function onUntargetedDrop(rEffect)
+	if not rEffect then
+		return;
+	end
 	for k,_ in pairs(rEffect) do
 		if aEffectVarMap[k] and aEffectVarMap[k].bClearOnUntargetedDrop then
 			rEffect[k] = nil;
@@ -441,6 +448,9 @@ function onUntargetedDrop(rEffect)
 end
 
 function onEffectSourceChanged(rEffect, nodeSource)
+	if not rEffect or not nodeSource then
+		return;
+	end
 	for k, v in pairs(aEffectVarMap) do
 		if v.sSourceChangeSet then
 			if v.sDBType == "number" then
@@ -453,6 +463,9 @@ function onEffectSourceChanged(rEffect, nodeSource)
 end
 
 function onCTEffectSourceChanged(nodeEffect, nodeSource)
+	if not nodeEffect or not nodeSource then
+		return;
+	end
 	for _,v in pairs(aEffectVarMap) do
 		if v.sSourceChangeSet and v.sDBType and v.sDBField then
 			if v.sDBType == "number" then
@@ -1063,6 +1076,10 @@ function encodeEffectAsText(rEffect)
 end
 
 function decodeEffectFromText(sEffect, bSecret)
+	if (sEffect or "") == "" then
+		return nil;
+	end
+
 	local rEffect = {};
 
 	local s = sEffect;

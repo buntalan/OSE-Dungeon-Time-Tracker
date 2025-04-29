@@ -359,20 +359,6 @@
 			<description field="name" />
 		</linkcontrol>
 	</template>
-	<template name="linkfield_statich">
-		<linkfield>
-			<invisible />
-			<readonly />
-			<script>
-				function onInit()
-					self.onValueChanged();
-				end
-				function onValueChanged()
-					setVisible(not isEmpty());
-				end
-			</script>
-		</linkfield>
-	</template>
 
 	<template name="simpleft">
 		<formattedtextfield>
@@ -539,6 +525,7 @@
 
 	<template name="string_columnh_multiroll">
 		<string_columnh>
+			<nodragselect />
 			<script file="common/scripts/string_multiroll.lua" />
 		</string_columnh>
 	</template>

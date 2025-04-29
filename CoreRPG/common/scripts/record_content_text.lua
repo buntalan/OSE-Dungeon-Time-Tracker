@@ -1,11 +1,14 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
+
+--luacheck: globals skipid target
 
 function onInit()
 	parentcontrol.onLayoutSizeChanged = self.onParentLayoutSizeChanged;
 	self.onParentLayoutSizeChanged();
+	self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
 end
 
 function getTextControlName()
@@ -28,19 +31,17 @@ function onParentLayoutSizeChanged()
 	c.setAnchoredHeight(nil, hWin - 10);
 end
 
-function update()
+function onLockModeChanged(bReadOnly)
 	local c = self.getTextControl();
 	if not c then
 		return;
 	end
 
-	local node = getDatabaseNode();
-	local bReadOnly = WindowManager.getReadOnlyState(node);
 	c.setReadOnly(bReadOnly);
 
 	if not skipid then
 		local sRecordType = WindowManager.getRecordType(self);
-		local bID = RecordDataManager.getIDState(sRecordType, node);
+		local bID = RecordDataManager.getIDState(sRecordType, getDatabaseNode());
 		c.setVisible(bID);
 	end
 end

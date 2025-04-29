@@ -5,6 +5,11 @@
 
 function onInit()
 	self.onSubtypeChanged();
+	self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+end
+
+function onLockModeChanged(bReadOnly)
+	WindowManager.callSafeControlsSetLockMode(self, { "subtype", }, bReadOnly);
 end
 
 function onSubtypeChanged()
@@ -22,11 +27,4 @@ function onSubtypeChanged()
 	end
 
 	subtype_stats.update(WindowManager.getReadOnlyState(nodeRecord));
-end
-
-function update()
-	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-
-	subtype.setReadOnly(bReadOnly);
-	subtype_stats.update(bReadOnly);
 end

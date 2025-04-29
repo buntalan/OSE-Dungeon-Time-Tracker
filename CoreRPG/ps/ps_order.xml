@@ -45,8 +45,8 @@
 				<datasource>.partyinformation</datasource>
 				<class>ps_watchitem</class>
 				<sortby><control>watchid</control></sortby>
-				<allowdelete />
 				<empty font="list-empty" textres="ps_emptylist" />
+				<allowdelete />
 			</list_content>
 			<scrollbar_content_list />
 		</sheetdata>

@@ -127,14 +127,14 @@
 			<list_content_labeled_alternating_filtered name="list">
 				<datasource>.encounters</datasource>
 				<class>ps_xp_battleentry</class>
-				<allowdelete />
 				<empty font="list-empty" textres="ps_emptylistenc" />
+				<allowdelete />
 			</list_content_labeled_alternating_filtered>
 			<scrollbar_content_list />
 
 			<anchor_list_content_label_left />
 			<anchor_list_content_label_right />
-			<spacer_list_content_link_label_right name="spacer_link" />
+			<spacer_list_content_link_label_left name="spacer_link" />
 			<label_list_content_button_right name="label_xpawarded">
 				<anchored width="30" />
 				<static textres="ps_label_xpawarded" />
@@ -214,15 +214,14 @@
 			<list_content_labeled_alternating_filtered name="list">
 				<datasource>.quests</datasource>
 				<class>ps_xp_questentry</class>
-				<allowdelete />
 				<empty font="list-empty" textres="ps_emptylistquest" />
+				<allowdelete />
 			</list_content_labeled_alternating_filtered>
 			<scrollbar_content_list />
 
 			<anchor_list_content_label_left />
 			<anchor_list_content_label_right />
-			<spacer_list_content_idelete_label_right name="idelete_header" />
-			<spacer_list_content_link_label_right name="spacer_link" />
+			<spacer_list_content_link_label_left name="spacer_link" />
 			<label_list_content_button_right name="label_xpawarded">
 				<anchored width="30" />
 				<static textres="ps_label_xpawarded" />

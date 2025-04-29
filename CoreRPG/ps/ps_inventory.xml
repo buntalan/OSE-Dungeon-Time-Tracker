@@ -72,7 +72,6 @@
 			<list_content_labeled_alternating name="list">
 				<datasource>.treasureparcelcoinlist</datasource>
 				<class>ps_parcelcoin</class>
-				<allowcreate />
 				<allowdelete />
 			</list_content_labeled_alternating>
 			<scrollbar_content_list />
@@ -83,8 +82,8 @@
 				<anchored width="50" />
 				<static>#</static>
 			</label_list_content_number_left>
-			<label_list_content_button_iedit_right name="list_iedit" />
-			<label_list_content_button_iadd_right name="list_iadd" />
+			<button_list_content_iedit_label_right name="list_iedit" />
+			<button_list_content_iadd_label_right name="list_iadd" />
 			<label_list_content_noframe name="label_name">
 				<static textres="ps_label_desc" />
 			</label_list_content_noframe>
@@ -99,9 +98,8 @@
 			<list_content_labeled_alternating name="list">
 				<datasource>.treasureparcelitemlist</datasource>
 				<class>ps_parcelitem</class>
-				<allowcreate />
-				<allowdelete />
 				<empty font="list-empty" textres="ps_emptylistitems" />
+				<allowdelete />
 				<script>
 					function onSortCompare(w1, w2)
 						return ItemManager.getSortName(w1.getDatabaseNode()) &gt; ItemManager.getSortName(w2.getDatabaseNode());
@@ -112,15 +110,15 @@
 
 			<anchor_list_content_label_left />
 			<anchor_list_content_label_right />
-			<spacer_list_content_link_left name="label_link" />
+			<spacer_list_content_link_label_left name="label_link" />
 			<label_list_content_number_left name="label_count">
 				<anchored width="30" />
 				<static>#</static>
 			</label_list_content_number_left>
-			<label_list_content_button_iedit_right name="list_iedit" />
-			<label_list_content_button_iadd_right name="list_iadd">
+			<button_list_content_iedit_label_right name="list_iedit" />
+			<button_list_content_iadd_label_right name="list_iadd">
 				<recordtype>item</recordtype>
-			</label_list_content_button_iadd_right>
+			</button_list_content_iadd_label_right>
 			<label_list_content_string_right name="label_assign">
 				<anchored width="80" />
 				<static textres="ps_label_invassign" />
@@ -366,7 +364,9 @@
 	<windowclass name="ps_coin">
 		<margins control="0,0,0,2" />
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
 			<number_listitem_left_static name="amount">
 				<anchored width="50" />
 				<hideonvalue>0</hideonvalue>
@@ -377,8 +377,6 @@
 				<multilinespacing>20</multilinespacing>
 			</string_listitem_left_underline_static>
 
-			<anchor_listitem_right_sm name="rightanchor" />
-
 			<string_listitem_center_noframe_static name="carriedby">
 				<empty textres="library_recordtype_empty_item" />
 			</string_listitem_center_noframe_static>
@@ -387,13 +385,14 @@
 	<windowclass name="ps_item">
 		<margins control="0,0,0,2" />
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
 			<number_listitem_left_static name="count">
 				<anchored width="30" />
 				<hideonvalue>0</hideonvalue>
 			</number_listitem_left_static>
 
-			<anchor_listitem_right_sm name="rightanchor" />
 			<string_listitem_right_noframe_static name="carriedby">
 				<anchored width="160" height="-1" />
 				<multilinespacing>20</multilinespacing>

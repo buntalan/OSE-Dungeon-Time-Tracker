@@ -5,7 +5,6 @@
 
 function onInit()
 	SoundsetManager.initStandardSettings();
-	-- SoundsetManager.initRulesetSettings();
 end
 function onTabletopInit()
 	if Session.IsHost then

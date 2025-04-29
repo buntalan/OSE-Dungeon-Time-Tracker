@@ -51,9 +51,9 @@
 				<tabtarget prev="name" next="value" />
 			</number_listitem_right>
 
-			<string_listitem_center_text name="name">
+			<string_listitem_center_underline name="name">
 				<tabtarget prev="" next="weight" />
-			</string_listitem_center_text>
+			</string_listitem_center_underline>
 		</sheetdata>
 	</windowclass>
 </root>

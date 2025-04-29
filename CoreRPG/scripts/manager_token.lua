@@ -6,7 +6,6 @@
 function onInit()
 	OptionsManager.setOptionDefault("INITIND", "images/Initiative/Default.webm@SmiteWorks Assets")
 end
-
 function onTabletopInit()
 	if Session.IsHost then
 		Token.addEventHandler("onContainerChanged", TokenManager.onContainerChanged);
@@ -36,6 +35,14 @@ function onTabletopInit()
 	CombatManager.addAllCombatantFieldChangeHandler("active", "onUpdate", TokenManager.updateActive);
 
 	TokenManager.initOptionTracking();
+end
+
+function onImageInit(cImage)
+	for _,token in ipairs(cImage.getTokens()) do
+		TokenManager.updateAttributesFromToken(token);
+	end
+end
+function onImageClose(_)
 end
 
 --
@@ -812,6 +819,8 @@ function updateSizeHelper(tokenCT, nodeCT)
 		tokenCT.addUnderlay(nHalfSpace, "2F" .. ColorManager.getUIColor("faction_foe"));
 	elseif sFaction == "neutral" then
 		tokenCT.addUnderlay(nHalfSpace, "2F" .. ColorManager.getUIColor("faction_neutral"));
+	else
+		tokenCT.addUnderlay(nHalfSpace, "2F" .. ColorManager.getUIColor("faction_none"));
 	end
 
 	-- Set grid spacing
@@ -878,7 +887,7 @@ function updateTokenColor(token)
 	end
 
 	-- Set to neutral faction color if all of our custom color checks fail
-	token.setColor(ColorManager.getUIColor("faction_neutral"));
+	token.setColor(ColorManager.getUIColor("faction_none"));
 end
 
 --
@@ -968,8 +977,8 @@ end
 TOKEN_HEALTHBAR_HOFFSET = 0;
 TOKEN_HEALTHBAR_WIDTH = 10;
 TOKEN_HEALTHBAR_HEIGHT = 100;
-TOKEN_HEALTHDOT_HOFFSET = -5;
-TOKEN_HEALTHDOT_VOFFSET = 0;
+TOKEN_HEALTHDOT_HOFFSET = -3;
+TOKEN_HEALTHDOT_VOFFSET = -10;
 TOKEN_HEALTHDOT_SIZE = 20;
 
 local _bDisplayDefaultEffects = false;

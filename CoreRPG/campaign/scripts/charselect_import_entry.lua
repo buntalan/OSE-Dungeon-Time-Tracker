@@ -28,7 +28,7 @@ function importCharacter()
 		end
 	else
 		if not _bRequested then
-			User.requestIdentity("", "charsheet", "name", getDatabaseNode(), self.requestResponse);
+			UserManager.requestIdentity("", { nodeLocal = getDatabaseNode(), fnResponse = self.requestResponse, });
 			_bRequested = true;
 		end
 	end

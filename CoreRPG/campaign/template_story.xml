@@ -126,23 +126,22 @@
 		</buttoncontrol>
 	</template>
 
-	<template name="anchor_story_book_index_page_right">
-		<genericcontrol name="rightanchor">
-			<anchored to="frame" position="insidetopright" offset="0,0" height="0" width="0" />
-			<disabled />
-			<invisible />
-		</genericcontrol>
-	</template>
 	<template name="anchor_story_book_index_chapter_right">
-		<anchor_story_book_index_page_right>
-			<anchored offset="0,10" />
-		</anchor_story_book_index_page_right>
+		<anchor_listitem_right_relative>
+			<anchored to="frame" offset="0,10" />
+		</anchor_listitem_right_relative>
 	</template>
 	<template name="anchor_story_book_index_section_right">
-		<anchor_story_book_index_page_right>
-			<anchored offset="0,5" />
-		</anchor_story_book_index_page_right>
+		<anchor_listitem_right_relative>
+			<anchored to="frame" offset="0,5" />
+		</anchor_listitem_right_relative>
 	</template>
+	<template name="anchor_story_book_index_page_right">
+		<anchor_listitem_right_relative>
+			<anchored to="frame" />
+		</anchor_listitem_right_relative>
+	</template>
+
 	<template name="button_story_book_index_iadd">
 		<button_text>
 			<anchored width="120" height="15">
@@ -300,6 +299,14 @@
 			<anchored to="area_controls" position="insidetopleft" offset="10,5" />
 			<target>sub_index,list,list,list</target>
 			<togglelevel>3</togglelevel>
+			<script>
+				function onButtonPress()
+					for _,wChapter in ipairs(window.sub_index.subwindow.list.getWindows()) do
+						wChapter.list.setVisible(true);
+					end
+					self.applyTop();
+				end
+			</script>
 		</button_expand>
 	</template>
 	<template name="button_story_book_index_collapse">
@@ -307,6 +314,14 @@
 			<anchored to="area_controls" position="insidetopleft" offset="40,5" />
 			<target>sub_index,list,list,list</target>
 			<togglelevel>3</togglelevel>
+			<script>
+				function onButtonPress()
+					for _,wChapter in ipairs(window.sub_index.subwindow.list.getWindows()) do
+						wChapter.list.setVisible(true);
+					end
+					self.applyTop();
+				end
+			</script>
 		</button_collapse>
 	</template>
 
@@ -514,11 +529,7 @@
 	</template>
 
 	<template name="anchor_story_block_right">
-		<genericcontrol name="rightanchor">
-			<anchored position="insidetopright" offset="0,0" height="0" width="0" />
-			<disabled />
-			<invisible />
-		</genericcontrol>
+		<anchor_listitem_right_flat />
 	</template>
 	<template name="spacer_story_block">
 		<genericcontrol>

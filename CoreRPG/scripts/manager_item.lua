@@ -908,7 +908,7 @@ function helperAddItemPostEvents(rSourceItem, rTargetItem)
 		local sSrcName = DB.getValue(rSourceItem.node, "...name", "");
 		local sTrgtName;
 		if rTargetItem.sType == "partysheet" then
-			sTrgtName = "PARTY";
+			sTrgtName = Interface.getString("party_tag");
 		else
 			sTrgtName = DB.getValue(rTargetItem.node, "...name", "");
 		end
@@ -927,7 +927,7 @@ function helperAddItemPostEvents(rSourceItem, rTargetItem)
 			DB.setValue(rSourceItem.node, "count", "number", nCharCount - rSourceItem.nFinalTransferCount);
 		end
 	elseif rSourceItem.sType == "partysheet" and ItemManager.doesRecordTypeAllowInventoryTransfer(rTargetItem.sType) then
-		local sSrcName = "PARTY";
+		local sSrcName = Interface.getString("party_tag");
 		local sTrgtName = DB.getValue(rTargetItem.node, "...name", "");
 		local msg = {font = "msgfont", icon = "coins"};
 		msg.text = string.format("[%s] -> [%s] : %s", sSrcName, sTrgtName, ItemManager.getDisplayName(rTargetItem.node, true));
@@ -1032,9 +1032,27 @@ function handleParcelTransfer(msgOOB)
 
 	local sTargetRecordType = ItemManager.getItemSourceType(nodeTargetRecord);
 	if ItemManager.doesRecordTypeHaveInventory(sTargetRecordType) then
-		local msg = {font = "msgfont", icon = "coins"};
-		msg.text = "Parcel [" .. DB.getValue(DB.getPath(nodeParcel, "name"), "") .. "] -> [" .. DB.getValue(DB.getPath(nodeTargetRecord, "name"), "") .. "]";
+		local msg = {
+			font = "msgfont",
+			icon = "coins",
+			text = string.format("%s [%s] -> [%s]",
+					RecordDataManager.getRecordTypeDisplayTextSingle("treasureparcel"),
+					DB.getValue(DB.getPath(nodeParcel, "name"), ""),
+					DB.getValue(DB.getPath(nodeTargetRecord, "name"), "")
+				),
+		};
 		Comm.deliverChatMessage(msg);
+	elseif Session.IsHost and (sTargetRecordType == "partysheet") then
+		local msg = {
+			font = "msgfont",
+			icon = "coins",
+			text = string.format("%s [%s] -> [%s]",
+					RecordDataManager.getRecordTypeDisplayTextSingle("treasureparcel"),
+					DB.getValue(DB.getPath(nodeParcel, "name"), ""),
+					Interface.getString("party_tag")
+				),
+		};
+		Comm.addChatMessage(msg);
 	end
 end
 
@@ -1166,9 +1184,11 @@ end
 
 function getAllInventoryListPaths(nodeTarget)
 	Debug.console("ItemManager.getAllInventoryListPaths - DEPRECATED - 2024-06-11 - Use ItemManager.getInventoryPaths(sRecordType)");
+	ChatManager.SystemMessage("ItemManager.getAllInventoryListPaths - DEPRECATED - 2024-06-11 - Contact ruleset/extension/forge author");
 	return ItemManager.helperGetAllRecordInventoryPaths(nodeTarget);
 end
 function getTransferClass()
 	Debug.console("ItemManager.getTransferClass - DEPRECATED - 2024-06-11 - Just returns 'item', no longer needed");
+	ChatManager.SystemMessage("ItemManager.getTransferClass - DEPRECATED - 2024-06-11 - Contact ruleset/extension/forge author");
 	return "item";
 end

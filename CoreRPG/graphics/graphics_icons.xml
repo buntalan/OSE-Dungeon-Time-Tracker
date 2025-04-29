@@ -129,7 +129,12 @@
 	<!-- Images -->
 	<icon name="image_pin" file="graphics/icons/image_pin.png" />
 	<icon name="image_pin_public" file="graphics/icons/image_pin_public.png" />
-
+	<icon name="token_move_confirm" file="graphics/icons/token_move_confirm.png" />
+	<icon name="token_move_cancel" file="graphics/icons/token_move_cancel.png" />
+	<icon name="distance_arrow" file="graphics/icons/distance_arrow.png" />
+	<icon name="token_target_arrow" file="graphics/icons/distance_arrow.png" />
+	<icon name="token_selftarget_arrow" file="graphics/icons/token_self_target_arrow.png" />
+	<icon name="token_facing_arrow" file="graphics/icons/distance_arrow.png" />
 	<icon name="tool_zoomtofit_30" file="graphics/toolbar/tool_zoomtofit_30.png" />
 	<icon name="tool_toggle_30" file="graphics/toolbar/tool_toggle_30.png" />
 	<icon name="tool_select_30" file="graphics/toolbar/tool_select_30.png" />

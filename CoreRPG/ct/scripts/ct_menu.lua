@@ -20,7 +20,7 @@ function onClickDown()
 end
 function onClickRelease(button)
 	if button == 1 then
-		Interface.openRadialMenu();
+		Interface.openContextMenu();
 		return true;
 	end
 end

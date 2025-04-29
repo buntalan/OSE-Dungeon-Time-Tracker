@@ -27,12 +27,12 @@
 			<list_content_framed_groupbox_alternating_filtered name="list">
 				<datasource>.</datasource>
 				<class>logsmall</class>
-				<allowdelete />
 				<sortby>
 					<control>year</control>
 					<control>month</control>
 					<control>day</control>
 				</sortby>
+				<allowdelete />
 			</list_content_framed_groupbox_alternating_filtered>
 			<scrollbar_content_list />
 

@@ -1,28 +1,30 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
 function onInit()
 	StoryManager.initRecordLegacyText(self);
 	StoryManager.onRecordRebuild(self);
-	self.update();
+	self.onLockModeChanged(WindowManager.getReadOnlyState(getDatabaseNode()));
 end
 
-function update()
-	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+function onLockModeChanged(bReadOnly)
 	if not bReadOnly then
 		StoryManager.migrateRecordLegacyTextToBlock(self);
 	end
-	
+
 	for _,wBlock in pairs(blocks.getWindows()) do
 		StoryManager.onBlockUpdate(wBlock, bReadOnly);
 	end
 
-	button_iadd_block_text.setVisible(not bReadOnly);
-	button_iadd_block_dualtext.setVisible(not bReadOnly);
-	button_iadd_block_header.setVisible(not bReadOnly);
-	button_iadd_block_image.setVisible(not bReadOnly);
-	button_iadd_block_textlimager.setVisible(not bReadOnly);
-	button_iadd_block_textrimagel.setVisible(not bReadOnly);
+	local tFields = {
+		"button_iadd_block_text",
+		"button_iadd_block_dualtext",
+		"button_iadd_block_header",
+		"button_iadd_block_image",
+		"button_iadd_block_textlimager",
+		"button_iadd_block_textrimagel",
+	};
+	WindowManager.callSafeControlsSetVisible(self, tFields, not bReadOnly);
 end

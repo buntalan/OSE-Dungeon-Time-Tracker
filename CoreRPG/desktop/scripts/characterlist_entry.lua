@@ -1,5 +1,5 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
@@ -21,13 +21,6 @@ function initData(tData)
 
 	for _,fn in pairs(CharacterListManager.getDecorators()) do
 		fn(self);
-	end
-	
-	local sIdentity = CharacterListManager.convertPathToIdentity(_tData.sPath);
-	if sIdentity then
-		for _,fn in pairs(CharacterListManager.getLegacyDecorators()) do
-			fn(self, sIdentity);
-		end
 	end
 end
 function updateData(tData)
@@ -120,8 +113,8 @@ function updateNameWidget()
 			name = "name",
 			font = CharacterListManager.CHARLIST_NAME_WIDGET_FONT, text = "",
 			frame = CharacterListManager.CHARLIST_NAME_WIDGET_FRAME, frameoffset = CharacterListManager.CHARLIST_NAME_WIDGET_FRAME_OFFSET,
-			position = CharacterListManager.CHARLIST_NAME_WIDGET_POSITION, 
-			x = CharacterListManager.CHARLIST_NAME_WIDGET_X, y = CharacterListManager.CHARLIST_NAME_WIDGET_Y, 
+			position = CharacterListManager.CHARLIST_NAME_WIDGET_POSITION,
+			x = CharacterListManager.CHARLIST_NAME_WIDGET_X, y = CharacterListManager.CHARLIST_NAME_WIDGET_Y,
 			w = CharacterListManager.CHARLIST_NAME_WIDGET_W,
 		});
 	end
@@ -146,36 +139,36 @@ function updateNameWidget()
 end
 function updateColorWidget()
 	local sColor = _tData and _tData.sColor or nil;
-	
+
 	local wgtBase = findWidget("colorbase");
 	local wgtColor = findWidget("color");
 	local wgtEffect = findWidget("coloreffect");
 	if sColor then
 		if not wgtBase then
-			wgtBase = addBitmapWidget({ 
-				name="colorbase", 
-				icon = "colorgizmo_bigbtn_base", 
-				position = CharacterListManager.CHARLIST_COLOR_WIDGET_POSITION, 
+			addBitmapWidget({
+				name="colorbase",
+				icon = "colorgizmo_bigbtn_base",
+				position = CharacterListManager.CHARLIST_COLOR_WIDGET_POSITION,
 				x = CharacterListManager.CHARLIST_COLOR_WIDGET_X, y = CharacterListManager.CHARLIST_COLOR_WIDGET_Y,
-				w = CharacterListManager.CHARLIST_COLOR_WIDGET_W, h = CharacterListManager.CHARLIST_COLOR_WIDGET_H, 
+				w = CharacterListManager.CHARLIST_COLOR_WIDGET_W, h = CharacterListManager.CHARLIST_COLOR_WIDGET_H,
 			});
 		end
 		if not wgtColor then
-			wgtColor = addBitmapWidget({ 
-				name="color", 
-				icon = "colorgizmo_bigbtn_color", 
-				position = CharacterListManager.CHARLIST_COLOR_WIDGET_POSITION, 
+			wgtColor = addBitmapWidget({
+				name="color",
+				icon = "colorgizmo_bigbtn_color",
+				position = CharacterListManager.CHARLIST_COLOR_WIDGET_POSITION,
 				x = CharacterListManager.CHARLIST_COLOR_WIDGET_X, y = CharacterListManager.CHARLIST_COLOR_WIDGET_Y,
-				w = CharacterListManager.CHARLIST_COLOR_WIDGET_W, h = CharacterListManager.CHARLIST_COLOR_WIDGET_H, 
+				w = CharacterListManager.CHARLIST_COLOR_WIDGET_W, h = CharacterListManager.CHARLIST_COLOR_WIDGET_H,
 			});
 		end
 		if not wgtEffect then
-			wgtEffect = addBitmapWidget({ 
-				name="coloreffect", 
-				icon = "colorgizmo_bigbtn_effects", 
-				position = CharacterListManager.CHARLIST_COLOR_WIDGET_POSITION, 
+			addBitmapWidget({
+				name="coloreffect",
+				icon = "colorgizmo_bigbtn_effects",
+				position = CharacterListManager.CHARLIST_COLOR_WIDGET_POSITION,
 				x = CharacterListManager.CHARLIST_COLOR_WIDGET_X, y = CharacterListManager.CHARLIST_COLOR_WIDGET_Y,
-				w = CharacterListManager.CHARLIST_COLOR_WIDGET_W, h = CharacterListManager.CHARLIST_COLOR_WIDGET_H, 
+				w = CharacterListManager.CHARLIST_COLOR_WIDGET_W, h = CharacterListManager.CHARLIST_COLOR_WIDGET_H,
 			});
 		end
 		wgtColor.setColor(sColor);
@@ -206,9 +199,9 @@ function updateStateWidget()
 	if sBitmap ~= "" then
 		if not wgt then
 			wgt = addBitmapWidget({
-				name="state", 
-				position = CharacterListManager.CHARLIST_STATE_WIDGET_POSITION, 
-				x = CharacterListManager.CHARLIST_STATE_WIDGET_X, y = CharacterListManager.CHARLIST_STATE_WIDGET_Y, 
+				name="state",
+				position = CharacterListManager.CHARLIST_STATE_WIDGET_POSITION,
+				x = CharacterListManager.CHARLIST_STATE_WIDGET_X, y = CharacterListManager.CHARLIST_STATE_WIDGET_Y,
 			});
 		end
 		wgt.setBitmap(sBitmap);
@@ -261,16 +254,16 @@ function onMenuSelection(selection, subselection)
 				self.setCurrentIdentity();
 				Interface.openWindow("colorselect", "");
 			elseif selection == 6 then
-				CharacterListManager.releaseIdentity(self.getRecordPath());
+				UserManager.releaseIdentityPath(self.getRecordPath());
 			end
 		end
 	end
 end
 
-function onClickDown(button, x, y)
+function onClickDown()
 	return true;
 end
-function onClickRelease(button, x, y)
+function onClickRelease()
 	if Session.IsHost then
 		self.bringCharacterToTop();
 	elseif self.isActiveAndOwned() then
@@ -282,18 +275,18 @@ function onClickRelease(button, x, y)
 	end
 	return true;
 end
-function onDoubleClick(x, y)
+function onDoubleClick()
 	if self.isActiveAndOwned() then
 		self.bringCharacterToTop();
 	end
 	return true;
 end
-function onDragStart(button, x, y, draginfo)
+function onDragStart(_, _, _, draginfo)
 	if self.isActiveAndOwned() then
 		return RecordAssetManager.handlePictureDragStart(self.getRecordPath(), draginfo);
 	end
 end
-function onDrop(x, y, draginfo)
+function onDrop(_, _, draginfo)
 	return CharacterListManager.processDrop(_tData, draginfo);
 end
 
@@ -313,12 +306,4 @@ function bringCharacterToTop()
 		return;
 	end
 	Interface.openWindow(ActorManager.getRecordType(rActor), ActorManager.getCreatureNodeName(rActor));
-end
-
--- DEPRECATED - 2023-12-12 (Long Release) - 2024-05-28 (Chat Notice)
-
-function getIdentityPath()
-	Debug.console("characterlist_entry.lua:getIdentityPath - DEPRECATED - 2023-12-12 - Use characterlist_entry.lua:getRecordPath");
-	ChatManager.SystemMessage("characterlist_entry.lua:getIdentityPath - DEPRECATED - 2023-12-12 - Contact ruleset/extension/forge author");
-	return self.getRecordPath();
 end

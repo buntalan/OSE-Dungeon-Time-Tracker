@@ -52,6 +52,7 @@
 	<string name="diceskin_group_SWKMONSTERSDICE1">MONSTER</string>
 	<string name="diceskin_group_SWKDRAGONSDICE1">DRAGON</string>
 	<string name="diceskin_group_SWKMONSTERSDICE2">MONSTER 2</string>
+	<string name="diceskin_group_SWKFANTASYDICE1">FANTASY HERO</string>
 
 	<string name="diceskin_0">Default</string>
 	<string name="diceskin_1">Slash - Frost</string>
@@ -364,6 +365,31 @@
 	<string name="diceskin_319">Monster - Deathmetal (Fx)</string>
 	<string name="diceskin_320">Monster - Deeplurker (Fx)</string>
 	<string name="diceskin_321">Monster - Avian (Fx)</string>
+
+	<string name="diceskin_322">Hero - Barbarian</string>
+	<string name="diceskin_323">Hero - Bard</string>
+	<string name="diceskin_324">Hero - Cleric</string>
+	<string name="diceskin_325">Hero - Druid</string>
+	<string name="diceskin_326">Hero - Fighter</string>
+	<string name="diceskin_327">Hero - Monk</string>
+	<string name="diceskin_328">Hero - Paladin</string>
+	<string name="diceskin_329">Hero - Ranger</string>
+	<string name="diceskin_330">Hero - Rogue</string>
+	<string name="diceskin_331">Hero - Sorcerer</string>
+	<string name="diceskin_332">Hero - Warlock</string>
+	<string name="diceskin_333">Hero - Wizard</string>
+	<string name="diceskin_334">Hero - Barbarian (Fx)</string>
+	<string name="diceskin_335">Hero - Bard (Fx)</string>
+	<string name="diceskin_336">Hero - Cleric (Fx)</string>
+	<string name="diceskin_337">Hero - Druid (Fx)</string>
+	<string name="diceskin_338">Hero - Fighter (Fx)</string>
+	<string name="diceskin_339">Hero - Monk (Fx)</string>
+	<string name="diceskin_340">Hero - Paladin (Fx)</string>
+	<string name="diceskin_341">Hero - Ranger (Fx)</string>
+	<string name="diceskin_342">Hero - Rogue (Fx)</string>
+	<string name="diceskin_343">Hero - Sorcerer (Fx)</string>
+	<string name="diceskin_344">Hero - Warlock (Fx)</string>
+	<string name="diceskin_345">Hero - Wizard (Fx)</string>
 
 	<!-- Custom Dice Rolls -->
 	<string name="drc_list_label_name">Roll Type</string>

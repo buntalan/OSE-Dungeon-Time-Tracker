@@ -7,18 +7,16 @@
 
 <root>
 	<!-- Anchors -->
-	<!-- NOTE: Added extra 2 pixels to height to ensure button frames do not extend past bottom of subwindow -->
+	<!-- NOTE: Added height and 2 extra pixels to ensure button frames do not extend past bottom of subwindow -->
 	<template name="toolbar_anchor_left">
-		<genericcontrol name="leftanchor">
-			<anchored position="insidetopleft" offset="0,2" height="22" />
-			<disabled />
-		</genericcontrol>
+		<anchor_listitem_left_sm>
+			<anchored height="22" />
+		</anchor_listitem_left_sm>
 	</template>
 	<template name="toolbar_anchor_right">
-		<genericcontrol name="rightanchor">
-			<anchored position="insidetopright" offset="0,2" height="22" />
-			<disabled />
-		</genericcontrol>
+		<anchor_listitem_right_sm>
+			<anchored height="22" />
+		</anchor_listitem_right_sm>
 	</template>
 
 	<!-- Separator -->

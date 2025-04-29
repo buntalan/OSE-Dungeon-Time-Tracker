@@ -689,15 +689,17 @@ function setActorCustom(sKey, tData)
 	_tActorCustomData[sKey] = tData;
 end
 function addActorCustom(sKey)
-	local v = DiceRollManager.getActorCustom(sKey);
+	local sStripKey = CombatManager.stripCreatureNumber(sKey);
+	local v = DiceRollManager.getActorCustom(sStripKey);
 	if v then
-		return false;
+		return nil;
 	end
-	_tActorCustomData[sKey] = {};
-	return true;
+	_tActorCustomData[sStripKey] = {};
+	return sStripKey;
 end
 function getActorCustomSkin(sKey)
-	local v = DiceRollManager.getActorCustom(sKey);
+	local sStripKey = CombatManager.stripCreatureNumber(sKey);
+	local v = DiceRollManager.getActorCustom(sStripKey);
 	if v then
 		return v.tCustom;
 	end
@@ -715,9 +717,15 @@ function resolveActorCustom(sKey)
 	if not sKey then
 		return nil;
 	end
-	local sKeyLower = sKey:lower();
+	local sStripKey = CombatManager.stripCreatureNumber(sKey);
+	local sKeyLower = sStripKey:lower();
 	for k,v in pairs(DiceRollManager.getActorCustomData()) do
 		if sKeyLower == k:lower() then
+			return v.tCustom;
+		end
+	end
+	for k,v in pairs(DiceRollManager.getActorCustomData()) do
+		if StringManager.startsWith(sKeyLower, k:lower() .. " ") then
 			return v.tCustom;
 		end
 	end
@@ -725,7 +733,7 @@ function resolveActorCustom(sKey)
 end
 
 --
---	LEGACY (2024-10)
+--	DEPRECATED (2024-10)
 --
 
 function setDiceSkinKey(sKey, v)

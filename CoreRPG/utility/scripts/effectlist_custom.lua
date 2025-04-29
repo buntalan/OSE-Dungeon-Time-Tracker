@@ -3,17 +3,6 @@
 -- attribution and copyright information.
 --
 
-function onInit()
-	if Session.IsHost then
-		registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-	end
-end
-
-function onMenuSelection(selection)
-	if selection == 5 then
-		self.addEntry();
-	end
-end
 function addEntry()
 	return DB.createChild(window.getDatabaseNode());
 end

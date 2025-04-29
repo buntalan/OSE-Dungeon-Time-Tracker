@@ -20,7 +20,7 @@ function onLockModeChanged(bReadOnly)
 	-- WindowManager.callSafeControlsSetLockMode(self, tFields, bReadOnly);
 end
 function onEditModeChanged()
-	setVisible(WindowManager.getEditMode(window, "inventorylist_iedit"));
+	self.onLockModeChanged(not WindowManager.getEditMode(window, "inventorylist_iedit"));
 end
 
 local _node;

@@ -1,5 +1,5 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
@@ -26,7 +26,7 @@ function performRoll(draginfo, rActor, rTableRoll, bUseModStack)
 
 	rRoll.aDice = rTableRoll.aDice;
 	rRoll.nMod = rTableRoll.nMod;
-	
+
 	if rTableRoll.bSecret then
 		rRoll.bSecret = rTableRoll.bSecret;
 	elseif Session.IsHost then
@@ -40,24 +40,24 @@ function performRoll(draginfo, rActor, rTableRoll, bUseModStack)
 	elseif Session.IsHost then
 		rRoll.sOutput = DB.getValue(rTableRoll.nodeTable, "output", "");
 	end
-	
+
 	-- Add modifier stack
 	if bUseModStack and not ModifierStack.isEmpty() then
 		local sStackDesc, nStackMod = ModifierStack.getStack(true);
 		rRoll.sDesc = rRoll.sDesc .. " [" .. sStackDesc .. "]";
 		rRoll.nMod = rRoll.nMod + nStackMod;
 	end
-	
+
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
 function getTableDice(nodeTable)
 	local aDice = DB.getValue(nodeTable, "dice", {});
-	local nMod = 0;
+	local nMod;
 	if type(aDice) == "string" then
-		aDice, nMod = DiceManager.convertStringToDice(aDice);
+		aDice = DiceManager.convertStringToDice(aDice);
 	end
-	
+
 	if #aDice == 0 then
 		aDice, nMod = TableManager.getTableDiceFromRowData(nodeTable);
 	else
@@ -66,19 +66,19 @@ function getTableDice(nodeTable)
 		-- Backward compatibility fix for old module data
 		if (#aDice == 2) then
 			if (aDice[1] == "d10") and (aDice[2] == "d100") and (nMod == 0) then
-				local aRowDice, nRowMod = TableManager.getTableDiceFromRowData(nodeTable); 
+				local aRowDice = TableManager.getTableDiceFromRowData(nodeTable);
 				if (#aRowDice == 1) and (aRowDice[1] == "d100") then
 					table.remove(aDice, 1);
 				end
 			elseif (aDice[1] == "d100") and (aDice[2] == "d10") and (nMod == 0) then
-				local aRowDice, nRowMod = TableManager.getTableDiceFromRowData(nodeTable); 
+				local aRowDice = TableManager.getTableDiceFromRowData(nodeTable);
 				if (#aRowDice == 1) and (aRowDice[1] == "d100") then
 					table.remove(aDice, 2);
 				end
 			end
-		end 
+		end
 	end
-	
+
 	return aDice, nMod;
 end
 function getTableDiceFromRowData(nodeTable)
@@ -90,7 +90,7 @@ function getTableDiceFromRowData(nodeTable)
 	for _,v in ipairs(DB.getChildList(nodeTable, "tablerows")) do
 		local nFrom = DB.getValue(v, "fromrange", 0);
 		local nTo = DB.getValue(v, "torange", 0);
-		
+
 		if nTo == 0 then
 			nMax = math.max(nFrom, nMax or nFrom);
 		else
@@ -98,7 +98,7 @@ function getTableDiceFromRowData(nodeTable)
 		end
 		nMin = math.min(nFrom, nMin or nFrom);
 	end
-	
+
 	local nRange = 0;
 	if nMin and nMin == 0 then
 		nMin = 1;
@@ -106,7 +106,7 @@ function getTableDiceFromRowData(nodeTable)
 	if nMin and nMax then
 		nRange = math.max(nMax - nMin + 1, 0);
 	end
-		
+
 	if nRange == 2 then
 		table.insert(aDice, "d2");
 	elseif nRange == 3 then
@@ -128,11 +128,11 @@ function getTableDiceFromRowData(nodeTable)
 	elseif nRange > 0 then
 		table.insert(aDice, "d" .. nRange);
 	end
-	
+
 	if nMin then
 		nMod = nMod + (nMin - 1);
 	end
-	
+
 	nMod = nMod + DB.getValue(nodeTable, "mod", 0);
 	return aDice, nMod;
 end
@@ -152,12 +152,12 @@ function findColumn(nodeTable, sColumn)
 			end
 		end
 	end
-	
+
 	return nResultColumn;
 end
 function getResults(nodeTable, nTotal, nColumn)
 	local nodeResults = nil;
-	local nMin, nMax; 
+	local nMin, nMax;
 	local nodeMin, nodeMax;
 	for _,v in ipairs(DB.getChildList(nodeTable, "tablerows")) do
 		local nFrom = DB.getValue(v, "fromrange", 0);
@@ -169,7 +169,7 @@ function getResults(nodeTable, nTotal, nColumn)
 			nodeResults = DB.getChild(v, "results");
 			break;
 		end
-		if not nMin or nFrom < nMin then 
+		if not nMin or nFrom < nMin then
 			nMin = nFrom;
 			nodeMin = DB.getChild(v, "results");
 		end
@@ -188,14 +188,14 @@ function getResults(nodeTable, nTotal, nColumn)
 	if not nodeResults then
 		return nil;
 	end
-	
+
 	local aChildren = DB.getChildren(nodeResults);
 	local aKeys = {};
 	for k,_ in pairs(aChildren) do
 		table.insert(aKeys, k);
 	end
 	table.sort(aKeys);
-	
+
 	local aResults = {};
 	if (nColumn or 0) > 0 then
 		if not aKeys[nColumn] then
@@ -215,12 +215,12 @@ function getResults(nodeTable, nTotal, nColumn)
 			table.insert(aResults, rResult);
 		end
 	end
-	
+
 	return aResults;
 end
 
-aTableRollStack = {};
-function onTableRoll(rSource, rTarget, rRoll)
+local _tTableRollStack = {};
+function onTableRoll(rSource, _, rRoll)
 	local nodeTable = DB.findNode(rRoll.sNodeTable);
 	if not nodeTable then
 		local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
@@ -228,16 +228,16 @@ function onTableRoll(rSource, rTarget, rRoll)
 		Comm.addChatMessage(rMessage);
 		return;
 	end
-	
+
 	local sOutput = rRoll.sOutput or "";
 	local nTotal = ActionsManager.total(rRoll);
 	local nColumn = 0;
 	local sPattern2 = "%[" .. Interface.getString("table_tag") .. "%] [^[]+%[(%d+) %- ([^)]*)%]";
-	local sColumn = rRoll.sDesc:match(sPattern2);
+	local sColumn = (rRoll.sDesc or ""):match(sPattern2);
 	if sColumn then
 		nColumn = tonumber(sColumn) or 0;
 	end
-	
+
 	local aResults = TableManager.getResults(nodeTable, nTotal, nColumn);
 	if not aResults then
 		local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
@@ -245,13 +245,13 @@ function onTableRoll(rSource, rTarget, rRoll)
 		Comm.addChatMessage(rMessage);
 		return;
 	end
-	
+
 	for _,v in ipairs(aResults) do
 		v.aMult = {};
-		
+
 		v.aTableLinks = {};
 		v.aOtherLink = nil;
-		
+
 		if (v.sClass or "") ~= "" then
 			if v.sClass == "table" then
 				table.insert(v.aTableLinks, { sClass = v.sClass, sRecord = v.sRecord });
@@ -262,8 +262,7 @@ function onTableRoll(rSource, rTarget, rRoll)
 
 		if v.sText ~= "" then
 			local sResult = v.sText;
-			
-			local sTag;
+
 			local aMathResults = {};
 			for nStartTag, sTag, nEndTag in v.sText:gmatch("()%[([^%]]+)%]()") do
 				local bMult = false;
@@ -294,7 +293,7 @@ function onTableRoll(rSource, rTarget, rRoll)
 			for i = #aMathResults,1,-1 do
 				sResult = sResult:sub(1, aMathResults[i].nStart - 1) .. aMathResults[i].vResult .. sResult:sub(aMathResults[i].nEnd);
 			end
-			
+
 			v.sText = sResult;
 		end
 	end
@@ -307,7 +306,7 @@ function onTableRoll(rSource, rTarget, rRoll)
 			bTopTable = false; -- Only relevant for parcel and story output
 		end
 	end
-	
+
 	local sResultName = string.format("[%s] %s", Interface.getString("table_result_tag"), DB.getValue(nodeTable, "name", ""));
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
 
@@ -321,8 +320,6 @@ function onTableRoll(rSource, rTarget, rRoll)
 			if nodeTarget then
 				DB.setValue(nodeTarget, "name", "string", sResultName);
 				RecordManager.openRecordWindow("story", nodeTarget);
-			else
-				sOutput = "";
 			end
 		end
 
@@ -330,7 +327,7 @@ function onTableRoll(rSource, rTarget, rRoll)
 			local sClass = RecordDataManager.getRecordTypeDisplayClass("story");
 			table.insert(rMessage.shortcuts, { description = sResultName, class = sClass, recordname = DB.getPath(nodeTarget) });
 		end
-		
+
 		local sAddDesc = "";
 		for _,v in ipairs(aResults) do
 			local sText = v.sText;
@@ -339,10 +336,14 @@ function onTableRoll(rSource, rTarget, rRoll)
 			if sText:match("^%([%d]*%)$") then
 				sText = "";
 			end
-			
+
 			if sText ~= "" and sText ~= "-" then
 				if v.aOtherLink then
-					sAddDesc = sAddDesc .. "<linklist><link class=\"" .. UtilityManager.encodeXML(v.aOtherLink.sClass) .. "\" recordname=\"" .. UtilityManager.encodeXML(v.aOtherLink.sRecord) .. "\">" .. UtilityManager.encodeXML(sText) .. "</link></linklist>";
+					sAddDesc = sAddDesc .. "<linklist><link class=\"" ..
+						UtilityManager.encodeXML(v.aOtherLink.sClass) ..
+						"\" recordname=\"" .. UtilityManager.encodeXML(v.aOtherLink.sRecord) .. "\">" ..
+						UtilityManager.encodeXML(sText) ..
+						"</link></linklist>";
 				elseif (bTopTable or (#v.aTableLinks == 0)) then
 					if sText:match("^<[biu]>") then
 						sAddDesc = sAddDesc .. "<p>" .. UtilityManager.encodeXML(sText):gsub("&lt;(/?[phbiu])&gt;", "<%1>") .. "</p>";
@@ -354,11 +355,11 @@ function onTableRoll(rSource, rTarget, rRoll)
 				end
 			end
 		end
-		
+
 		if sAddDesc ~= "" then
 			DB.setValue(nodeTarget, "text", "formattedtext", DB.getValue(nodeTarget, "text", "") .. sAddDesc);
 		end
-		
+
 	elseif sOutput == "parcel" then
 		if not nodeTarget then
 			local sRootMapping = RecordDataManager.getDataPathRoot("treasureparcel");
@@ -366,8 +367,6 @@ function onTableRoll(rSource, rTarget, rRoll)
 			if nodeTarget then
 				DB.setValue(nodeTarget, "name", "string", sResultName);
 				RecordManager.openRecordWindow("treasureparcel", nodeTarget);
-			else
-				sOutput = "";
 			end
 		end
 
@@ -375,11 +374,11 @@ function onTableRoll(rSource, rTarget, rRoll)
 			local sClass = RecordDataManager.getRecordTypeDisplayClass("treasureparcel");
 			table.insert(rMessage.shortcuts, { description = sResultName, class = sClass, recordname = DB.getPath(nodeTarget) });
 		end
-		
+
 		for _,v in ipairs(aResults) do
 			local bHandled = false;
 			if v.aOtherLink then
-				bHandled = ItemManager.addLinkToParcel(nodeTarget, v.aOtherLink.sClass, v.aOtherLink.sRecord, v.aMult[1]); 
+				bHandled = ItemManager.addLinkToParcel(nodeTarget, v.aOtherLink.sClass, v.aOtherLink.sRecord, v.aMult[1]);
 			end
 			if not bHandled and (#v.aTableLinks == 0) then
 				ItemManager.handleString(nodeTarget, v.sText, v.aMult[1]);
@@ -393,8 +392,6 @@ function onTableRoll(rSource, rTarget, rRoll)
 			if nodeTarget then
 				DB.setValue(nodeTarget, "name", "string", sResultName);
 				RecordManager.openRecordWindow("battle", nodeTarget);
-			else
-				sOutput = "";
 			end
 		end
 
@@ -402,9 +399,8 @@ function onTableRoll(rSource, rTarget, rRoll)
 			local sClass = RecordDataManager.getRecordTypeDisplayClass("battle");
 			table.insert(rMessage.shortcuts, { description = sResultName, class = sClass, recordname = DB.getPath(nodeTarget) });
 		end
-		
+
 		for _,v in ipairs(aResults) do
-			local bHandled = false;
 			if v.aOtherLink then
 				NPCManager.addLinkToBattle(nodeTarget, v.aOtherLink.sClass, v.aOtherLink.sRecord, v.aMult[1]);
 			end
@@ -412,20 +408,20 @@ function onTableRoll(rSource, rTarget, rRoll)
 
 	else -- Chat output
 		rMessage.text = rMessage.text .. " = ";
-		
+
 		local bResultLinks = false;
 		for _,v in ipairs(aResults) do
 			if v.aOtherLink then
 				bResultLinks = true;
 			end
 		end
-		
+
 		for _,v in ipairs(aResults) do
 			local sResult = v.sText;
 			if ((v.sLabel or "") ~= "") and (#aResults > 1) then
 				sResult = v.sLabel .. " = " .. sResult;
 			end
-			
+
 			local rResultMsg = { font = "systemfont", secret = rMessage.secret };
 			if bResultLinks then
 				rResultMsg.text = sResult;
@@ -440,7 +436,7 @@ function onTableRoll(rSource, rTarget, rRoll)
 			table.insert(aAddChatMessages, rResultMsg);
 		end
 	end
-	
+
 	-- Output any chat messages
 	if rMessage.secret then
 		Comm.addChatMessage(rMessage);
@@ -453,34 +449,33 @@ function onTableRoll(rSource, rTarget, rRoll)
 			Comm.deliverChatMessage(vMsg);
 		end
 	end
-	
 
 	-- Follow cascading table links
 	local aLocalTableStack = {};
 	for _,v in ipairs(aResults) do
 		for kLink,vLink in ipairs(v.aTableLinks) do
 			local nMult = v.aMult[kLink] or 1;
-			
-			for i = 1, nMult do
+
+			for _ = 1, nMult do
 				local rTableRoll = {};
 				rTableRoll.nodeTable = DB.findNode(vLink.sRecord);
 				rTableRoll.bSecret = rRoll.bSecret;
 				rTableRoll.sOutput = rRoll.sOutput;
 				rTableRoll.nodeOutput = nodeTarget;
-				
+
 				table.insert(aLocalTableStack, rTableRoll);
 			end
 		end
 	end
 	for i = #aLocalTableStack, 1, -1 do
-		table.insert(aTableRollStack, aLocalTableStack[i]);
+		table.insert(_tTableRollStack, aLocalTableStack[i]);
 	end
-	if #aTableRollStack > 0 then
-		local rTableRoll = table.remove(aTableRollStack);
+	if #_tTableRollStack > 0 then
+		local rTableRoll = table.remove(_tTableRollStack);
 		if not rTableRoll then
 			local sTable = DB.getValue(nodeTable, "name", "");
 			ChatManager.SystemMessage(Interface.getString("table_error_sequentialfail") .. " (" .. sTable .. ")");
-			aTableRollStack = {};
+			_tTableRollStack = {};
 			return;
 		end
 
@@ -493,13 +488,7 @@ function onTableRoll(rSource, rTarget, rRoll)
 		end
 	end
 end
-
-function processTableRoll(sCommand, sParams)
-	local aTableName = {};
-	local aColumnName = {};
-	local aDiceString = {};
-	local bError = false;
-
+function processTableRoll(_, sParams)
 	sParams = StringManager.trim(sParams);
 
 	local bHide = false;
@@ -530,7 +519,7 @@ function processTableRoll(sCommand, sParams)
 		ChatManager.SystemMessage(Interface.getString("table_error_lookupfail") .. " (" .. sTable .. ")");
 		return;
 	end
-	
+
 	local rTableRoll = {};
 	rTableRoll.nodeTable = nodeTable;
 	if bHide then
@@ -547,11 +536,11 @@ end
 
 function createRows(nodeNewTable, nRows, nStep, bSpecial)
 	local nodeTableRows = DB.createChild(nodeNewTable, "tablerows");
-	
+
 	if bSpecial then
-		local nFrom = 0;
+		local nFrom;
 		local nTo = 0;
-		
+
 		for i = 1, nRows do
 			local nodeRow = DB.createChild(nodeTableRows);
 
@@ -569,14 +558,14 @@ function createRows(nodeNewTable, nRows, nStep, bSpecial)
 				end
 				nTo = nFrom + 1;
 			end
-			
+
 			DB.setValue(nodeRow, "fromrange", "number", nFrom);
 			DB.setValue(nodeRow, "torange", "number", nTo);
 		end
 	else
 		for i = 1, nRows do
 			local nodeRow = DB.createChild(nodeTableRows);
-			
+
 			local nFrom = i;
 			if nFrom ~= 1 then
 				nFrom = (i * tonumber(nStep) + 1) - tonumber(nStep);

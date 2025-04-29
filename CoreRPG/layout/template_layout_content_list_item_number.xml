@@ -82,6 +82,11 @@
 			<script file="common/scripts/number_linked.lua" />
 		</number_listitem_static_base>
 	</template>
+	<template name="number_listitem_modifier_base">
+		<number_listitem_linked_base>
+			<script file="common/scripts/number_modifier.lua" />
+		</number_listitem_linked_base>
+	</template>
 
 	<!-- List Item (Right) -->
 	<template name="number_listitem_right">
@@ -136,6 +141,14 @@
 				<right relation="relative" offset="-5" postoffset="-5" />
 			</anchored>
 		</number_listitem_linked_base>
+	</template>
+	<template name="number_listitem_modifier_right">
+		<number_listitem_modifier_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+		</number_listitem_modifier_base>
 	</template>
 
 	<!-- List Item (Left) -->

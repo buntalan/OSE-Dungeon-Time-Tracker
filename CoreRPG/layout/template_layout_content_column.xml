@@ -69,6 +69,7 @@
 	</template>
 	<template name="string_content_columnh_multiroll">
 		<string_content_columnh>
+			<nodragselect />
 			<script file="common/scripts/string_multiroll.lua" />
 		</string_content_columnh>
 	</template>

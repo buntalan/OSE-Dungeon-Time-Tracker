@@ -51,7 +51,7 @@
 
 	<windowclass name="char_main_category_header">
 		<margins control="0,0,0,5" />
-		<backcolor>4040301E</backcolor>
+		<backcolor>1A40301E</backcolor>
 		<sheetdata>
 			<stringfield name="label">
 				<anchored>

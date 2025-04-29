@@ -268,7 +268,7 @@ function adjustCounter(val_adj)
 	end
 end
 function onValueChanged()
-	window.onSpellCounterUpdate();
+	WindowManager.callOuterWindowFunction(window, "onSpellCounterUpdate");
 end
 
 function canCast()

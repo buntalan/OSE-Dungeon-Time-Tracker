@@ -3,12 +3,6 @@
 -- attribution and copyright information.
 --
 
-function onMenuSelection(selection)
-	if selection == 5 then
-		window.addEntry(true);
-	end
-end
-
 function onListChanged()
 	window.onListChanged();
 end

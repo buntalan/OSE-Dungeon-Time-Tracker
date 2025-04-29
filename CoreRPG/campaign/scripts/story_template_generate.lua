@@ -1,7 +1,10 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
+
+--luacheck: ignore
+
 local aLiteralReplacements = {};
 
 local tableNameArray = {};
@@ -15,34 +18,32 @@ local RetrievedDataTable = { [tablenamekeeper] = {[columnincrementor] = "" } };
 --
 
 local aLiteralReplacementsStore = {};
-local columnincrementorStore = 1
-local tablenamekeeperStore = "PLACEHOLDERNAME"
+local columnincrementorStore = 1;
+local tablenamekeeperStore = "PLACEHOLDERNAME";
 local RetrievedDataTableStore = {};
-local RetrievedDataTableStore = { [tablenamekeeperStore] = {[columnincrementorStore] = ""} }
+local RetrievedDataTableStore = { [tablenamekeeperStore] = {[columnincrementorStore] = ""} };
 
 --
 -- LINK TEXT COLUMN REFERENCE STORAGE VARIABLES
 --
 
-local actualLinkText = ""
-local linkTextLevelIncrementor = 1
+local actualLinkText = "";
+local linkTextLevelIncrementor = 1;
 local linkTableNameArray = {}
 local linkTextArray = {};
 local linkTextArray = { [actualLinkText] = { [linkTextLevelIncrementor] = ""} };
-local linkTableNameInstance = 1
+local linkTableNameInstance = 1;
 
-
-local stopIncrementing = false
+local stopIncrementing = false;
 
 function onButtonPress()
 	local node = window.getDatabaseNode();
-	
-	aLiteralReplacements = {};
 
-	tableNameArray = {}
-	columnincrementor = 1 
-	tablenamekeeper = "PLACEHOLDERNAME"
-	RetrievedDataTable = {}
+	aLiteralReplacements = {};
+	tableNameArray = {};
+	columnincrementor = 1;
+	tablenamekeeper = "PLACEHOLDERNAME";
+	RetrievedDataTable = {};
 	RetrievedDataTable = { [tablenamekeeper] = {[columnincrementor] = ""} };
 
 	-- CROSS-TEMPLATE STORAGE VARIABLE RESETS
@@ -53,14 +54,14 @@ function onButtonPress()
 	RetrievedDataTableStore = { [tablenamekeeperStore] = {[columnincrementorStore] = ""} };
 
 	-- LINK TEXT COLUMN REFERENCE STORAGE VARIABLE RESETS
-	actualLinkText = ""
-	linkTextLevelIncrementor = 1
-	linkTableNameArray = {}
+	actualLinkText = "";
+	linkTextLevelIncrementor = 1;
+	linkTableNameArray = {};
 	linkTextArray = {};
 	linkTextArray = { [actualLinkText] = { [linkTextLevelIncrementor] = ""} };
-	stopIncrementing = false
-	linkTableNameInstance = 1
-	
+	stopIncrementing = false;
+	linkTableNameInstance = 1;
+
 	sName = DB.getValue(node, "name", "");
 	sText = DB.getValue(node, "text", "");
 
@@ -76,13 +77,13 @@ function onButtonPress()
 	sName = replaceDate(sName);
 	sText = replaceDate(sText);
 
-	sName = performInternalCallouts(sName);  
+	sName = performInternalCallouts(sName);
 	sText = performInternalCallouts(sText);
 
 	sName = performInternalReferences(sName);
 	sText = performInternalReferences(sText);
 
-	sName = performTableLookups(sName); 
+	sName = performTableLookups(sName);
 	sText = performTableLookups(sText);
 
 	sName = CrossTemplateWrite(sName);
@@ -94,7 +95,7 @@ function onButtonPress()
 	sName = performColumnReferenceLinks(sName)
 	sText = performColumnReferenceLinks(sText)
 
-	sName = performLiteralReplacements(sName);			  
+	sName = performLiteralReplacements(sName);
 	sText = performLiteralReplacements(sText);
 
 	sName = resolveInternalReferences(sName);
@@ -113,7 +114,7 @@ function onButtonPress()
 
 	-- NOTE: Second call to same function is by design
 	--		This allows cross-template results to be pulled from within table results retrieved above.
-	sText = performCalloutStorageReferences(sText); 
+	sText = performCalloutStorageReferences(sText);
 
 	local sRootMapping = RecordDataManager.getDataPathRoot("story");
 	nodeTarget = DB.createChild(sRootMapping);
@@ -130,12 +131,12 @@ function CrossTemplateWrite(sOriginal)
 	local internaltext = ""
 	local textToReplace = ""
 	local hidden = false
-		
+
 	for sTableTag, internaltext, seperator, storageName, eTableTag in sOutput:gmatch("()%{%:([^%:]+)(%:)([^%}]+)%}()") do 
 
 		local storageNameNew = storageName
 		hidden = false
-							
+
 		if internaltext:match("%?") then
 			internaltext = internaltext:gsub("%?", "")
 			hidden = true
@@ -152,7 +153,6 @@ function CrossTemplateWrite(sOriginal)
 			textToReplace = textToReplace:gsub("%}", "%%}")
 			textToReplace = textToReplace:gsub("%:", "%%:")
 			textToReplace = textToReplace:gsub("%-", "%%%-")
-
 		end
 
 		internaltext = "["..internaltext.."]"
@@ -160,7 +160,7 @@ function CrossTemplateWrite(sOriginal)
 		internaltext = performTableLookupsStorage(internaltext, storageNameNew)
 		internaltext = internaltext:gsub("(.-)%s*$", "%1")
 		StoryTemplateManager.setVariable(storageNameNew, internaltext);
-		
+
 		if hidden == true then
 			sOutput = sOutput:gsub(textToReplace, " ")
 		elseif hidden == false then
@@ -179,7 +179,7 @@ function performTableLookupsStorage(sOriginal, storageName)
 	local sOutput = sOriginal;
 	local internalRefStorageNM = storageName
 	local columnincrementorStore = 1
-	
+
 	local sResult = sOutput;
 	local aMathResults = {};
 	for nStartTag, sTag, nEndTag in sOutput:gmatch("()%[([^%]]+)%]()") do
@@ -201,7 +201,7 @@ function performTableLookupsStorage(sOriginal, storageName)
 	for i = #aMathResults,1,-1 do
 		sOutput = sOutput:sub(1, aMathResults[i].nStart - 1) .. aMathResults[i].vResult .. sOutput:sub(aMathResults[i].nEnd);
 	end
-		
+
 	local nMult = 1;
 	local aLookupResults = {};
 	for nStartTag, sTag, nEndTag in sOutput:gmatch("()%[([^%]]+)%]()") do
@@ -215,7 +215,7 @@ function performTableLookupsStorage(sOriginal, storageName)
 
 			local resultText = ""
 			local tablecolumnconcat
-			
+
 			local sColumn = sTable:match("|(%d+)$");
 			if sColumn then
 				sTable = sTable:sub(1, -(#sColumn + 2));
@@ -230,7 +230,7 @@ function performTableLookupsStorage(sOriginal, storageName)
 				local aLocalLinks = {};
 				if nodeTable then
 					bContinue = true;
-				
+
 					if internalRefStorageNM ~= nil then
 						tablenamekeeperStore = internalRefStorageNM
 					end
@@ -239,9 +239,9 @@ function performTableLookupsStorage(sOriginal, storageName)
 
 					local aDice, nMod = TableManager.getTableDice(nodeTable);
 					local nRollResults = DiceManager.evalDice(aDice, nMod);
-					local aTableResults = TableManager.getResults(nodeTable, nRollResults, nCol);  
+					local aTableResults = TableManager.getResults(nodeTable, nRollResults, nCol);
 					local tableNameColumnNumberConcated = ""  
-					
+
 					local hideAll = false					
 					local aOutputResults = {};
 
@@ -252,16 +252,15 @@ function performTableLookupsStorage(sOriginal, storageName)
 									local sTableName = DB.getValue(DB.getPath(v.sRecord, "name"), "");
 									local orderedLinkText = v.sText
 
-									if sTableName ~= "" then	 
-										
+									if sTableName ~= "" then
 										stopIncrementing = false
 										local linkTableName = sTableName .. linkTableNameInstance -- THIS ENSURES LINK TEXT IS STORED IN SEPERATE ARRAYS, EVEN IF THEY SHOULD HAVE THE EXACT SAME NAME AS ANOTHER LINK TEXT STRING
-										linkTextArray = { [linkTableName] = { [linkTextLevelIncrementor] = ""} };	
-			
+										linkTextArray = { [linkTableName] = { [linkTextLevelIncrementor] = ""} };
+
 										linkTextArray[linkTableName][linkTextLevelIncrementor] = orderedLinkText
 										linkTextLevelNumberConcated = linkTableName .. linkTextLevelIncrementor
 										linkTableNameArray[linkTextLevelNumberConcated] = linkTextArray[linkTableName][linkTextLevelIncrementor] 
-		
+
 										sTableName = string.format("[%s]", sTableName);
 										local sMultTag, nEndMultTag = v.sText:match("%[(%d+x)%]()");
 										if nEndMultTag then
@@ -299,10 +298,9 @@ function performTableLookupsStorage(sOriginal, storageName)
 													v.sText = sTableName
 													hideAll = false
 												else
-													v.sText = sTableName .. " " .. v.sText; 
+													v.sText = sTableName .. " " .. v.sText;
 
 													if stopIncrementing == true then
-
 														while linkTextLevelIncrementor >= 1 do
 															linkTextLevelNumberConcated = linkTableName .. linkTextLevelIncrementor
 
@@ -316,17 +314,15 @@ function performTableLookupsStorage(sOriginal, storageName)
 																	v.sText = v.sText:gsub(subOut, "")
 																	linkTextLevelIncrementor = linkTextLevelIncrementor -1
 																end
-
 															else
 																local subOut = linkTableNameArray[linkTextLevelNumberConcated]
-				
+
 																subOut = subOut:gsub("([%-%+%.%?%,%/%:%*%(%)%[%]%^%$%%])", "%%%1") --prep the string/pattern for gsub
 
 																v.sText = v.sText:gsub(subOut, "")
 																linkTextLevelIncrementor = linkTextLevelIncrementor -1
 															end
-													
-														end 
+														end
 
 														linkTextLevelIncrementor = 1
 														stopIncrementing = false
@@ -335,7 +331,7 @@ function performTableLookupsStorage(sOriginal, storageName)
 											end
 
 											local linkStorage = v.sText
-		
+
 											RetrievedDataTableStore[tablenamekeeperStore][columnincrementorStore] = linkStorage
 											tableNameColumnNumberConcated = tablenamekeeperStore .. columnincrementorStore
 											StoryTemplateManager.setVariable(tableNameColumnNumberConcated, RetrievedDataTableStore[tablenamekeeperStore][columnincrementorStore]);
@@ -344,16 +340,15 @@ function performTableLookupsStorage(sOriginal, storageName)
 										end
 									end
 
-									table.insert(aOutputResults, v.sText);  
-
+									table.insert(aOutputResults, v.sText);
 								else
 									local hasAtableInTheRecordName = v.sText:match("%[")
 
 									while hasAtableInTheRecordName ~= nil do
 										v.sText = performTableLookupsOG(v.sText)
 										hasAtableInTheRecordName = v.sText:match("%[")
-									end 
-									table.insert(aLocalLinks, { sClass = v.sClass, sRecord = v.sRecord, sText = v.sText}); 
+									end
+									table.insert(aLocalLinks, { sClass = v.sClass, sRecord = v.sRecord, sText = v.sText});
 
 									-- THE SECTION BELOW ENABLES STORING LINKS FOR LATER COLUMN REFERENCE
 									local nClass = v.sClass
@@ -367,14 +362,13 @@ function performTableLookupsStorage(sOriginal, storageName)
 									columnincrementorStore = columnincrementorStore + 1
 
 								end
-
 							else
 
 								local hasAtableinit = v.sText:match("%[")
 								while hasAtableinit ~= nil do
 									v.sText = performTableLookupsOG(v.sText)
 									hasAtableinit = v.sText:match("%[")
-								end 
+								end
 
 								table.insert(aOutputResults, v.sText);
 
@@ -386,24 +380,21 @@ function performTableLookupsStorage(sOriginal, storageName)
 								columnincrementorStore = columnincrementorStore + 1
 
 							end
-
 						end
 					end
-					
+
 					sLocalReplace = table.concat(aOutputResults, " ");
-										
 				else
 					sLocalReplace = sTag;
 				end
-							   
+
 				-- Recurse to address any new math/table lookups
 				sLocalReplace = performTableLookupsOG(sLocalReplace);
-				
+
 				table.insert(aMultLookupResults, sLocalReplace);
 				for _,vLink in ipairs(aLocalLinks) do
 					table.insert(aMultLookupLinks, vLink);
 				end
-
 			end
 
 			local sReplace = table.concat(aMultLookupResults, " ");
@@ -416,17 +407,16 @@ function performTableLookupsStorage(sOriginal, storageName)
 			for _,vLink in ipairs(aMultLookupLinks) do
 				sReplace = sReplace .. "||" .. vLink.sClass .. "|" .. vLink.sRecord .. "|" .. vLink.sText .. "||";
 			end
-			
+
 			table.insert(aLookupResults, { nStart = nStartTag, nEnd = nEndTag, vResult = sReplace });
 			nMult = 1;
 		end
-		
 	end
-	
+
 	for i = #aLookupResults,1,-1 do
 		sOutput = sOutput:sub(1, aLookupResults[i].nStart - 1) .. aLookupResults[i].vResult .. sOutput:sub(aLookupResults[i].nEnd);
 	end
-	
+
 	return sOutput;
 end
 
@@ -466,13 +456,13 @@ function performCalloutStorageReferences(sOriginal)
 		internaltext = internaltext
 
 		local v = StoryTemplateManager.getVariable(internaltext);
-		if v then 
+		if v then
 			sOutput = sOutput:gsub(replaceText, v);
 		else
 			sOutput = sOutput:gsub(replaceText, "No Stored Data");
 		end
 	end
-	
+
 	return sOutput
 end
 
@@ -484,11 +474,10 @@ function replaceDateFG(sOriginal)
 	local correctFormat = false
 
 	for stag, internalText, seperator, format, endTag, etag in sOriginal:gmatch("()(%[FGDate)(%:)([^%]]+)(%])()") do
-	   
 		local internalText = internalText..seperator..format..endTag
 
 		internalText = internalText:gsub("([%-%+%.%?%,%/%:%*%(%)%[%]%^%$%%])", "%%%1") -- updated for hyphen support
-		
+
 		local nDays = DB.getValue("calendar.current.day");
 		local nMonths = DB.getValue("calendar.current.month");
 		local nYears = DB.getValue("calendar.current.year");
@@ -501,14 +490,14 @@ function replaceDateFG(sOriginal)
 			local monthName = CalendarManager.getMonthName(nMonths);
 			local nWeekDay = CalendarManager.getLunarDay(nYears, nMonths, nDays);
 			local sWeekDay = CalendarManager.getLunarDayName(nWeekDay);
-			
+
 			local dayWithSuffix = StringManager.ordinalize(nDays);
 			local dayName = sWeekDay
 			local fullmonth = monthName
 			local smallmonth = nMonths -- mmm (smallmonth, ie: Jan, Feb, etc) only works with the Gregorian Calendar
 			local shortYear = 0
 			local sYears = tonumber(nYears)
-	
+
 			if sYears >= 1000 then
 				shortYear = string.sub(sYears, 3)
 			elseif sYears >= 100 then
@@ -543,8 +532,7 @@ function replaceDateFG(sOriginal)
 				smallmonth = "Dec"
 			end
 
-
-			if format:find("mm", 1, true) or format:find("month", 1, true) or format:find("dd", 1, true) or format:find("day", 1, true) or format:find("yy", 1, true) or format:find("epoch", 1, true) then 
+			if format:find("mm", 1, true) or format:find("month", 1, true) or format:find("dd", 1, true) or format:find("day", 1, true) or format:find("yy", 1, true) or format:find("epoch", 1, true) then
 				correctFormat = true 
 			end
 
@@ -567,7 +555,6 @@ function replaceDateFG(sOriginal)
 
 				date = format
 			end
-			
 		end
 
 		sOutput = sOutput:gsub(internalText, date)
@@ -600,12 +587,12 @@ function replaceDate(sOriginal)
 	end
 
 	for stag, internalText, seperator, format, endTag, etag in sOriginal:gmatch("()(%[Date)(%:)([^%]]+)(%])()") do
-		
+
 		local internalText = internalText..seperator..format..endTag
 
 		internalText = internalText:gsub("([%-%+%.%?%,%/%:%*%(%)%[%]%^%$%%])", "%%%1") -- updated for hyphen support
 
-		if format:find("mm", 1, true) or format:find("mmm", 1, true) or format:find("month", 1, true) or format:find("dd", 1, true) or format:find("day", 1, true) or format:find("yyyy", 1, true) or format:find("year", 1, true) or format:find("oldschool", 1, true) then 
+		if format:find("mm", 1, true) or format:find("mmm", 1, true) or format:find("month", 1, true) or format:find("dd", 1, true) or format:find("day", 1, true) or format:find("yyyy", 1, true) or format:find("year", 1, true) or format:find("oldschool", 1, true) then
 			correctFormat = true 
 		end
 
@@ -617,10 +604,10 @@ function replaceDate(sOriginal)
 			if format == "oldschool" then
 				date = os.date("%A, the %dof %B, in the year of our Lord: Two-Thousand and %y")
 				local stags, words, changedays, words2, changeyear, etags = date:match("()([^%d]+)([^%a]+)([^%d]+)([%d]+)()") 
-	
+
 				local swapdays = changedays
 				swapdays = datehelper(swapdays)
-	
+
 				if changeyear == "20" then
 					changeyear = "Twenty"
 				elseif changeyear == "21" then
@@ -659,9 +646,8 @@ function replaceDate(sOriginal)
 
 			end
 
-		sOutput = sOutput:gsub(internalText, date)
+			sOutput = sOutput:gsub(internalText, date)
 		end
-		
 	end
 
 	return sOutput
@@ -713,7 +699,7 @@ function performInternalCallouts(sOriginal)
 
 	local internaltabletext = ""
 	local textInReference = ""
-	
+
 	for sTableTag, internaltext, seperator, storageName, eTableTag in sOutput:gmatch("()%[%:([^%:]+)(%:)([^%]]+)%]()") do 
 		-- Correct usage: [:Text [tableA] text:StorageName] add a "?" after the first ":" to hide the result
 		-- the StorageName can be used for <StorageName> references and even #StorageName|1# column references!
@@ -736,16 +722,15 @@ function performInternalCallouts(sOriginal)
 					sOutput = sOutput:gsub("&#60;"..textInReference.."&#62;", internaltabletext)
 				end
 			end
-
 		else
 			local storageNameNew = storageName
 			hidden = false
-			
+
 			textToReplace = "[:"..internaltext..seperator..storageNameNew.."]"
 			textToReplace = textToReplace:gsub("%[", "%%[")
 			textToReplace = textToReplace:gsub("%]", "%%]")
 			textToReplace = textToReplace:gsub("%-", "%%%-")
-					
+
 			if internaltext:match("%?") then
 				internaltext = internaltext:gsub("%?", "")  
 				hidden = true
@@ -760,7 +745,7 @@ function performInternalCallouts(sOriginal)
 			internaltext = performTableLookupsOG(internaltext)
 			internaltext = "["..internaltext.."]"
 			internaltext = performTableLookups(internaltext, storageNameNew)
-			
+
 			if hidden == true then
 				sOutput = sOutput:gsub(textToReplace, " ")
 			elseif hidden == false then
@@ -793,14 +778,14 @@ function performInternalReferences(sOriginal)
 
 			textToReplace = "["..internaltext.."]"
 			textToReplace = textToReplace:gsub("([%-%+%.%?%,%/%:%<%>%#%*%(%)%[%]%^%$%%])", "%%%1") -- Updated for hyphen support
-			
+
 			internaltext = frontag..internaltext..backtag  -- Changed to reflect the new variables added above, which makes the patterns stable
 			-- In this way, the other functions will resolve the internal
 			-- references as normal, and later we will swap out our unique
 			-- tags with [brackets] again for the final roll
-			
+
 			sOutput = sOutput:gsub(textToReplace, internaltext)
-		end		
+		end
 	end
 
 	return sOutput
@@ -836,7 +821,7 @@ function performTableLookups(sOriginal, storageName)
 	for i = #aMathResults,1,-1 do
 		sOutput = sOutput:sub(1, aMathResults[i].nStart - 1) .. aMathResults[i].vResult .. sOutput:sub(aMathResults[i].nEnd);
 	end
-	
+
 	local tablefinished = true
 	local nMult = 1;
 	local aLookupResults = {};
@@ -847,9 +832,9 @@ function performTableLookups(sOriginal, storageName)
 			nMult = math.max(tonumber(sMult), 1);
 			table.insert(aLookupResults, { nStart = nStartTag, nEnd = nEndTag, vResult = "" });
 		else
-			local sTable = sTag;			
+			local sTable = sTag;
 			hidden = false
-						
+
 			if sTable:match("%?") then
 				sTable = sTable:gsub("%?", "")
 				hidden = true
@@ -875,7 +860,7 @@ function performTableLookups(sOriginal, storageName)
 
 				if nodeTable then
 					bContinue = true;
-				
+
 					if tablefinished == true then
 						tablenamekeeper = sTable
 						tablefinished = false
@@ -934,7 +919,7 @@ function performTableLookups(sOriginal, storageName)
 					local aDice, nMod = TableManager.getTableDice(nodeTable);
 					local nRollResults = DiceManager.evalDice(aDice, nMod);
 					local aTableResults = TableManager.getResults(nodeTable, nRollResults, nCol);
-					
+
 					local aOutputResults = {};
 					local hideAll = false
 
@@ -948,15 +933,14 @@ function performTableLookups(sOriginal, storageName)
 									local orderedLinkText = v.sText
 
 									if sTableName ~= "" then
-
 										stopIncrementing = false
 										local linkTableName = sTableName .. linkTableNameInstance -- THIS ENSURES LINK TEXT IS STORED IN SEPERATE ARRAYS, EVEN IF THEY SHOULD HAVE THE EXACT SAME NAME AS ANOTHER LINK TEXT STRING
-										linkTextArray = { [linkTableName] = { [linkTextLevelIncrementor] = ""} };	
-			
+										linkTextArray = { [linkTableName] = { [linkTextLevelIncrementor] = ""} };
+
 										linkTextArray[linkTableName][linkTextLevelIncrementor] = orderedLinkText
 										linkTextLevelNumberConcated = linkTableName .. linkTextLevelIncrementor
 										linkTableNameArray[linkTextLevelNumberConcated] = linkTextArray[linkTableName][linkTextLevelIncrementor] 
-		
+
 										sTableName = string.format("[%s]", sTableName);
 										local sMultTag, nEndMultTag = v.sText:match("%[(%d+x)%]()");
 										if nEndMultTag then
@@ -967,7 +951,6 @@ function performTableLookups(sOriginal, storageName)
 											if checkHidePhrase:match("|HIDE AFTER|") or checkHidePhrase:match("|HIDEAFTER|") then  -- HIDE LATTER TEXT PHRASE 
 												sTableName = performTableLookupsLinkText(sTableName)
 												v.sText = sTableName;
-
 											elseif checkHidePhrase:match("|HIDE BEFORE|") or checkHidePhrase:match("|HIDEBEFORE|") then
 												stopIncrementing = true
 												sTableName, hideAll = performTableLookupsOG(sTableName)
@@ -989,10 +972,9 @@ function performTableLookups(sOriginal, storageName)
 													v.sText = sTableName
 													hideAll = false
 												else
-													v.sText = sTableName .. " " .. v.sText; 
+													v.sText = sTableName .. " " .. v.sText;
 
 													if stopIncrementing == true then
-
 														while linkTextLevelIncrementor >= 1 do
 															linkTextLevelNumberConcated = linkTableName .. linkTextLevelIncrementor
 
@@ -1005,16 +987,15 @@ function performTableLookups(sOriginal, storageName)
 																	v.sText = v.sText:gsub(subOut, "")
 																	linkTextLevelIncrementor = linkTextLevelIncrementor -1
 																end
-
 															else
 																local subOut = linkTableNameArray[linkTextLevelNumberConcated]
-				
+
 																subOut = subOut:gsub("([%-%+%.%?%,%/%:%*%(%)%[%]%^%$%%])", "%%%1") -- Updated for hyphen support
 
 																v.sText = v.sText:gsub(subOut, "")
 																linkTextLevelIncrementor = linkTextLevelIncrementor -1
 															end
-														end 
+														end
 
 														linkTextLevelIncrementor = 1
 														stopIncrementing = false
@@ -1023,7 +1004,7 @@ function performTableLookups(sOriginal, storageName)
 											end
 
 											local linkStorage = v.sText
-		
+
 											RetrievedDataTable[tablenamekeeper][columnincrementor] = linkStorage
 											tableNameColumnNumberConcated = tablenamekeeper .. columnincrementor
 											tableNameArray[tableNameColumnNumberConcated] = RetrievedDataTable[tablenamekeeper][columnincrementor]
@@ -1031,18 +1012,17 @@ function performTableLookups(sOriginal, storageName)
 										end
 									end
 
-									table.insert(aOutputResults, v.sText);		 
-							
+									table.insert(aOutputResults, v.sText);
 								else
 									local hasAtableInTheRecordName = v.sText:match("%[")
 
 									while hasAtableInTheRecordName ~= nil do
 										v.sText = performTableLookupsOG(v.sText)
 										hasAtableInTheRecordName = v.sText:match("%[")
-									end 
+									end
 
 									table.insert(aLocalLinks, { sClass = v.sClass, sRecord = v.sRecord, sText = v.sText});
-									
+
 									-- THE SECTION BELOW ALLOWS STORAGE OF LINKS FOR COLUMN REFERENCE
 									local nClass = v.sClass
 									local nRecord = v.sRecord
@@ -1062,7 +1042,7 @@ function performTableLookups(sOriginal, storageName)
 								while hasAtableinit ~= nil do
 									v.sText = performTableLookupsOG(v.sText)
 									hasAtableinit = v.sText:match("%[")
-								end 
+								end
 
 								if hidden == false then
 									table.insert(aOutputResults, v.sText);
@@ -1075,25 +1055,23 @@ function performTableLookups(sOriginal, storageName)
 
 								columnincrementor = columnincrementor + 1
 							end
-
 						end
 					end
-					
+
 					sLocalReplace = table.concat(aOutputResults, " ");
 					tablefinished = true
-										
+
 				else
 					sLocalReplace = sTag;
 				end
-							   
+
 				-- Recurse to address any new math/table lookups
 				sLocalReplace = performTableLookupsOG(sLocalReplace);
-				
+
 				table.insert(aMultLookupResults, sLocalReplace);
 				for _,vLink in ipairs(aLocalLinks) do
 					table.insert(aMultLookupLinks, vLink);
 				end
-
 			end
 
 			local sReplace = table.concat(aMultLookupResults, " ");
@@ -1106,17 +1084,16 @@ function performTableLookups(sOriginal, storageName)
 			for _,vLink in ipairs(aMultLookupLinks) do
 				sReplace = sReplace .. "||" .. vLink.sClass .. "|" .. vLink.sRecord .. "|" .. vLink.sText .. "||";
 			end
-			
+
 			table.insert(aLookupResults, { nStart = nStartTag, nEnd = nEndTag, vResult = sReplace });
 			nMult = 1;
 		end
-		
 	end
 
 	for i = #aLookupResults,1,-1 do
 		sOutput = sOutput:sub(1, aLookupResults[i].nStart - 1) .. aLookupResults[i].vResult .. sOutput:sub(aLookupResults[i].nEnd);
 	end
-	
+
 	return sOutput;
 end
 
@@ -1155,7 +1132,7 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 	for i = #aMathResults,1,-1 do
 		sOutput = sOutput:sub(1, aMathResults[i].nStart - 1) .. aMathResults[i].vResult .. sOutput:sub(aMathResults[i].nEnd);
 	end
-	
+
 	local nMult = 1;
 	local aLookupResults = {};
 	for nStartTag, sTag, nEndTag in sOutput:gmatch("()%[([^%]]+)%]()") do
@@ -1166,7 +1143,7 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 		else
 			local sTable = sTag;
 			local nCol = 0;
-			
+
 			local sColumn = sTable:match("|(%d+)$");
 			if sColumn then
 				sTable = sTable:sub(1, -(#sColumn + 2));
@@ -1181,11 +1158,11 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 				local aLocalLinks = {};
 				if nodeTable then
 					bContinue = true;
-					
+
 					local aDice, nMod = TableManager.getTableDice(nodeTable);
 					local nRollResults = DiceManager.evalDice(aDice, nMod);
 					local aTableResults = TableManager.getResults(nodeTable, nRollResults, nCol);
-					
+
 					local aOutputResults = {};
 					if aTableResults then
 						for _,v in ipairs(aTableResults) do
@@ -1211,13 +1188,12 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 													linkTextArray[linkTableName][linkTextLevelIncrementor] = orderedLinkTextOG
 													linkTextLevelNumberConcated = linkTableName .. linkTextLevelIncrementor
 													linkTableNameArray[linkTextLevelNumberConcated] = linkTextArray[linkTableName][linkTextLevelIncrementor] 
-												end		  
+												end
 
 											if checkHidePhrase:match("|HIDE ALL|") or checkHidePhrase:match("|HIDEALL|") then  -- HERE IS THE HIDE ALL TEXT PHRASE  
 												hideAll = true
 												sTableName = performTableLookupsLinkText(sTableName)
 												v.sText = sTableName;
-
 											elseif checkHidePhrase:match("|HIDE BEFORE|") or checkHidePhrase:match("|HIDEBEFORE|") then  -- HERE IS THE HIDE PRIOR TEXT PHRASE  
 												stopIncrementing = true
 												sTableName, hideAll = performTableLookupsOG(sTableName, linkTableName)
@@ -1225,9 +1201,8 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 												if hideAll == true then
 													v.sText = sTableName
 												else
-													v.sText = sTableName .. " " .. v.sText;											
+													v.sText = sTableName .. " " .. v.sText;
 												end
-											
 											elseif checkHidePhrase:match("|HIDE AFTER|") or checkHidePhrase:match("|HIDEAFTER|") then-- HERE IS THE HIDE LATTER TEXT PHRASE
 												sTableName = performTableLookupsLinkText(sTableName)
 												v.sText = sTableName;
@@ -1240,9 +1215,7 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 												else
 													v.sText = sTableName .. " " .. v.sText;
 												end
-
 											end
-
 										end
 									end
 									table.insert(aOutputResults, v.sText);
@@ -1255,16 +1228,15 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 							end
 						end
 					end
-					
+
 					sLocalReplace = table.concat(aOutputResults, " ");
-					
 				else
 					sLocalReplace = sTag;
 				end
-				
+
 				-- Recurse to address any new math/table lookups
 				sLocalReplace = performTableLookupsOG(sLocalReplace, linkTableName);
-				
+
 				table.insert(aMultLookupResults, sLocalReplace);
 				for _,vLink in ipairs(aLocalLinks) do
 					table.insert(aMultLookupLinks, vLink);
@@ -1281,16 +1253,15 @@ function performTableLookupsOG(sOriginal, priorLinkTableName)
 			for _,vLink in ipairs(aMultLookupLinks) do
 				sReplace = sReplace .. "||" .. vLink.sClass .. "|" .. vLink.sRecord .. "|" .. vLink.sText .. "||";
 			end
-			
+
 			table.insert(aLookupResults, { nStart = nStartTag, nEnd = nEndTag, vResult = sReplace });
 			nMult = 1;
 		end
-		
 	end
 	for i = #aLookupResults,1,-1 do
 		sOutput = sOutput:sub(1, aLookupResults[i].nStart - 1) .. aLookupResults[i].vResult .. sOutput:sub(aLookupResults[i].nEnd);
 	end
-	
+
 	return sOutput, hideAll, orderedLinkTextOG;
 end
 
@@ -1320,7 +1291,7 @@ function performTableLookupsLinkText(sOriginal)
 	for i = #aMathResults,1,-1 do
 		sOutput = sOutput:sub(1, aMathResults[i].nStart - 1) .. aMathResults[i].vResult .. sOutput:sub(aMathResults[i].nEnd);
 	end
-	
+
 	local nMult = 1;
 	local aLookupResults = {};
 	for nStartTag, sTag, nEndTag in sOutput:gmatch("()%[([^%]]+)%]()") do
@@ -1331,7 +1302,7 @@ function performTableLookupsLinkText(sOriginal)
 		else
 			local sTable = sTag;
 			local nCol = 0;
-			
+
 			local sColumn = sTable:match("|(%d+)$");
 			if sColumn then
 				sTable = sTable:sub(1, -(#sColumn + 2));
@@ -1346,11 +1317,11 @@ function performTableLookupsLinkText(sOriginal)
 				local aLocalLinks = {};
 				if nodeTable then
 					bContinue = true;
-					
+
 					local aDice, nMod = TableManager.getTableDice(nodeTable);
 					local nRollResults = DiceManager.evalDice(aDice, nMod);
 					local aTableResults = TableManager.getResults(nodeTable, nRollResults, nCol);
-					
+
 					local aOutputResults = {};
 					if aTableResults then
 						for _,v in ipairs(aTableResults) do
@@ -1377,16 +1348,15 @@ function performTableLookupsLinkText(sOriginal)
 							end
 						end
 					end
-					
+
 					sLocalReplace = table.concat(aOutputResults, " ");
-					
 				else
 					sLocalReplace = sTag;
 				end
-				
+
 				-- Recurse to address any new math/table lookups
 				sLocalReplace = performTableLookupsOG(sLocalReplace);
-				
+
 				table.insert(aMultLookupResults, sLocalReplace);
 				for _,vLink in ipairs(aLocalLinks) do
 					table.insert(aMultLookupLinks, vLink);
@@ -1403,16 +1373,15 @@ function performTableLookupsLinkText(sOriginal)
 			for _,vLink in ipairs(aMultLookupLinks) do
 				sReplace = sReplace .. "||" .. vLink.sClass .. "|" .. vLink.sRecord .. "|" .. vLink.sText .. "||";
 			end
-			
+
 			table.insert(aLookupResults, { nStart = nStartTag, nEnd = nEndTag, vResult = sReplace });
 			nMult = 1;
 		end
-		
 	end
 	for i = #aLookupResults,1,-1 do
 		sOutput = sOutput:sub(1, aLookupResults[i].nStart - 1) .. aLookupResults[i].vResult .. sOutput:sub(aLookupResults[i].nEnd);
 	end
-	
+
 	return sOutput;
 end
 
@@ -1422,7 +1391,7 @@ function performLiteralReplacements(sOriginal)
 		-- Now replace any variable replacement values from the table. Replace < with
 		-- xml encoded values. You can't use the encodeXML function because it escapes &amp;
 		local sLiteral = "&#60;" .. k:gsub("([%-%+%.%?%*%(%)%[%]%^%$%%])", "%%%1") .."&#62;";
-		sOutput = sOutput:gsub(sLiteral, table.concat(v, " "));	
+		sOutput = sOutput:gsub(sLiteral, table.concat(v, " "));
 	end
 	return sOutput;
 end
@@ -1435,7 +1404,6 @@ function performColumnReferenceLinks(sOriginal)
 	local columnerrormessage = "NO COLUMN NUMBER INPUT"
 	local tableerrormessage = "NO DATA IN COLUMN "
 
-
 	for startag, actualTableName, colnumber, endtag in string.gmatch(sOutput, "(%#)([^%#]+)%|(%d+)(%#)") do
 		tableNameLitterals = actualTableName
 		tableNameLitterals = tableNameLitterals:gsub("([%-%+%.%?%,%/%:%*%(%)%[%]%^%$%%])", "%%%1")  -- Added to catch odd characters in table names
@@ -1445,17 +1413,15 @@ function performColumnReferenceLinks(sOriginal)
 		if not colnumber or (colnumber == 0) then
 			replacementData = columnreferencetag 
 			sOutput = sOutput:gsub(replacementData, columnerrormessage);
-		elseif tableNameArray[actualTableName] == nil then 
+		elseif tableNameArray[actualTableName] == nil then
 			replacementData = columnreferencetag 
 			sOutput = sOutput:gsub(replacementData, tableerrormessage .. colnumber);
 		else
 			replacementData = columnreferencetag 
 			sOutput = sOutput:gsub(replacementData, tableNameArray[actualTableName]);
-
 		end
-		
 	end
-	
+
 	return sOutput
 end
 
@@ -1487,7 +1453,7 @@ function resolveInternalReferences(sOriginal)
 
 		if internaltext:match("%:") then	 -- Adding custom naming to Internal Callout References
 			for sTableTag, internaltexttwo, seperator, storageName, eTableTag in internaltext:gmatch("()%[%:[%?]?([^%:]+)(%:)([^%]]+)%]()") do 
-				
+
 					local storageNameNew = storageName
 
 					if internaltext:match("?") then -- Adding a hidden function to Internal Callout References
@@ -1503,26 +1469,24 @@ function resolveInternalReferences(sOriginal)
 					textToReplace = textToReplace:gsub("%-", "%%%-") -- Added for hyphen support
 					textToReplace = textToReplace:gsub("%>", "%%%>") -- Added for hyphen support
 					textToReplace = textToReplace:gsub("%<", "%%%<") -- Added for hyphen support
-					
+
 					internaltexttwo = "["..internaltexttwo.."]"
 					internaltexttwo = performTableLookups(internaltexttwo, storageNameNew)  -- Important to use the Non-OG version of this function here, to enable the custom naming feature
-			
+
 					if hidden == true then
 						sOutput = sOutput:gsub(textToReplace, " ")
 					elseif hidden == false then
 						sOutput = sOutput:gsub(textToReplace, internaltexttwo)
 					end
-					
+
 					sOutput = sOutput:gsub("&#60;"..storageNameNew.."&#62;", internaltexttwo)
 			end
-
 		else -- If there was no custom storage name given, just look it up and replace as normal. 
 			internaltext = performTableLookupsOG(internaltext)
 			sOutput = sOutput:gsub(finalTextToReplace, internaltext)
 		end
 	end
-	
-	
+
 	return sOutput
 end
 
@@ -1538,21 +1502,20 @@ function performLinkReplacements(sOriginal)
 				break;
 			end
 			if (sTempTag == "p") or (sTempTag == "h") or
-				(sTempTag == "table") or (sTempTag == "frame") or
-				(sTempTag == "frameid") or (sTempTag == "li") or
-				(sTempTag == "linklist") then
-
+					(sTempTag == "table") or (sTempTag == "frame") or
+					(sTempTag == "frameid") or (sTempTag == "li") or
+					(sTempTag == "linklist") then
 				nSectionTagStart = nTempTagStart;
 				sSectionTag = sTempTag;
 				nSectionTagEnd = nTempTagEnd;
 			end
 		end
-		
+
 		local sLinkReplace = "<linklist><link class=\"" .. 
 			UtilityManager.encodeXML(sLinkClass) .. "\" recordname=\"" .. 
 			UtilityManager.encodeXML(sLinkRecord) .. "\">" .. sLinkText .. 
 			"</link></linklist>";
-		
+
 		if sSectionTag == "table" then
 			sLinkReplace = "!TABLE LINK NOT ALLOWED!";
 		elseif sSectionTag == "frameid" then
@@ -1570,21 +1533,21 @@ function performLinkReplacements(sOriginal)
 		else
 			sLinkReplace = "!MISSING SECTION!";
 		end
-		
+
 		table.insert(aLinkResults, { nStart = nLinkStart, nEnd = nLinkEnd, vResult = sLinkReplace });
 	end
 	for i = #aLinkResults,1,-1 do
 		sOutput = sOutput:sub(1, aLinkResults[i].nStart - 1) .. aLinkResults[i].vResult .. sOutput:sub(aLinkResults[i].nEnd);
 	end
-	
+
 	sOutput = sOutput:gsub("<p></p>", "");
 	sOutput = sOutput:gsub("<h></h>", "");
 	sOutput = sOutput:gsub("<list>%s*<li></li>%s*</list>", "");
 	sOutput = sOutput:gsub("<link></link>", "");
 	sOutput = sOutput:gsub("<frame></frame>", "");
-	
+
 	sOutput = sOutput:gsub("</linklist>%s*<linklist>", "");
-	
+
 	return sOutput;
 end
 
@@ -1605,47 +1568,40 @@ function performIndefiniteArticles(sOriginal)
 	end
 
 	for sTag, frontTag, article, backTag, space, nextWord, eTag in sOutput:gmatch("()(%()([aA])(%))(%s)([%a]+)()") do
-		
 		textToReplace = "%" .. frontTag .. article .. "%" .. backTag .. space .. nextWord
 
 		local nextWordLower = string.lower(nextWord) -- case insensitive nextword
-		   
 		if nextWordLower:match("^[u]ni[nm]") then -- Had to be put in front, or else "^[u]ni" would pick it up next
-
 			if article == "a" then
 				article = "an"
 			elseif article == "A" then
 				article ="An"
 			end
-
 		elseif nextWordLower:match("^[u]ni") or nextWordLower:match("unanimous") or  --Vastly expanded list with pattern matching
-			nextWordLower:match("uranium") or nextWordLower:match("^[u]rin") or 
-			nextWordLower:match("^[u]re") or nextWordLower:match("^[u]se") or 
-			nextWordLower:match("^[u]su") or nextWordLower:match("^[u]bi") or 
+			nextWordLower:match("uranium") or nextWordLower:match("^[u]rin") or
+			nextWordLower:match("^[u]re") or nextWordLower:match("^[u]se") or
+			nextWordLower:match("^[u]su") or nextWordLower:match("^[u]bi") or
 			nextWordLower:match("^[e]we") or nextWordLower:match("^[u]rl") or
-			nextWordLower:match("^[u]fo") or nextWordLower:match("uganda") or 
-			nextWordLower:match("ukrain") or nextWordLower:match("ukulele") or 
+			nextWordLower:match("^[u]fo") or nextWordLower:match("uganda") or
+			nextWordLower:match("ukrain") or nextWordLower:match("ukulele") or
 			nextWordLower:match("^[u]ke") or nextWordLower:match("^[u]lo") or
-			nextWordLower:match("^[u]te") or nextWordLower:match("^[u]ti") or 
-			nextWordLower:match("utopia") or nextWordLower:match("uvula") or 
-			nextWordLower:match("^[e]u") or nextWordLower:match("^[o]ne") or 
-			nextWordLower:match("^[o]nce") or nextWordLower:match("usable") or 
+			nextWordLower:match("^[u]te") or nextWordLower:match("^[u]ti") or
+			nextWordLower:match("utopia") or nextWordLower:match("uvula") or
+			nextWordLower:match("^[e]u") or nextWordLower:match("^[o]ne") or
+			nextWordLower:match("^[o]nce") or nextWordLower:match("usable") or
 			nextWordLower:match("uranus") then
-
 		elseif nextWordLower:match("^[aeiou]") then
 			if article == "a" then
 				article = "an"
 			elseif article == "A" then
 				article ="An"
 			end
-
 		elseif nextWordLower:match("heir") or nextWordLower:match("hour") or nextWordLower:match("honest") or nextWordLower:match("honor") then
 			if article == "a" then
 				article = "an"
 			elseif article == "A" then
 				article ="An"
 			end
-
 		else -- everything else should abide by the consonant rule
 
 		end
@@ -1664,10 +1620,10 @@ function performCapitalize(sOriginal)
 	local textToReplace
 	local replacementText
 	local sOutput = sOriginal
-	
+
 	for sTag, punctuation, spaces, frontTag, letterToCap, backTag, eTag in sOutput:gmatch("()([%%.%?%!])(%s+)(%()(%a)(%))()") do -- This handles punctuation and new sentances.
 		local punctuation, r = punctuation:gsub("[?.!]","%%%0")
-	
+
 		if r>0 then
 		sOutput = sOutput:gsub(punctuation .. spaces .. "%(" .. letterToCap .. "%)", punctuation .. spaces .. letterToCap:upper())
 		end
@@ -1689,5 +1645,3 @@ function performCapitalize(sOriginal)
 
 	return sOutput
 end
-
-

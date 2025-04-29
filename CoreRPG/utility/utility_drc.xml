@@ -342,8 +342,9 @@
 				end
 
 				local sName = DB.getValue(DB.getPath(sRecord, "name"), "");
-				if DiceRollManager.addActorCustom(sName) then
-					list.createWindow().setData(sName);
+				local sKey = DiceRollManager.addActorCustom(sName);
+				if sKey then
+					list.createWindow().setData(sKey);
 				end
 			end
 		</script>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -12,17 +12,15 @@
 	<windowclass name="quest_main">
 		<script>
 			function onInit()
-				self.update();
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
 			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				description.setReadOnly(bReadOnly);
-				sub_gmnotes.update(bReadOnly);
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "description", }, bReadOnly);
 			end
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
-			
+
 			<header_column name="description_header">
 				<static textres="header_description" />
 			</header_column>

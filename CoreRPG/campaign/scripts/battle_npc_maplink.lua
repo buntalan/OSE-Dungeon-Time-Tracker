@@ -1,20 +1,18 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
 function onInit()
-	checkLink();
+	self.checkLink();
 end
-
 function onClose()
-	deleteLink();
+	self.deleteLink();
 end
 
-function tokenDeleted(tokenLinked)
+function tokenDeleted()
 	imageid.setValue(0);
 end
-
 function tokenMoved(tokenLinked)
 	local x,y = tokenLinked.getPosition();
 	imagex.setValue(x);
@@ -30,7 +28,6 @@ function deleteLink()
 		end
 	end
 end
-
 function checkLink()
 	local _, sRecord = imageref.getValue();
 	if sRecord == "" then
@@ -41,31 +38,25 @@ function checkLink()
 		linked.setVisible(true);
 	end
 end
-
 function setLink(tokenLinked)
 	if tokenLinked then
 		local nodeContainer = tokenLinked.getContainerNode();
 		if nodeContainer then
 			imageref.setValue("imagewindow", DB.getPath(nodeContainer));
 			imageid.setValue(tokenLinked.getId());
-
 			local x,y = tokenLinked.getPosition();
 			imagex.setValue(x);
 			imagey.setValue(y);
 
-			tokenLinked.onDelete = tokenDeleted;
-			tokenLinked.onMove = tokenMoved;
+			tokenLinked.onDelete = self.tokenDeleted;
+			tokenLinked.onMove = self.tokenMoved;
 		end
 	end
-	
-	checkLink();
+	self.checkLink();
 end
-
 function clearLink()
-	deleteLink();
-
+	self.deleteLink();
 	imageref.setValue("", "");
 	imageid.setValue(0);
-	
-	checkLink();
+	self.checkLink();
 end

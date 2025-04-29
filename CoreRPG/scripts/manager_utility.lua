@@ -318,6 +318,9 @@ function callStackedWindowFunction(w, sFunction, ...)
 end
 
 function safeDeleteWindow(w)
+	if not w then
+		return;
+	end
 	local node = w.getDatabaseNode();
 	if node then
 		DB.deleteNode(node);
@@ -687,9 +690,11 @@ end
 
 function getNodeCategory(vNode)
 	Debug.console("UtilityManager.getNodeCategory - DEPRECATED - 2024-05-28 - Use DB.getCategory");
+	ChatManager.SystemMessage("UtilityManager.getNodeCategory - DEPRECATED - 2024-05-28 - Contact ruleset/extension/forge author");
 	return DB.getCategory(vNode) or "";
 end
 function getNodeModule(vNode)
 	Debug.console("UtilityManager.getNodeModule - DEPRECATED - 2024-05-28 - Use DB.getModule");
+	ChatManager.SystemMessage("UtilityManager.getNodeModule - DEPRECATED - 2024-05-28 - Contact ruleset/extension/forge author");
 	return DB.getModule(vNode) or "";
 end

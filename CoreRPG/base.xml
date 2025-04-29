@@ -6,7 +6,7 @@
 -->
 
 <root version="3.0" release="7" logo="logo.png">
-	<announcement text="Core RPG ruleset (2025-03-12) for Fantasy Grounds\rCopyright 2025 Smiteworks USA, LLC" font="emotefont" icon="rulesetlogo_CoreRPG" />
+	<announcement text="Core RPG ruleset (2025-04-22) for Fantasy Grounds\rCopyright 2025 Smiteworks USA, LLC" font="emotefont" icon="rulesetlogo_CoreRPG" />
 
 	<!-- Attributes -->
 	<description>
@@ -63,6 +63,7 @@
 	<script name="AssetManager" file="scripts/manager_asset.lua" />
 	<script name="AssetWindowManager" file="scripts/manager_asset_window.lua" />
 	<script name="ChatManager" file="scripts/manager_chat.lua" />
+	<script name="ChatIdentityManager" file="scripts/manager_chat_identity.lua" />
 	<script name="ColorManager" file="scripts/manager_color.lua" />
 	<script name="DesktopManager" file="scripts/manager_desktop.lua" />
 	<script name="DecalManager" file="scripts/manager_decal.lua" />
@@ -72,6 +73,7 @@
 	<script name="DiceRollManager" file="scripts/manager_dice_roll.lua" />
 	<script name="DiceSkinManager" file="scripts/manager_diceskin.lua" />
 	<script name="ExportManager" file="scripts/manager_export.lua" />
+	<script name="GmIdentityManager" file="scripts/manager_gmidentity.lua" />
 	<script name="ImportUtilityManager" file="scripts/manager_import_utility.lua" />
 	<script name="LibraryData" file="scripts/data_library.lua" />
 	<script name="ListManager" file="scripts/manager_list.lua" />
@@ -114,7 +116,6 @@
 	<script name="CurrencyManager" file="scripts/manager_currency.lua" />
 	<script name="EffectManager" file="scripts/manager_effect.lua" />
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
-	<script name="GmIdentityManager" file="scripts/manager_gmidentity.lua" />
 	<script name="LanguageManager" file="scripts/manager_language.lua" />
 	<script name="ManualRollManager" file="scripts/manager_manualrolls.lua" />
 	<script name="ModifierManager" file="scripts/manager_modifier.lua" />
@@ -124,6 +125,7 @@
 	<script name="PartyXPManager" file="scripts/manager_party_xp.lua" />
 	<script name="TargetingManager" file="scripts/manager_targeting.lua" />
 	<script name="TokenManager" file="scripts/manager_token.lua" />
+	<script name="TokenMoveManager" file="scripts/manager_token_move.lua" />
 	<script name="VisionManager" file="scripts/manager_vision.lua" />
 
 	<script name="CampaignDataManager" file="scripts/manager_campaigndata.lua" />
@@ -146,9 +148,11 @@
 	<script name="StoryTemplateManager" file="scripts/manager_storytemplate.lua" />
 	<script name="TableManager" file="scripts/manager_table.lua" />
 
+	<script name="ActionCore" file="scripts/manager_action_core.lua" />
 	<script name="ActionEffect" file="scripts/manager_action_effect.lua" />
 	<script name="ActionAttackCore" file="scripts/manager_action_attack.lua" />
 	<script name="ActionDamageCore" file="scripts/manager_action_damage.lua" />
+	<script name="ActionHealCore" file="scripts/manager_action_heal.lua" />
 
 	<!-- NOTE: Initialize desktop management scripts after general scripts registered. -->
 	<script name="CharacterListManager" file="scripts/manager_characterlist.lua" />

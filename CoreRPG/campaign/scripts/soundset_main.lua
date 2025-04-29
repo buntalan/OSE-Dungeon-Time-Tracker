@@ -5,7 +5,11 @@
 
 function onInit()
 	self.onTypeChanged();
-	self.update();
+	self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+end
+
+function onLockModeChanged(bReadOnly)
+	WindowManager.callSafeControlsSetLockMode(self, { "type", }, bReadOnly);
 end
 
 function onTypeChanged()
@@ -20,14 +24,6 @@ function onTypeChanged()
 	end
 end
 
-function update()
-	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-
-	type.setReadOnly(bReadOnly);
-	type_stats.update(bReadOnly);
-	list.update(bReadOnly);
-end
-
-function onDrop(x, y, draginfo)
+function onDrop(_, _, draginfo)
 	return SoundsetManager.handleAnyDrop(draginfo, getDatabaseNode());
 end

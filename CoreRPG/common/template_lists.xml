@@ -10,9 +10,8 @@
 		<windowlist>
 			<child mergerule="resetandadd"></child>
 			<child><backcolor>1A40301E</backcolor></child>
-			<allowcreate />
-			<allowdelete />
 			<sortby mergerule="replace"><control>name</control></sortby>
+			<allowdelete />
 			<script file="common/scripts/list_text.lua" />
 		</windowlist>
 	</template>
@@ -66,12 +65,6 @@
 			</anchored>
 			<linktarget>open</linktarget>
 		</string_list_link_base>
-	</template>
-	<template name="string_textlistitem">
-		<stringu>
-			<delaykeyupdate />
-			<script file="common/scripts/list_textitem.lua" />
-		</stringu>
 	</template>
 
 	<template name="link_list">

@@ -132,7 +132,13 @@ function sendRoll(rRoll, rSource)
 	local msgOOB = DiceTowerManager.encodeOOBFromRoll(rRoll, rSource);
 
 	if not Session.IsHost then
-		local msg = { font = "chatfont", icon = "dicetower_icon" };
+		local msg = {
+			font = "chatfont",
+			assets = {
+				ChatIdentityManager.getActorAsset(rSource),
+				ChatIdentityManager.getDiceTowerAsset(),
+			},
+		};
 		if rSource then
 			msg.sender = ActorManager.getDisplayName(rSource);
 		end

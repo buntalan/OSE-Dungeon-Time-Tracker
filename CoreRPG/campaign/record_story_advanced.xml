@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-	Please see the license.html file included with this distribution for 
+<!--
+	Please see the license.html file included with this distribution for
 	attribution and copyright information.
 -->
 
@@ -31,18 +31,18 @@
 	</windowclass>
 	<windowclass name="story_header_advanced" copy="record_header_story">
 		<script>
-			function update()
-				super.update();
-				story_paste.update();
+			function onStateChanged()
+				super.onStateChanged();
+				story_paste.onStateChanged();
 			end
 		</script>
 		<sheetdata>
 			<toolbar_action_header_right name="story_paste" insertbefore="name">
 				<script>
 					function onStoryPasteChanged()
-						self.update();
+						self.onStateChanged();
 					end
-					function update()
+					function onStateChanged()
 						if Session.IsHost then
 							local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
 							local bCanPaste = StoryManager.hasPasteRecord();
@@ -58,7 +58,7 @@
 		<script file="campaign/scripts/story_advanced_content.lua" />
 		<sheetdata>
 			<anchor_content_top />
-			
+
 			<list_story_blocks name="blocks" />
 			<footer_story_blocks name="footer" />
 
@@ -109,7 +109,7 @@
 
 			<list_content name="list">
 				<class>frameselect_entry</class>
-				<columns width="110" fillwidth="true" />
+				<columns width="110" fillwidth="true" dynamic="true" />
 			</list_content>
 			<scrollbar_content_list />
 
@@ -134,7 +134,10 @@
 		</script>
 		<sheetdata>
 			<genericcontrol name="base">
-				<anchored position="insidetopleft" offset="5,5" width="100" height="100" />
+				<anchored width="100" height="100">
+					<top offset="5" />
+					<left anchor="center" offset="-50" />
+				</anchored>
 				<script>
 					function onClickDown()
 						return true;

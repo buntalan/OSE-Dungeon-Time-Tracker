@@ -1,19 +1,15 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
 function onInit()
 	self.updateTitle();
 	self.updateIndexHelperControls();
+	StoryManager.handlePageFirst(self, DB.getModule(getDatabaseNode()));
 end
 
-function onLockChanged()
-	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-	if sub_index.subwindow then
-		sub_index.subwindow.update(bReadOnly, true);
-	end
-
+function onLockModeChanged()
 	filter.setValue("");
 	self.updateIndexHelperControls();
 end

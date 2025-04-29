@@ -234,44 +234,42 @@ function buildToolbar(w)
 	if not wTop.windowmenu or not wTop.windowmenu[1].nolink then
 		table.insert(tLeftButtons, "link");
 	end
-	if (sRecordType or "") ~= "" then
-		if nodeWin then
-			local bModule = false;
-			local bRevert = false;
-			local bDuplicate = false;
-			local bExport = false;
+	if nodeWin and ((sRecordType or "") ~= "") and (not wTop.windowmenu or not wTop.windowmenu[1].norecord) then
+		local bModule = false;
+		local bRevert = false;
+		local bDuplicate = false;
+		local bExport = false;
 
-			if Session.IsHost then
-				if ((DB.getModule(nodeWin) or "") ~= "") then
-					bModule = true;
-					bRevert = not bReadOnly;
-				else
-					bExport = RecordDataManager.getExportMode(sRecordType);
-				end
-
-				bDuplicate = RecordDataManager.getDuplicateMode(sRecordType);
+		if Session.IsHost then
+			if ((DB.getModule(nodeWin) or "") ~= "") then
+				bModule = true;
+				bRevert = not bReadOnly;
 			else
-				if ((DB.getModule(nodeWin) or "") == "") then
-					bExport = RecordDataManager.getExportMode(sRecordType);
-				end
+				bExport = RecordDataManager.getExportMode(sRecordType);
 			end
 
-			if bModule or bRevert or bDuplicate or bExport then
-				if #tLeftButtons > 0 then
-					table.insert(tLeftButtons, "");
-				end
-				if bModule then
-					table.insert(tLeftButtons, "module");
-				end
-				if bRevert then
-					table.insert(tLeftButtons, "revert");
-				end
-				if bDuplicate then
-					table.insert(tLeftButtons, "duplicate");
-				end
-				if bExport then
-					table.insert(tLeftButtons, "export");
-				end
+			bDuplicate = RecordDataManager.getDuplicateMode(sRecordType);
+		else
+			if ((DB.getModule(nodeWin) or "") == "") then
+				bExport = RecordDataManager.getExportMode(sRecordType);
+			end
+		end
+
+		if bModule or bRevert or bDuplicate or bExport then
+			if #tLeftButtons > 0 then
+				table.insert(tLeftButtons, "");
+			end
+			if bModule then
+				table.insert(tLeftButtons, "module");
+			end
+			if bRevert then
+				table.insert(tLeftButtons, "revert");
+			end
+			if bDuplicate then
+				table.insert(tLeftButtons, "duplicate");
+			end
+			if bExport then
+				table.insert(tLeftButtons, "export");
 			end
 		end
 	end
@@ -299,34 +297,36 @@ function buildToolbar(w)
 	if wTop and wTop.helplinkres or wTop.helplink or w.getWindowMenuHelpLink then
 		table.insert(tRightButtons, "help");
 	end
-	local bShare = false;
-	local bLock = false;
-	local bID = false;
-	if ((sRecordType or "") ~= "") then
-		bShare = bOwner and RecordDataManager.getShareMode(sRecordType) and (not wTop.windowmenu or not wTop.windowmenu[1].noshare);
-		bLock = bOwner and RecordDataManager.getLockMode(sRecordType) and (not wTop.windowmenu or not wTop.windowmenu[1].nolock);
-		bID = RecordDataManager.isIdentifiable(sRecordType, nodeWin);
-	else
-		if (wTop.getFrame() == "recordsheet") and (not wTop.windowmenu or not wTop.windowmenu[1].nolock) then
-			bLock = true;
-		end
-	end
-	if bShare or bLock or bID then
-		if #tRightButtons > 0 then
-			table.insert(tRightButtons, "");
-		end
-		if bShare then
-			table.insert(tRightButtons, "share");
-		end
-		if bLock then
-			if bReadOnly then
-				table.insert(tRightButtons, "static");
-			else
-				table.insert(tRightButtons, "locked");
+	if (not wTop.windowmenu or not wTop.windowmenu[1].norecord) then
+		local bShare = false;
+		local bLock = false;
+		local bID = false;
+		if ((sRecordType or "") ~= "") then
+			bShare = bOwner and RecordDataManager.getShareMode(sRecordType) and (not wTop.windowmenu or not wTop.windowmenu[1].noshare);
+			bLock = bOwner and RecordDataManager.getLockMode(sRecordType) and (not wTop.windowmenu or not wTop.windowmenu[1].nolock);
+			bID = RecordDataManager.isIdentifiable(sRecordType, nodeWin);
+		else
+			if (wTop.getFrame() == "recordsheet") and (not wTop.windowmenu or not wTop.windowmenu[1].nolock) then
+				bLock = true;
 			end
 		end
-		if bID then
-			table.insert(tRightButtons, "isidentified");
+		if bShare or bLock or bID then
+			if #tRightButtons > 0 then
+				table.insert(tRightButtons, "");
+			end
+			if bShare then
+				table.insert(tRightButtons, "share");
+			end
+			if bLock then
+				if bReadOnly then
+					table.insert(tRightButtons, "static");
+				else
+					table.insert(tRightButtons, "locked");
+				end
+			end
+			if bID then
+				table.insert(tRightButtons, "isidentified");
+			end
 		end
 	end
 	if tCustomRecordType["right"] then
@@ -581,7 +581,8 @@ function performMenuChatOutput(c)
 end
 
 function performMenuChatSpeak(c)
-	GmIdentityManager.addIdentity(ActorManager.getDisplayName(c.window.getDatabaseNode()));
+	local nodeActor = c.window.getDatabaseNode();
+	ChatIdentityManager.addIdentity(ActorManager.getDisplayName(nodeActor), nodeActor);
 end
 
 function performMenuTokenFind(c)

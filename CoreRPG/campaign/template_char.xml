@@ -32,20 +32,10 @@
 		</genericcontrol>
 	</template>
 	<template name="anchor_content_charsheet_header_left">
-		<genericcontrol name="leftanchor">
-			<anchored to="contentanchor" height="0" width="0">
-				<top relation="current" />
-				<left />
-			</anchored>
-		</genericcontrol>
+		<anchor_listitem_left_relative />
 	</template>
 	<template name="anchor_content_charsheet_header_right">
-		<genericcontrol name="rightanchor">
-			<anchored to="contentanchor" height="0" width="0">
-				<top relation="current" />
-				<right />
-			</anchored>
-		</genericcontrol>
+		<anchor_listitem_right_relative />
 	</template>
 
 	<template name="frame_char">
@@ -53,94 +43,14 @@
 			<frame name="groupbox" />
 		</genericcontrol>
 	</template>
-	<template name="string_labeled">
-		<stringu>
-			<script>
-				labelwidget = nil;
-				function onInit()
-					if labelres then
-						labelwidget = addTextWidget({
-							font = "sheetlabelinline",
-							text = Interface.getString(labelres[1]):upper(),
-						});
-					elseif label then
-						labelwidget = addTextWidget({
-							font = "sheetlabelinline",
-							text = label[1]:upper(),
-						});
-					end
-					if labelwidget then
-						local w,h = labelwidget.getSize();
-						labelwidget.setPosition("bottomleft", w/2, h/2-5);
-					end
-				end
-			</script>
-		</stringu>
-	</template>
-	<template name="stringc_labeled">
-		<stringcu>
-			<anchored height="20" />
-			<script>
-				labelwidget = nil;
-				function onInit()
-					if labelres then
-						labelwidget = addTextWidget({
-							font = "sheetlabelinline",
-							text = Interface.getString(labelres[1]):upper(),
-						});
-					elseif label then
-						labelwidget = addTextWidget({
-							font = "sheetlabelinline",
-							text = label[1]:upper(),
-						});
-					end
-					if labelwidget then
-						local w,h = labelwidget.getSize();
-						labelwidget.setPosition("bottomleft", w/2, h/2-5);
-					end
-				end
-			</script>
-		</stringcu>
-	</template>
-
-	<template name="button_charactivate">
-		<buttoncontrol>
-			<icon normal="button_speak" pressed="button_speak_down" />
-			<script>
-				function onInit()
-					if Session.IsHost then
-						setTooltipText(Interface.getString("char_tooltip_speak"));
-					else
-						setTooltipText(Interface.getString("char_tooltip_activate"));
-					end
-				end
-				function onButtonPress()
-					if Session.IsHost then
-						GmIdentityManager.addIdentity(window.name.getValue());
-					else
-						UserManager.activatePlayerID(DB.getName(window.getDatabaseNode()));
-					end
-				end
-			</script>
-		</buttoncontrol>
-	</template>
-	<template name="button_charactivate_charsheet">
-		<button_charactivate>
-			<anchored to="rightanchor" width="23" height="22">
-				<top offset="11" />
-				<right relation="relative" offset="-2" postoffset="-2" />
-			</anchored>
-		</button_charactivate>
-	</template>
 
 	<template name="list_charmaincategory">
 		<windowlist>
 			<class>char_main_category</class>
 			<datasource>.maincategorylist</datasource> 
-			<columns width="222" filldown="true" />
-			<allowcreate />
-			<allowdelete />
+			<columns width="222" filldown="true" dynamic="true" />
 			<sortby><field>label</field></sortby>
+			<allowdelete />
 		</windowlist>
 	</template>
 
@@ -150,10 +60,9 @@
 			<child><backcolor>1A40301E</backcolor></child>
 			<datasource>.attributelist</datasource>
 			<class>char_attribute</class>
-			<allowcreate />
-			<allowdelete />
 			<noscroll />
 			<sortby><field>label</field></sortby>
+			<allowdelete />
 			<script>
 				function onDrop(x, y, draginfo)
 					local sDragType = draginfo.getType();
@@ -185,35 +94,8 @@
 			<state icon="button_char_inv_carried" tooltipres="char_tooltip_inv_carried" />
 			<state icon="button_char_inv_equipped" tooltipres="char_tooltip_inv_equipped" />
 			<default>1</default>
+			<script file="common/scripts/button_crosslink.lua" />
 		</buttonfield>
-	</template>
-	<template name="button_listitem_carried_right">
-		<button_char_inv_carried>
-			<anchored to="rightanchor" width="20" height="20">
-				<top />
-				<right relation="relative" offset="-2" postoffset="-2" />
-			</anchored>
-		</button_char_inv_carried>
-	</template>
-	<template name="number_charinv">
-		<basicnumber>
-			<nodrag />
-			<hideonvalue>0</hideonvalue>
-			<min>0</min>
-		</basicnumber>
-	</template>
-	<template name="string_charinvname">
-		<string_textlistitem>
-			<nodrop />
-			<script file="campaign/scripts/char_invname.lua" />
-		</string_textlistitem>
-	</template>
-	<template name="string_charinvloc">
-		<string_textlistitem>
-			<nodrop />
-			<delaykeyupdate merge="delete" />
-			<script file="campaign/scripts/char_invloc.lua" />
-		</string_textlistitem>
 	</template>
 	<template name="list_charinv">
 		<windowlist>
@@ -362,7 +244,6 @@
 			<datasource>.languagelist</datasource>
 			<class>char_language</class>
 			<sortby><control>name</control></sortby>
-			<allowcreate />
 			<allowdelete />
 			<script>
 				function onDrop(x, y, draginfo)
@@ -375,5 +256,37 @@
 				end
 			</script>
 		</list_text>
+	</template>
+
+	<!-- DEPRECATED (2025-03) -->
+	<template name="button_charactivate">
+		<buttoncontrol>
+			<icon normal="button_speak" pressed="button_speak_down" />
+			<script>
+				function onInit()
+					if Session.IsHost then
+						setTooltipText(Interface.getString("char_tooltip_speak"));
+					else
+						setTooltipText(Interface.getString("char_tooltip_activate"));
+					end
+				end
+				function onButtonPress()
+					if Session.IsHost then
+						local nodeActor = window.getDatabaseNode();
+						GmIdentityManager.addIdentity(window.name.getValue());
+					else
+						UserManager.activatePlayerID(DB.getName(window.getDatabaseNode()));
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_charactivate_charsheet">
+		<button_charactivate>
+			<anchored to="rightanchor" width="23" height="22">
+				<top offset="11" />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_charactivate>
 	</template>
 </root>

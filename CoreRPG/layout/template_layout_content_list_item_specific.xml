@@ -32,27 +32,6 @@
 			</script>
 		</button_listitem_idelete_left>
 	</template>
-	<template name="button_masterindexitem_idelete">
-		<button_listitem_idelete>
-			<editmode>list_iedit</editmode>
-			<script>
-				function onInit()
-					super.onInit();
-
-					if DB.isStatic(window.getDatabaseNode()) then
-						self.setStaticDisplay();
-					end
-				end
-				function setStaticDisplay()
-					setReadOnly(true);
-					setFrame("fieldlight", 4,4,4,4);
-					setStateIcons(0, "button_toolbar_readonly");
-					setStateColor(0, UtilityManager.getControlFontColor(window, "name"));
-					setTooltipText(Interface.getString("button_toolbar_readonly"));
-				end
-			</script>
-		</button_listitem_idelete>
-	</template>
 	<template name="button_masterindexitem_access">
 		<buttonc_listitem_icon_simple_right>
 			<state icon="" tooltip="" />

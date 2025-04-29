@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -29,10 +29,19 @@
 		</tab>
 	</windowclass>
 	<windowclass name="npc_header" copy="record_header" />
-	
+
 	<windowclass name="npc_main">
 		<margins control="0,0,0,2" />
-		<script file="campaign/scripts/npc_main.lua" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				local tFields = { "space", "reach", "senses", "skills", "items", "languages", };
+				WindowManager.callSafeControlsSetLockMode(self, tFields, bReadOnly);
+				divider2.setVisible(WindowManager.getAnyControlVisible(self, { "skills", "items", "languages", }));
+			end
+		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 
@@ -42,7 +51,7 @@
 			<number_column name="space">
 				<default>1</default>
 			</number_column>
-			
+
 			<label_column_right name="reach_label">
 				<anchored to="space" />
 				<static textres="npc_label_reach" />
@@ -51,14 +60,14 @@
 				<anchored to="space" />
 				<default>1</default>
 			</number_column_right>
-			
+
 			<label_column name="senses_label">
 				<static textres="npc_label_senses" />
 			</label_column>
 			<string_columnh name="senses" />
 
 			<line_column name="divider2" />
-			
+
 			<label_column name="skills_label">
 				<static textres="npc_label_rolls" />
 			</label_column>

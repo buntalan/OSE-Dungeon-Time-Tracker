@@ -3,19 +3,6 @@
 -- attribution and copyright information.
 --
 
-local _bNotify = false;
-
-function onClose()
-	if _bNotify then
-		ActorDisplayManager.removeDisplayControl(self);
-		_bNotify = false;
-	end
-end
-
-function notifyActorDisplayManagerOnClose()
-	_bNotify = true;
-end
-
 --
 --	DATA
 --

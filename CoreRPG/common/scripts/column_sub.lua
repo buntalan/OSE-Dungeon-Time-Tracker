@@ -1,5 +1,5 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
@@ -7,6 +7,9 @@ function onInit()
 	self.onValueChanged();
 end
 
+function onVisibilityChanged()
+	WindowManager.onColumnControlVisibilityChanged(self);
+end
 function onValueChanged()
 	setVisible(not isEmpty());
 end

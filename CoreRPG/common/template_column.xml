@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -51,7 +51,7 @@
 			</anchored>
 		</label>
 	</template>
-	
+
 	<template name="string_column">
 		<basicstring>
 			<anchored>
@@ -153,7 +153,7 @@
 			</anchored>
 		</basicnumber>
 	</template>
-	
+
 	<template name="ft_column">
 		<basicft>
 			<anchored>
@@ -252,39 +252,6 @@
 			<script file="common/scripts/column_list.lua" />
 		</list_text>
 	</template>
-	<template name="anchor_listitem_column_right">
-		<genericcontrol name="rightanchor">
-			<anchored height="0" width="0">
-				<top offset="2" />
-				<right />
-			</anchored>
-		</genericcontrol>
-	</template>
-	<template name="link_listitem_column">
-		<linkcontrol_record name="shortcut">
-			<anchored to="rightanchor" width="20" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="-5" />
-			</anchored>
-		</linkcontrol_record>
-	</template>
-	<template name="button_listitem_column_delete">
-		<button_idelete name="idelete">
-			<anchored to="rightanchor">
-				<top />
-				<right anchor="left" offset="-5" />
-			</anchored>
-		</button_idelete>
-	</template>
-	<template name="string_listitem_column_name">
-		<stringfield name="name">
-			<anchored position="insidetopleft" offset="5,2">
-				<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-			</anchored>
-			<font>sheetlabel</font>
-			<multilinespacing>20</multilinespacing>
-		</stringfield>
-	</template>
 
 	<template name="sub_column">
 		<subwindow>
@@ -321,13 +288,19 @@
 	<windowclass name="sub_column_gmnotes">
 		<margins control="0,0,0,5" />
 		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "gmnotes", }, bReadOnly);
+			end
 			function update(bReadOnly)
-				gmnotes.update(bReadOnly);
+				-- Do Nothing - DEPRECATED call
 			end
 		</script>
 		<sheetdata>
 			<anchor_content_top />
-			
+
 			<header_content_framed_headersimple name="gmnotes_header">
 				<static textres="header_gmnotes" />
 			</header_content_framed_headersimple>

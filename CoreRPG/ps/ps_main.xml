@@ -48,8 +48,8 @@
 				<datasource>.partyinformation</datasource>
 				<class>ps_mainitem</class>
 				<sortby><control>name</control></sortby>
-				<allowdelete />
 				<empty font="list-empty" textres="ps_emptylist" />
+				<allowdelete />
 			</list_content>
 			<scrollbar_content_list />
 		</sheetdata>

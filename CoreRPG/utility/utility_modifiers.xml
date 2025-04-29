@@ -30,13 +30,13 @@
 	<template name="list_modifier_preset">
 		<list_content_noscroll_top>
 			<class>modifiers_preset_item</class>
-			<columns width="100" fillwidth="true" />
+			<columns width="100" fillwidth="true" dynamic="true" />
 			<readonly />
 		</list_content_noscroll_top>
 	</template>
 
 	<template name="string_modifier">
-		<string_listitem_center_text name="label">
+		<string_listitem_center_underline name="label">
 			<tabtarget next="bonus" />
 			<script>
 				function onDragStart(button, x, y, draginfo)
@@ -46,7 +46,7 @@
 					return window.action();
 				end
 			</script>
-		</string_listitem_center_text>
+		</string_listitem_center_underline>
 	</template>
 	<template name="button_modifier_activate">
 		<buttonc_listitem_left>
@@ -208,10 +208,10 @@
 
 			<list_content name="list">
 				<class>modifiersmall</class>
-				<allowdelete />
 				<sortby><control>label</control></sortby>
 				<child merge="resetandadd"></child>
 				<child merge="add"><backcolor>1A40301E</backcolor></child>
+				<allowdelete />
 				<script file="utility/scripts/modifierlist_custom.lua" />
 			</list_content>
 			<scrollbar_content_list />

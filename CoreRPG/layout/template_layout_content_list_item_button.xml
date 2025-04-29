@@ -24,12 +24,12 @@
 	</template>
 	<template name="button_listitem_checkbox_base">
 		<button_checkbox>
-			<anchored width="20" height="20" />
+			<anchored width="10" height="20" />
 		</button_checkbox>
 	</template>
 	<template name="buttonc_listitem_checkbox_base">
 		<buttonc_checkbox>
-			<anchored width="20" height="20" />
+			<anchored width="10" height="20" />
 		</buttonc_checkbox>
 	</template>
 	<template name="stringcycler_listitem_base">
@@ -173,6 +173,14 @@
 		</buttonc_listitem_icon_simple_base>
 	</template>
 
+	<template name="button_listitem_iadd_left">
+		<button_iadd_base name="iadd">
+			<anchored to="leftanchor" >
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_iadd_base>
+	</template>
 	<template name="button_listitem_idelete">
 		<button_idelete name="idelete">
 			<anchored to="rightanchor" >
@@ -189,7 +197,7 @@
 			</anchored>
 		</button_idelete>
 	</template>
-	<template name="button_listitem_idelete_spacer">
+	<template name="spacer_listitem_idelete">
 		<genericcontrol name="idelete_spacer">
 			<anchored to="rightanchor" width="20" height="20">
 				<top />
@@ -199,7 +207,7 @@
 			<disabled />
 		</genericcontrol>
 	</template>
-	<template name="button_listitem_idelete_spacer_left">
+	<template name="spacer_listitem_idelete_left">
 		<genericcontrol name="idelete_spacer">
 			<anchored to="leftanchor" width="20" height="20">
 				<top />
@@ -222,6 +230,14 @@
 			<script file="common/scripts/button_record_isidentified.lua" />
 		</buttoncontrol>
 	</template>
+	<template name="button_listitem_details_right">
+		<button_details>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_details>
+	</template>
 	<template name="button_listitem_toggledetail_right">
 		<button_toggledetail>
 			<anchored to="rightanchor">
@@ -237,6 +253,14 @@
 				<right relation="relative" offset="-2" postoffset="-2" />
 			</anchored>
 		</button_ireorder>
+	</template>
+	<template name="button_listitem_carried_right">
+		<button_char_inv_carried>
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_char_inv_carried>
 	</template>
 
 	<template name="button_listitem_roll_right">
@@ -337,7 +361,7 @@
 		<button_listitem_checkbox_base>
 			<anchored to="leftanchor">
 				<top />
-				<left relation="relative" offset="-2" postoffset="-2" />
+				<left relation="relative" offset="2" postoffset="2" />
 			</anchored>
 		</button_listitem_checkbox_base>
 	</template>
@@ -345,7 +369,7 @@
 		<buttonc_listitem_checkbox_base>
 			<anchored to="leftanchor">
 				<top />
-				<left relation="relative" offset="-2" postoffset="-2" />
+				<left relation="relative" offset="2" postoffset="2" />
 			</anchored>
 		</buttonc_listitem_checkbox_base>
 	</template>
@@ -364,6 +388,14 @@
 				<left relation="relative" offset="2" postoffset="2" />
 			</anchored>
 		</iconcycler_listitem_base>
+	</template>
+	<template name="button_listitem_carried_left">
+		<button_char_inv_carried>
+			<anchored to="leftanchor" width="20" height="20">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_char_inv_carried>
 	</template>
 
 	<template name="button_listitem_roll_left">

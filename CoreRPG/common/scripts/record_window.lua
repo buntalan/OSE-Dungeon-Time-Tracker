@@ -1,5 +1,5 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
@@ -8,6 +8,7 @@ function onInit()
 	WindowManager.updateTooltip(self);
 	self.onStateChanged();
 end
+
 function populate()
 	if header then
 		local sHeaderClass = header.getValue();
@@ -29,6 +30,16 @@ function populate()
 	end
 end
 
+function onLockModeChanged()
+	self.onLockChanged();
+end
+function onIDModeChanged()
+	self.onIDChanged();
+end
+function onNameUpdated()
+	WindowManager.updateTooltip(self);
+end
+
 function onLockChanged()
 	self.onStateChanged();
 end
@@ -36,35 +47,22 @@ function onIDChanged()
 	WindowManager.updateTooltip(self);
 	self.onStateChanged();
 end
-function onNameUpdated()
-	WindowManager.updateTooltip(self);
-end
 
 function onStateChanged()
-	if header and header.subwindow then
-		if header.subwindow.update then
-			header.subwindow.update();
-		end
+	if header and header.subwindow and header.subwindow.update then
+		header.subwindow.update();
 	end
-	
-	if content and content.subwindow then
-		if content.subwindow.update then
-			content.subwindow.update();
-		end
-	elseif main and main.subwindow then
-		if main.subwindow.update then
-			main.subwindow.update();
-		end
+	if content and content.subwindow and content.subwindow.update then
+		content.subwindow.update();
+	elseif main and main.subwindow and main.subwindow.update then
+		main.subwindow.update();
 	end
-	
+
 	if text then
-		local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-		text.setReadOnly(bReadOnly);
+		WindowManager.callSafeControlsSetLockMode(self, { "text", }, WindowManager.getReadOnlyState(getDatabaseNode()));
 	elseif notes then
-		local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-		notes.setReadOnly(bReadOnly);
+		WindowManager.callSafeControlsSetLockMode(self, { "notes", }, WindowManager.getReadOnlyState(getDatabaseNode()));
 	elseif description then
-		local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-		description.setReadOnly(bReadOnly);
+		WindowManager.callSafeControlsSetLockMode(self, { "description", }, WindowManager.getReadOnlyState(getDatabaseNode()));
 	end
 end

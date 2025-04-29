@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -17,24 +17,7 @@
 		<sharable />
 		<script>
 			function onInit()
-				self.onStateChanged();
-			end
-			function getRecordType()
-				return "treasureparcel";
-			end
-			function onLockChanged()
-				self.onStateChanged();
-			end
-			function onStateChanged()
-				if header.subwindow then
-					header.subwindow.update();
-				end
-				if sub_coins.subwindow then
-					sub_coins.subwindow.update();
-				end
-				if sub_items.subwindow then
-					sub_items.subwindow.update();
-				end
+				WindowManager.updateTooltip(self);
 			end
 			function onNameUpdated()
 				WindowManager.updateTooltip(self);
@@ -85,21 +68,12 @@
 							local w = list.createWindow();
 							w.description.setValue(sCurrency);
 						end
-						self.update();
 					end
 				end
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
 			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				
-				list_iedit.setVisible(not bReadOnly);
-				list_iadd.setVisible(not bReadOnly);
-
-				list.setReadOnly(bReadOnly);
-				for _,w in pairs(list.getWindows()) do
-					w.amount.setReadOnly(bReadOnly);
-					w.description.setReadOnly(bReadOnly);
-				end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "list_iadd", }, bReadOnly);
 			end
 		</script>
 		<sheetdata>
@@ -119,12 +93,11 @@
 
 			<anchor_list_content_label_left />
 			<anchor_list_content_label_right />
+			<label_list_content_button_iadd_left name="list_iadd" />
 			<label_list_content_number_left name="label_count">
-				<anchored width="50" />
+				<anchored width="55" />
 				<static>#</static>
 			</label_list_content_number_left>
-			<label_list_content_button_iedit_right name="list_iedit" />
-			<label_list_content_button_iadd_right name="list_iadd" />
 			<label_list_content_noframe name="label_name">
 				<static textres="parcel_label_money" />
 			</label_list_content_noframe>
@@ -132,44 +105,36 @@
 	</windowclass>
 	<windowclass name="parcel_coin">
 		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "amount", "description", "idelete", }, bReadOnly);
+			end
+		</script>
 		<sheetdata>
-			<anchor_listitem_right name="rightanchor" />
-			<button_listitem_idelete name="idelete">
-				<editmode>list_iedit</editmode>
-			</button_listitem_idelete>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
 
-			<number_parcel name="amount">
+			<button_listitem_idelete_left name="idelete" />
+			<number_dropadd_listitem_left name="amount">
 				<anchored width="55" />
 				<description field="description" />
-			</number_parcel>
-			<string_parcel name="description">
-				<anchored>
-					<left offset="70" />
-				</anchored>
-			</string_parcel>
+			</number_dropadd_listitem_left>
+
+			<string_listitem_center_underline name="description" />
 		</sheetdata>
 	</windowclass>
 
 	<windowclass name="parcel_items">
 		<frame>groupbox</frame>
 		<script>
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				
-				list_iedit.setVisible(not bReadOnly);
-				list_iadd.setVisible(not bReadOnly);
-
-				list.setReadOnly(bReadOnly);
-				for _,w in pairs(list.getWindows()) do
-					if w.count then
-						w.count.setReadOnly(bReadOnly);
-					end
-					if w.isidentified then
-						w.isidentified.setReadOnly(bReadOnly);
-					end
-					w.name.setReadOnly(bReadOnly);
-					w.nonid_name.setReadOnly(bReadOnly);
-				end
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "list_iadd", }, bReadOnly);
 			end
 		</script>
 		<sheetdata>
@@ -197,14 +162,15 @@
 
 			<anchor_list_content_label_left />
 			<anchor_list_content_label_right />
+			<label_list_content_button_iadd_left name="list_iadd">
+				<recordtype>item</recordtype>
+			</label_list_content_button_iadd_left>
+			<spacer_list_content_link_label_left name="label_link" />
 			<label_list_content_number_left name="label_count">
-				<anchored width="30" />
+				<anchored width="25" />
 				<static>#</static>
 			</label_list_content_number_left>
-			<label_list_content_button_iedit_right name="list_iedit" />
-			<label_list_content_button_iadd_right name="list_iadd">
-				<recordtype>item</recordtype>
-			</label_list_content_button_iadd_right>
+			<spacer_list_content_button_label_right name="label_isidentified" />
 			<label_list_content name="label_name">
 				<static textres="parcel_label_itemname" />
 			</label_list_content>
@@ -214,7 +180,11 @@
 		<margins control="0,0,0,5" />
 		<script>
 			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
 				self.onIDChanged();
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "count", "isidentified", "name", "nonid_name", "idelete", }, bReadOnly);
 			end
 			function onIDChanged()
 				local bID = RecordDataManager.getIDState("item", getDatabaseNode());
@@ -223,22 +193,25 @@
 			end
 		</script>
 		<sheetdata>
-			<anchor_listitem_right name="rightanchor" />
-			<button_listitem_idelete name="idelete">
-				<editmode>list_iedit</editmode>
-			</button_listitem_idelete>
-			<linkc_listitem_right name="shortcut">
-				<class>item</class>
-			</linkc_listitem_right>
-			<button_record_isidentified name="isidentified" />
+			<anchor_listitem_left />
+			<anchor_listitem_right />
 
-			<number_parcel name="count" />
-			<string_parcel name="name">
+			<button_listitem_idelete_left name="idelete" />
+			<linkc_listitem_left name="shortcut">
+				<class>item</class>
+			</linkc_listitem_left>
+			<number_listitem_left name="count">
+				<anchored width="25" />
+			</number_listitem_left>
+
+			<button_listitem_isidentified_right name="isidentified" />
+
+			<string_listitem_center_underline name="name">
 				<empty textres="library_recordtype_empty_item" />
-			</string_parcel>
-			<string_parcel name="nonid_name">
+			</string_listitem_center_underline>
+			<string_listitem_center_underline name="nonid_name">
 				<empty textres="library_recordtype_empty_nonid_item" />
-			</string_parcel>
+			</string_listitem_center_underline>
 		</sheetdata>
 	</windowclass>
 </root>

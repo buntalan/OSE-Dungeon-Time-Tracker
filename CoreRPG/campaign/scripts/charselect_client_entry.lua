@@ -13,11 +13,10 @@ end
 local _bRequested = false;
 function openCharacter()
 	if not _bRequested then
-		User.requestIdentity(id, nil, nil, self.localdatabasenode, self.requestResponse);
+		UserManager.requestIdentity(id, { nodeLocal = self.localdatabasenode, fnResponse = self.requestResponse, });
 		_bRequested = true;
 	end
 end
-
 function requestResponse(result, identity)
 	if result and identity then
 		Interface.openWindow("charsheet", DB.getPath("charsheet", identity));

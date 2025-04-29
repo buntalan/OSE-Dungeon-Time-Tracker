@@ -1,48 +1,48 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
 function onInit()
-	synchToCount();
-	synchTokenView();
+	self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+	self.synchToCount();
+	self.synchTokenView();
+end
+
+function onLockModeChanged(bReadOnly)
+	WindowManager.callSafeControlsSetLockMode(self, { "count", "token", "name", "faction", "isidentified", "idelete", }, bReadOnly);
 end
 
 function synchToCount()
-	if Session.IsHost then
-		local nodeList = maplinks.getDatabaseNode();
-		local nCount = count.getValue();
-		
-		local nListCount = DB.getChildCount(nodeList);
-		
-		if nListCount < nCount then
-			local i;
-			for i = nListCount + 1, nCount do
-				DB.createChild(nodeList);
-			end
-			synchTokenView();
+	if not Session.IsHost then
+		return;
+	end
 
-		elseif nListCount > nCount then
-			local i = 1;
-			for k, v in pairs(maplinks.getWindows()) do
-				if i > nCount then
-					UtilityManager.safeDeleteWindow(v);
-				end
-				i = i + 1;
+	local nodeList = maplinks.getDatabaseNode();
+	local nCount = count.getValue();
+
+	local nListCount = DB.getChildCount(nodeList);
+	if nListCount < nCount then
+		for _ = nListCount + 1, nCount do
+			DB.createChild(nodeList);
+		end
+		self.synchTokenView();
+
+	elseif nListCount > nCount then
+		local i = 1;
+		for _, v in pairs(maplinks.getWindows()) do
+			if i > nCount then
+				UtilityManager.safeDeleteWindow(v);
 			end
+			i = i + 1;
 		end
 	end
 end
-
 function synchTokenView()
 	local sToken = token.getPrototype();
-	if sToken == "" or not Session.IsHost then
-		maplinks.setVisible(false);
-		maplinks_label.setVisible(false);
-	else
-		maplinks.setVisible(true);
-		maplinks_label.setVisible(true);
-	end
+	local bShowLinks = Session.IsHost and (sToken ~= "");
+	maplinks.setVisible(bShowLinks);
+	maplinks_label.setVisible(bShowLinks);
 
 	for _, v in pairs(maplinks.getWindows()) do
 		v.token.setPrototype(sToken);

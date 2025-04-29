@@ -27,7 +27,7 @@
                 </default>
                 <anchored>
                     <top anchor="top" offset="0" />
-                    <left anchor="center" offset="-45" />
+                    <left anchor="center" offset="-50" />
                 </anchored>
                 <font>windowtitle</font>
                 <nodrag/>
@@ -35,18 +35,17 @@
                 <center/>
                 <readonly />
             </stringcontrol>
-            <checkbox>
-                <name>show_dtt</name>
-                <default>0</default>
+            <button_checkbox_column name="dtt_checkbox1" >
                 <anchored>
-                    <top anchor="top" offset="0" />
-                    <left anchor="center" offset="-50" />
+                    <to>dtt_title</to>
+                    <size>
+                        <width>100</width>
+                        <height>100</height>
+                    </size>
+                    <top anchor="bottom" offset="5" />
+                    <left anchor="left" offset="0" />
                 </anchored>
-                <font>windowtitle</font>
-                <nodrag/>
-                <nodrop/>
-                <center/>
-            </checkbox>
+            </button_checkbox_column>
         </sheetdata>
 	</windowclass>
 </root>

@@ -34,6 +34,7 @@ local _tDiceSkinGroups = {
 	"SWKDRAGONSDICE1",
 	"SWKMONSTERSDICE1",
 	"SWKMONSTERSDICE2",
+	"SWKFANTASYDICE1",
 };
 
 local _tDiceSkinGroupStoreID = {
@@ -55,6 +56,7 @@ local _tDiceSkinGroupStoreID = {
 	["SWKMONSTERSDICE1"] = "SWKMONSTERSDICE1",
 	["SWKDRAGONSDICE1"] = "SWKDRAGONSDICE1",
 	["SWKMONSTERSDICE2"] = "SWKMONSTERSDICE2",
+	["SWKFANTASYDICE1"] = "SWKFANTASYDICE1",
 };
 
 local _tDiceSkinToGroupMap = {
@@ -125,6 +127,12 @@ local _tDiceSkinToGroupMap = {
 	[310] = "SWKMONSTERSDICE2", [311] = "SWKMONSTERSDICE2", [312] = "SWKMONSTERSDICE2", [313] = "SWKMONSTERSDICE2", [314] = "SWKMONSTERSDICE2",
 	[315] = "SWKMONSTERSDICE2", [316] = "SWKMONSTERSDICE2", [317] = "SWKMONSTERSDICE2", [318] = "SWKMONSTERSDICE2", [319] = "SWKMONSTERSDICE2",
 	[320] = "SWKMONSTERSDICE2", [321] = "SWKMONSTERSDICE2",
+	[322] = "SWKFANTASYDICE1", [323] = "SWKFANTASYDICE1", [324] = "SWKFANTASYDICE1",
+	[325] = "SWKFANTASYDICE1", [326] = "SWKFANTASYDICE1", [327] = "SWKFANTASYDICE1", [328] = "SWKFANTASYDICE1", [329] = "SWKFANTASYDICE1",
+	[330] = "SWKFANTASYDICE1", [331] = "SWKFANTASYDICE1", [332] = "SWKFANTASYDICE1", [333] = "SWKFANTASYDICE1", [334] = "SWKFANTASYDICE1",
+	[335] = "SWKFANTASYDICE1", [336] = "SWKFANTASYDICE1", [337] = "SWKFANTASYDICE1", [338] = "SWKFANTASYDICE1", [339] = "SWKFANTASYDICE1",
+	[340] = "SWKFANTASYDICE1", [341] = "SWKFANTASYDICE1", [342] = "SWKFANTASYDICE1", [343] = "SWKFANTASYDICE1", [344] = "SWKFANTASYDICE1",
+	[345] = "SWKFANTASYDICE1",
 };
 
 local _tDiceSkinAttributeInfo = {
@@ -323,6 +331,18 @@ local _tDiceSkinAttributeInfo = {
 	[319] = {bFX = true},
 	[320] = {bTrail = true},
 	[321] = {bTrail = true},
+	[334] = {bFX = true, bTrail = true},
+	[335] = {bTrail = true},
+	[336] = {bTrail = true},
+	[337] = {bFX = true, bTrail = true},
+	[338] = {bFX = true, bTrail = true},
+	[339] = {bFX = true, bTrail = true},
+	[340] = {bFX = true},
+	[341] = {bFX = true, bTrail = true},
+	[342] = {bFX = true},
+	[343] = {bFX = true},
+	[344] = {bFX = true},
+	[345] = {bFX = true},
 };
 
 local _tDiceSkinInfo = {};

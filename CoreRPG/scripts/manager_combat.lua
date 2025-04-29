@@ -13,7 +13,6 @@ CT_LIST = "combattracker.list";
 CT_ROUND = "combattracker.round";
 
 local _bTrackersInit = false;
-local _sActiveCT = nil;
 
 function onTabletopInit()
 	CombatManager.registerStandardCombatHotKeys();
@@ -914,31 +913,6 @@ function notifyEndTurn()
 	Comm.deliverOOBMessage(msgOOB, "");
 end
 
-function addGMIdentity(nodeEntry)
-	if OptionsManager.isOption("CTAV", "on") then
-		local sName = ActorManager.getDisplayName(nodeEntry);
-
-		if sName == "" or CombatManager.isPlayerCT(nodeEntry) then
-			_sActiveCT = nil;
-			GmIdentityManager.activateGMIdentity();
-		else
-			if GmIdentityManager.existsIdentity(sName) then
-				_sActiveCT = nil;
-				GmIdentityManager.setCurrent(sName);
-			else
-				_sActiveCT = sName;
-				GmIdentityManager.addIdentity(sName);
-			end
-		end
-	end
-end
-function clearGMIdentity()
-	if _sActiveCT then
-		GmIdentityManager.removeIdentity(_sActiveCT);
-		_sActiveCT = nil;
-	end
-end
-
 -- Handle turn notification (including bell ring based on option)
 function showTurnMessage(nodeEntry, bActivate, bSkipBell)
 	if not Session.IsHost then
@@ -995,12 +969,12 @@ function requestActivation(nodeEntry, bSkipBell)
 	for _,v in pairs(CombatManager.getCombatantNodes()) do
 		DB.setValue(v, "active", "number", 0);
 	end
-	CombatManager.clearGMIdentity();
+	ChatIdentityManager.clearCombatantIdentity();
 
 	if nodeEntry then
 		DB.setValue(nodeEntry, "active", "number", 1);
 		CombatManager.showTurnMessage(nodeEntry, true, bSkipBell);
-		CombatManager.addGMIdentity(nodeEntry);
+		ChatIdentityManager.addCombatantIdentity(nodeEntry);
 	end
 end
 function isActorToSkipTurn(nodeEntry)
@@ -1102,7 +1076,7 @@ function nextRound(nRounds)
 	local aEntries = CombatManager.getSortedCombatantList();
 	if nodeActive then
 		DB.setValue(nodeActive, "active", "number", 0);
-		CombatManager.clearGMIdentity();
+		ChatIdentityManager.clearCombatantIdentity();
 
 		local bFastTurn = false;
 		for i = 1,#aEntries do
@@ -1182,6 +1156,9 @@ end
 --
 
 function stripCreatureNumber(s)
+	if not s then
+		return s;
+	end
 	local nStarts, _, sNumber = string.find(s, " ?(%d+)$");
 	if nStarts then
 		return string.sub(s, 1, nStarts - 1), sNumber;
@@ -1229,7 +1206,7 @@ function resetInit()
 	end
 
 	-- Clear GM identity additions (based on option)
-	CombatManager.clearGMIdentity();
+	ChatIdentityManager.clearCombatantIdentity();
 
 	-- Reset the round counter
 	DB.setValue(CombatManager.CT_ROUND, "number", 1);
@@ -1359,7 +1336,7 @@ function helperRollEntryInit(tInit)
 		font = "systemfont",
 		icon = "portrait_gm_token",
 		type = "init",
-		text = string.format("[INIT] %s", DB.getValue(tInit.nodeEntry, "name", "")),
+		text = string.format("[%s] %s", Interface.getString("action_init_tag"), DB.getValue(tInit.nodeEntry, "name", "")),
 		diemodifier = tInit.nTotal,
 		diceskipexpr = true,
 		secret = true,
@@ -1716,23 +1693,11 @@ function deleteCleanup(v)
 	end
 end
 
--- DEPRECATED - 2022-08-29 (Long Release) - 2024-05-28 (Chat Notice)
+-- DEPRECATED - 2025-03 (Short Release)
 
-function isPC(v)
-	Debug.console("CombatManager.isPC - DEPRECATED - 2023-08-29 - Use CombatManager.isPlayerCT instead");
-	ChatManager.SystemMessage("CombatManager.isPC - DEPRECATED - 2023-08-29 - Contact ruleset/extension/forge author");
-	return CombatManager.isPlayerCT(v);
+function addGMIdentity(nodeCT)
+	ChatIdentityManager.addCombatantIdentity(nodeCT);
 end
-
--- DEPRECATED - 2022-08-16 (Long Release) - 2023-06-27 (Chat Notice)
-
-function setCustomDrop(fn)
-	Debug.console("CombatManager.setCustomDrop - DEPRECATED - 2022-08-16 - Use CombatDropManager.setLinkDropCallback/setDragTypeDropCallback");
-	ChatManager.SystemMessage("CombatManager.setCustomDrop - DEPRECATED - 2022-08-16 - Contact ruleset/extension/forge author");
-	CombatDropManager.registerLegacyDropCallback(fn);
-end
-function onDrop(sNodeType, sNodePath, draginfo)
-	Debug.console("CombatManager.onDrop - DEPRECATED - 2022-08-16 - Use CombatDropManager.handleAnyDrop");
-	ChatManager.SystemMessage("CombatManager.onDrop - DEPRECATED - 2022-08-16 - Contact ruleset/extension/forge author");
-	return CombatDropManager.handleAnyDrop(draginfo, sNodePath);
+function clearGMIdentity()
+	ChatIdentityManager.clearCombatantIdentity();
 end

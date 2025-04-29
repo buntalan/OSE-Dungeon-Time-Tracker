@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-	Please see the license.html file included with this distribution for 
+<!--
+	Please see the license.html file included with this distribution for
 	attribution and copyright information.
 -->
 
@@ -63,7 +63,7 @@
 		<sheetdata>
 			<anchor_listitem_left_sm />
 			<anchor_listitem_right_sm />
-			
+
 			<linkc_listitem_left name="link">
 				<description control="name" merge="replace" />
 			</linkc_listitem_left>
@@ -120,14 +120,11 @@
 
 	<windowclass name="story_book_index">
 		<script>
-			function update(bReadOnly, bLockChanged)
-				for _,wChapter in ipairs(list.getWindows()) do
-					wChapter.update(bReadOnly, bLockChanged);
-				end
-
-				list_iadd.setVisible(not bReadOnly);
-				spacer.setVisible(not bReadOnly);
-
+			function onInit()
+				self.onLockModeChanged(WindowManager.getReadOnlyState(getDatabaseNode()));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetVisible(self, { "list_iadd", "spacer", }, not bReadOnly);
 				if bReadOnly and (DB.getModule(getDatabaseNode()) == "") then
 					StoryManager.onBookKeywordGen();
 				end
@@ -149,30 +146,27 @@
 			<toolbar_anchor_right />
 			<toolbar_field_right name="locked">
 				<initbyname />
+				<script>
+					function notify()
+						if self.isInitialized() then
+							WindowManager.callInnerWindowFunction(window, "onLockModeChanged", (getValue() == 1));
+						end
+					end
+				</script>
 			</toolbar_field_right>
 		</sheetdata>
 	</windowclass>
 	<windowclass name="story_book_index_chapter">
 		<script>
-			function update(bReadOnly, bLockChanged)
-				if bLockChanged then
-					if not bReadOnly then
-						list.setVisible(true);
-					end
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "name", "idelete", "imoveup", "imovedown", }, bReadOnly);
+				WindowManager.callSafeControlsSetVisible(self, { "list_iadd", "spacer", }, not bReadOnly);
+				if not bReadOnly then
+					list.setVisible(true);
 				end
-
-				for _,wSection in ipairs(list.getWindows()) do
-					wSection.update(bReadOnly, bLockChanged);
-				end
-
-				name.setReadOnly(bReadOnly);
-
-				idelete.setVisible(not bReadOnly);
-				idelete.setValue(0);
-				imoveup.setVisible(not bReadOnly);
-				imovedown.setVisible(not bReadOnly);
-				list_iadd.setVisible(not bReadOnly);
-				spacer.setVisible(not bReadOnly);
 			end
 			function showFullHeaders(bShow)
 				frame.setVisible(bShow);
@@ -202,25 +196,15 @@
 	</windowclass>
 	<windowclass name="story_book_index_section">
 		<script>
-			function update(bReadOnly, bLockChanged)
-				if bLockChanged then
-					list.setVisible(not bReadOnly);
-				elseif not bReadOnly then
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "name", "idelete", "imoveup", "imovedown", }, bReadOnly);
+				WindowManager.callSafeControlsSetVisible(self, { "list_iadd", "spacer", }, not bReadOnly);
+				if not bReadOnly then
 					list.setVisible(true);
 				end
-				
-				for _,wPage in ipairs(list.getWindows()) do
-					wPage.update(bReadOnly, bLockChanged);
-				end
-
-				name.setReadOnly(bReadOnly);
-				
-				idelete.setVisible(not bReadOnly);
-				idelete.setValue(0);
-				imoveup.setVisible(not bReadOnly);
-				imovedown.setVisible(not bReadOnly);
-				list_iadd.setVisible(not bReadOnly);
-				spacer.setVisible(not bReadOnly);
 			end
 			function showFullHeaders(bShow)
 				frame.setVisible(bShow);
@@ -241,7 +225,7 @@
 			<string_story_book_index_section_name name="name" />
 
 			<list_story_book_index_pages name="list" />
-			
+
 			<button_story_book_index_iadd name="list_iadd">
 				<state textres="story_book_index_button_page_new" />
 			</button_story_book_index_iadd>
@@ -251,17 +235,15 @@
 	<windowclass name="story_book_index_page">
 		<margins control="0,0,0,2" />
 		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "name", "idelete", "imoveup", "imovedown", }, bReadOnly);
+			end
 			function setLink(sClass, sRecord)
 				listlink.setValue(sClass, sRecord);
 				name.updateLink();
-			end
-			function update(bReadOnly, bLockChanged)
-				name.setReadOnly(bReadOnly);
-				
-				idelete.setVisible(not bReadOnly);
-				idelete.setValue(0);
-				imoveup.setVisible(not bReadOnly);
-				imovedown.setVisible(not bReadOnly);
 			end
 			function onDrop(x, y, draginfo)
 				return StoryManager.onBookIndexDrop(self, draginfo);
@@ -281,6 +263,18 @@
 			<string_story_book_index_page_name name="name" />
 		</sheetdata>
 	</windowclass>
+
+	<template name="story_book_page_locked">
+		<toolbar_field_header_right name="locked">
+			<script>
+				function notify()
+					if self.isInitialized() then
+						WindowManager.callInnerWindowFunction(window.parentcontrol.window, "onLockModeChanged", (getValue() == 1));
+					end
+				end
+			</script>
+		</toolbar_field_header_right>
+	</template>
 
 	<windowclass name="story_book_page_simple">
 		<script file="common/scripts/record_window.lua" />
@@ -303,6 +297,8 @@
 			<linkc_record_header name="pagelink" insertbefore="name">
 				<class>encounter</class>
 			</linkc_record_header>
+
+			<story_book_page_locked name="locked" insertbefore="name" />
 		</sheetdata>
 	</windowclass>
 	<windowclass name="story_book_page_advanced">
@@ -327,7 +323,7 @@
 				<class>referencemanualpage</class>
 			</linkc_record_header>
 
-			<toolbar_field_header_right name="locked" insertbefore="story_paste" />
+			<story_book_page_locked name="locked" insertbefore="story_paste" />
 		</sheetdata>
 	</windowclass>
 	<windowclass name="reference_manualtextwide" copy="story_book_page_advanced" />

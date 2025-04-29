@@ -1,23 +1,30 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
-function onDrop(x, y, draginfo)
+function onInit()
+	self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+end
+
+function onLockModeChanged(bReadOnly)
+	WindowManager.callSafeControlsSetLockMode(self, { "expr", "token", "name", "faction", "isidentified", "idelete", }, bReadOnly);
+end
+
+function onDrop(_, _, draginfo)
 	local sDragType = draginfo.getType();
 	if sDragType == "number" then
-		addNumber(draginfo.getNumberData());
+		self.addNumber(draginfo.getNumberData());
 	elseif sDragType == "dice" then
 		local aDropDice = draginfo.getDiceData();
 		local aDice = {};
 		for _,vDie in ipairs(aDropDice) do
 			table.insert(aDice, vDie.type);
 		end
-		addDice(aDice);
+		self.addDice(aDice);
 		return true;
 	end
 end
-
 function addNumber(n)
 	local sValue = expr.getValue();
 	if sValue == "" then
@@ -29,7 +36,6 @@ function addNumber(n)
 	end
 	expr.setValue(sValue);
 end
-
 function addDice(aDice)
 	local aDieCounts = {};
 	for _,sDie in ipairs(aDice) do
@@ -38,12 +44,12 @@ function addDice(aDice)
 		end
 		aDieCounts[sDie] = aDieCounts[sDie] + 1;
 	end
-	
+
 	local aResults = {};
 	for sDie,nCount in pairs(aDieCounts) do
 		table.insert(aResults, tostring(nCount) .. sDie);
 	end
-	
+
 	local sValue = expr.getValue();
 	if sValue == "" then
 		sValue = table.concat(aResults, "+");

@@ -79,24 +79,12 @@ function createPictureItem(sAsset, sName)
 	if (sAsset or "") == "" then
 		return false;
 	end
-	if (sName or "") == "" then
-		sName = UtilityManager.getAssetBaseFileName(sAsset);
-	end
 
-	local nodePicture = nil;
-	local sNameFind = StringManager.trim(sName);
-	local tMappings = RecordDataManager.getDataPaths("picture");
-	for _,sMapping in ipairs(tMappings) do
-		for _,v in ipairs(DB.getChildrenGlobal(sMapping)) do
-			if (StringManager.trim(DB.getValue(v, "name", "")) == sNameFind) and (DB.getValue(v, "picture", "") == sAsset) then
-				nodePicture = v;
-				break;
-			end
-		end
-		if nodePicture then
-			break;
-		end
-	end
+	local tFilters = {
+			{ sField = "name", sValue = StringManager.trim(sName) or "", bIgnoreCase = true, },
+			{ sField = "picture", sValue = sAsset, },
+	};
+	local nodePicture = RecordManager.findRecordByFilter("picture", tFilters);
 	if not nodePicture then
 		nodePicture = DB.createChild("picture");
 		DB.setValue(nodePicture, "name", "string", sName);

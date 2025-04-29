@@ -89,10 +89,10 @@
 	<windowclass name="reference_groupindex_item">
 		<margins control="0,0,0,2" />
 		<sheetdata>
-			<anchor_listitem_left_sm name="leftanchor" />
-			<link_listitem_left name="link" />
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
 
-			<anchor_listitem_right_sm name="rightanchor" />
+			<link_listitem_left name="link" />
 
 			<stringc_listitem_center_noframe_static_linked name="name" />
 		</sheetdata>

@@ -18,5 +18,6 @@
 		<includefile source="desktop/dtt_panel.xml" />
         <includefile source="desktop/dtt_window.xml" />
 		<includefile source="strings/strings.xml" />
+		<includefile source="graphics/checkbox.xml"/>
    </base>
 </root>

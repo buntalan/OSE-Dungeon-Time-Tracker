@@ -3,19 +3,16 @@
 <root>
     <windowclass name="dtt_window">
         <frame>utilitybox</frame>
-        <margin>
-            <top>0</top>
-            <left>0</left>
-            <bottom>0</bottom>
-            <right>0</right>
-        </margin>
+        <margins>
+            <control>0,0,0,0</control>
+        </margins>
         <sizelimits>
             <maximum>
-                <width>200</width>
+                <width>175</width>
                 <height>100</height>
             </maximum>
             <minimum>
-                <width>200</width>
+                <width>175</width>
                 <height>100</height>
             </minimum>
         </sizelimits>
@@ -26,8 +23,8 @@
                     <text>Dungeon Turn</text>
                 </default>
                 <anchored>
-                    <top anchor="top" offset="0" />
-                    <left anchor="center" offset="-50" />
+                    <top parent="dttwindowtitle" anchor="top" offset="0" />
+                    <left parent="dttwindowtitle" anchor="center" offset="-43" />
                 </anchored>
                 <font>windowtitle</font>
                 <nodrag/>
@@ -35,17 +32,118 @@
                 <center/>
                 <readonly />
             </stringcontrol>
-            <button_checkbox_column name="dtt_checkbox1" >
+            <genericcontrol name="dtt_spacer">
                 <anchored>
-                    <to>dtt_title</to>
-                    <size>
-                        <width>100</width>
-                        <height>100</height>
-                    </size>
-                    <top anchor="bottom" offset="5" />
+                    <top parent="dtt_title" anchor="bottom" offset="0" />
                     <left anchor="left" offset="0" />
+                    <size>
+                        <width>175</width>
+                        <height>20</height>
+                    </size>
                 </anchored>
-            </button_checkbox_column>
+            </genericcontrol>
+            <button_checkbox name="dtt_checkbox1" >
+                <anchored>
+                    <to>dtt_spacer</to>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                    <top parent="dtt_spacer" anchor="bottom" offset="0" />
+                    <left parent="dtt_spacer" anchor="center" offset="-60" />
+                </anchored>
+                <script>
+                    function onInit()
+                        setStateIcons(0, "unchecked_box");
+                        setStateIcons(1, "checked_box");
+                    end
+                </script>
+            </button_checkbox>
+            <button_checkbox name="dtt_checkbox2" >
+                <anchored>
+                    <to>dtt_spacer</to>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                    <top parent="dtt_spacer" anchor="bottom" offset="0" />
+                    <left parent="dtt_spacer" anchor="center" offset="-40" />
+                </anchored>
+                <script>
+                    function onInit()
+                        setStateIcons(0, "unchecked_box");
+                        setStateIcons(1, "checked_box");
+                    end
+                </script>
+            </button_checkbox>
+            <button_checkbox name="dtt_checkbox3" >
+                <anchored>
+                    <to>dtt_spacer</to>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                    <top parent="dtt_spacer" anchor="bottom" offset="0" />
+                    <left parent="dtt_spacer" anchor="center" offset="-20" />
+                </anchored>
+                <script>
+                    function onInit()
+                        setStateIcons(0, "unchecked_box");
+                        setStateIcons(1, "checked_box");
+                    end
+                </script>
+            </button_checkbox>
+            <button_checkbox name="dtt_checkbox4" >
+                <anchored>
+                    <to>dtt_spacer</to>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                    <top parent="dtt_spacer" anchor="bottom" offset="0" />
+                    <left parent="dtt_spacer" anchor="center" offset="0" />
+                </anchored>
+                <script>
+                    function onInit()
+                        setStateIcons(0, "unchecked_box");
+                        setStateIcons(1, "checked_box");
+                    end
+                </script>
+            </button_checkbox>
+            <button_checkbox name="dtt_checkbox5" >
+                <anchored>
+                    <to>dtt_spacer</to>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                    <top parent="dtt_spacer" anchor="bottom" offset="0" />
+                    <left parent="dtt_spacer" anchor="center" offset="20" />
+                </anchored>
+                <script>
+                    function onInit()
+                        setStateIcons(0, "unchecked_box");
+                        setStateIcons(1, "checked_box");
+                    end
+                </script>
+            </button_checkbox>
+            <button_checkbox name="dtt_checkbox6" >
+                <anchored>
+                    <to>dtt_spacer</to>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                    <top parent="dtt_spacer" anchor="bottom" offset="0" />
+                    <left parent="dtt_spacer" anchor="center" offset="40" />
+                </anchored>
+                <script>
+                    function onInit()
+                        setStateIcons(0, "unchecked_box");
+                        setStateIcons(1, "checked_box");
+                    end
+                </script>
+            </button_checkbox>
         </sheetdata>
 	</windowclass>
 </root>

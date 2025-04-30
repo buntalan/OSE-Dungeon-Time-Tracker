@@ -1,0 +1,4 @@
+<root>
+    <icon name="checked_box" file="graphics/checkbox/checked_box.png" />
+    <icon name="unchecked_box" file="graphics/checkbox/unchecked_box.png" />
+</root>

@@ -52,12 +52,7 @@
                     <top parent="dtt_spacer" anchor="bottom" offset="0" />
                     <left parent="dtt_spacer" anchor="center" offset="-60" />
                 </anchored>
-                <script>
-                    function onInit()
-                        setStateIcons(0, "unchecked_box");
-                        setStateIcons(1, "checked_box");
-                    end
-                </script>
+                <script file="scripts/checkbox.lua" />
             </button_checkbox>
             <button_checkbox name="dtt_checkbox2" >
                 <anchored>
@@ -69,12 +64,7 @@
                     <top parent="dtt_spacer" anchor="bottom" offset="0" />
                     <left parent="dtt_spacer" anchor="center" offset="-40" />
                 </anchored>
-                <script>
-                    function onInit()
-                        setStateIcons(0, "unchecked_box");
-                        setStateIcons(1, "checked_box");
-                    end
-                </script>
+                <script file="scripts/checkbox.lua" />
             </button_checkbox>
             <button_checkbox name="dtt_checkbox3" >
                 <anchored>
@@ -86,12 +76,7 @@
                     <top parent="dtt_spacer" anchor="bottom" offset="0" />
                     <left parent="dtt_spacer" anchor="center" offset="-20" />
                 </anchored>
-                <script>
-                    function onInit()
-                        setStateIcons(0, "unchecked_box");
-                        setStateIcons(1, "checked_box");
-                    end
-                </script>
+                <script file="scripts/checkbox.lua" />
             </button_checkbox>
             <button_checkbox name="dtt_checkbox4" >
                 <anchored>
@@ -103,12 +88,7 @@
                     <top parent="dtt_spacer" anchor="bottom" offset="0" />
                     <left parent="dtt_spacer" anchor="center" offset="0" />
                 </anchored>
-                <script>
-                    function onInit()
-                        setStateIcons(0, "unchecked_box");
-                        setStateIcons(1, "checked_box");
-                    end
-                </script>
+                <script file="scripts/checkbox.lua" />
             </button_checkbox>
             <button_checkbox name="dtt_checkbox5" >
                 <anchored>
@@ -120,12 +100,7 @@
                     <top parent="dtt_spacer" anchor="bottom" offset="0" />
                     <left parent="dtt_spacer" anchor="center" offset="20" />
                 </anchored>
-                <script>
-                    function onInit()
-                        setStateIcons(0, "unchecked_box");
-                        setStateIcons(1, "checked_box");
-                    end
-                </script>
+                <script file="scripts/checkbox.lua" />
             </button_checkbox>
             <button_checkbox name="dtt_checkbox6" >
                 <anchored>
@@ -137,12 +112,7 @@
                     <top parent="dtt_spacer" anchor="bottom" offset="0" />
                     <left parent="dtt_spacer" anchor="center" offset="40" />
                 </anchored>
-                <script>
-                    function onInit()
-                        setStateIcons(0, "unchecked_box");
-                        setStateIcons(1, "checked_box");
-                    end
-                </script>
+                <script file="scripts/checkbox.lua" />
             </button_checkbox>
         </sheetdata>
 	</windowclass>

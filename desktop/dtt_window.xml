@@ -9,11 +9,11 @@
         <sizelimits>
             <maximum>
                 <width>175</width>
-                <height>100</height>
+                <height>120</height>
             </maximum>
             <minimum>
                 <width>175</width>
-                <height>100</height>
+                <height>120</height>
             </minimum>
         </sizelimits>
         <sheetdata>
@@ -114,6 +114,19 @@
                 </anchored>
                 <script file="scripts/checkbox.lua" />
             </button_checkbox>
+            <!--TODO: Add button below checkboxes-->
+            <button_text name="dtt_reset_button" >
+                <anchored>
+                    <to>dtt_checkbox3</to>
+                    <size>
+                        <width>50</width>
+                        <height>20</height>
+                    </size>
+                    <top parent="dtt_checkbox3" anchor="bottom" offset="10" />
+                    <left parent="dtt_checkbox3" anchor="center" offset="-15" />
+                </anchored>
+                <text>Reset</text>
+            </button_text>
         </sheetdata>
 	</windowclass>
 </root>

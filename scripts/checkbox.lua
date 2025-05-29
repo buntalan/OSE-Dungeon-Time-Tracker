@@ -1,4 +1,11 @@
 -- [[Checkbox Script]]
+-- TODO: Make check marks sequential. It should be able to
+-- go backward and forward. 
+-- TODO: Roll table every two checks
+-- TODO: Make optional rest reminder on 6th check
+-- TODO: Pass time on checkbox checked
+-- TODO: Reverse time on checkbox unchecked
+-- TODO: Add button to clear all checkboxes at bottom
 
 -- [[Give checkboxes new icons for all states]]
 function onInit()

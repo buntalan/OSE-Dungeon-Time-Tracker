@@ -114,7 +114,6 @@
                 </anchored>
                 <script file="scripts/checkbox.lua" />
             </button_checkbox>
-            <!--TODO: Add button below checkboxes-->
             <button_text name="dtt_reset_button" >
                 <anchored>
                     <to>dtt_checkbox3</to>

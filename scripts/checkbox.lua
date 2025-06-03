@@ -18,9 +18,10 @@ function onButtonPress()
         This function is called when the checkbox is pressed.
         It toggles the state of the checkbox and updates the icon accordingly.
     ]]
-    local currentState = getState();
+    local currentState = getValue();
     --[[
         Toggle the state between 0 and 1 if prior box is unchecked. 
     ]]
-    setState(1 - currentState); -- Toggle between 0 and 1
+    local msg = {text = currentState, secret = true};
+    Comm.addChatMessage(msg);
 end
